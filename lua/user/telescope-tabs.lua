@@ -7,7 +7,7 @@ M.config = function()
 	end
 	telescope_tab.setup({
 		theme = "dropdown",
-		show_preview = false,
+		show_preview = true,
 		entry_formatter = function(_, tab_index, _, _, file_paths)
 			local new_file_names = {}
 			for _, value in ipairs(file_paths) do

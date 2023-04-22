@@ -321,5 +321,6 @@ lazy.setup({
     config = function()
       require("trouble").setup()
     end
-  }
+  },
+  { "aaronhallaert/advanced-git-search.nvim" }
 })
