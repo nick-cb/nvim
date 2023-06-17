@@ -39,7 +39,7 @@ M.setup = function()
 			name = "LICENSE",
 		},
 		["spec.ts"] = {
-			icon = "ﭧ",
+			icon = "󰙨",
 			color = "#82aaff",
 			name = "Test",
 		},
@@ -49,7 +49,7 @@ M.setup = function()
 			name = "Lock",
 		},
 		[".eslintrc"] = {
-			icon = "",
+			icon = "󰱺",
 			color = "#713a27",
 			name = "Eslint",
 		},
@@ -68,7 +68,7 @@ M.setup = function()
 			name = "Prettier",
 		},
 		prisma = {
-			icon = "󱥒",
+			icon = "",
 			color = "#FE69A8",
 			name = "Prisma",
 		},

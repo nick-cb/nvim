@@ -100,16 +100,6 @@ local servers = {
 }
 
 M.setup = function()
-  -- local nlsp_ok, nlspsettings = pcall(require, "nlspsettings")
-  -- if nlsp_ok then
-  -- 	nlspsettings.setup({
-  -- 		config_home = vim.fn.stdpath("config") .. "/nlsp-settings",
-  -- 		local_settings_dir = ".nlsp-settings",
-  -- 		local_settings_root_markers_fallback = { ".git" },
-  -- 		append_default_schemas = true,
-  -- 		loader = "json",
-  -- 	})
-  -- end
   require("neodev").setup()
 
   local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -130,6 +120,14 @@ M.setup = function()
         capabilities = capabilities,
         on_attach = on_attach,
         settings = servers[server_name],
+      })
+      require("lspconfig").sourcekit.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          cmd = "sourcekit-lsp",
+          filetypes = { "swift", "objective-c", "objective-cpp" },
+        },
       })
     end,
   })

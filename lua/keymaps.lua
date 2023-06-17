@@ -89,6 +89,7 @@ vim.keymap.set("n", "<leader>gd", "<cmd>lua require('user.telescope').compare_re
 vim.keymap.set("n", "<leader>bl", "<cmd>BufferLineCloseRight<cr>", { desc = "close all to the left" })
 vim.keymap.set("n", "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", { desc = "close all to the left" })
 vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", {desc = "delete current buffer"})
+vim.keymap.set("n", "<leader>bD", "<cmd>:BufferLinePickClose<CR>", {desc = "pick buffer to close"})
 
 vim.keymap.set("n", "<leader><TAB>", "<cmd>lua require('telescope-tabs').list_tabs()<cr>", { desc = "list tabs" })
 
