@@ -296,7 +296,6 @@ lazy.setup({
     event = "User FileOpened",
     cmd = "Gitsigns",
   },
-  { "tpope/vim-abolish" },
   {
     "rmagatti/auto-session",
     config = function()
@@ -322,7 +321,6 @@ lazy.setup({
       require("trouble").setup()
     end
   },
-  { "Fildo7525/pretty_hover" },
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
@@ -379,5 +377,28 @@ lazy.setup({
       require("copilot_cmp").setup()
     end
   },
-  { "wakatime/vim-wakatime" }
+  { "wakatime/vim-wakatime" },
+  {
+    "nvim-neorg/neorg",
+    cmd = "Neorg",
+    build = ":Neorg sync-parsers",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("neorg").setup {
+        load = {
+          ["core.defaults"] = {},  -- Loads default behaviour
+          ["core.concealer"] = {}, -- Adds pretty icons to your documents
+          ["core.dirman"] = {      -- Manages Neorg workspaces
+            config = {
+              workspaces = {
+                notes = "~/workspaces/notes",
+                work = "~/workspaces/ceres",
+                tailwind = "~/workspaces/dev/tailwind"
+              },
+            },
+          },
+        },
+      }
+    end,
+  },
 })
