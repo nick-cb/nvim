@@ -6,7 +6,7 @@ require("keymaps")
 
 require("luasnip.loaders.from_vscode").lazy_load({
   paths = {
-    "/Users/nguyenhungvi/.local/share/nvim/lazy/vscode-es7-javascript-react-snippets/",
+    "/Users/nick/.local/share/nvim/lazy/vscode-es7-javascript-react-snippets/",
   },
 })
 local links = {

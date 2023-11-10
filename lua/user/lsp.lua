@@ -54,9 +54,9 @@ local on_attach = function(client, bufnr)
       active = true,
       values = {
         { name = "DiagnosticSignError", text = "" },
-        { name = "DiagnosticSignWarn",  text = "" },
-        { name = "DiagnosticSignHint",  text = "" },
-        { name = "DiagnosticSignInfo",  text = "" },
+        { name = "DiagnosticSignWarn", text = "" },
+        { name = "DiagnosticSignHint", text = "" },
+        { name = "DiagnosticSignInfo", text = "" },
       },
     },
     underline = true,
@@ -65,9 +65,9 @@ local on_attach = function(client, bufnr)
   })
 
   if client.name == "tsserver" then
-    -- print('tsserver')
     client.server_capabilities.document_formatting = false
     client.server_capabilities.document_range_formatting = false
+    require("nvim-navic").attach(client, bufnr)
   end
 end
 
@@ -97,6 +97,9 @@ local servers = {
       telemetry = { enable = false },
     },
   },
+  -- dartls = {
+  --   cmd = { "dart", "language-server", "--protocol=lsp" }
+  -- }
 }
 
 M.setup = function()
@@ -111,7 +114,16 @@ M.setup = function()
     ensure_installed = vim.tbl_keys(servers),
   })
 
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, float_config)
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(function(error, result, ctx, config)
+    local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
+    local bufnr = vim.lsp.handlers.hover(error, result, ctx, config)
+    vim.print({ bufnr, is_nil = bufnr == nil })
+    if bufnr == nil then
+    else
+      vim.print({ bufnr, is_nil = bufnr == nil })
+      vim.api.nvim_buf_set_option(bufnr, 'filetype', filetype)
+    end
+  end, float_config)
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float_config)
 
   mason_lspconfig.setup_handlers({
@@ -129,6 +141,15 @@ M.setup = function()
           filetypes = { "swift", "objective-c", "objective-cpp" },
         },
       })
+      require("lspconfig").phpactor.setup({})
+      -- require("lspconfig").dartls.setup({
+      --   cmd = { "dart", "language-server", "--protocol=lsp" },
+      --   closingLabels = true,
+      --   flutterOutline = true,
+      --   onlyAnalyzeProjectsWithOpenFiles = true,
+      --   outline = true,
+      --   suggestFromUnimportedLibraries = true
+      -- })
     end,
   })
 end

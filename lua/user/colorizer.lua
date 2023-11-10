@@ -18,3 +18,20 @@ M.config = function()
 end
 
 return M
+
+-- #4C566A
+-- #4C566A
+-- #D16969
+-- #D16969
+-- #6A9955
+-- #6A9955
+-- #C68A75
+-- #D7BA7D
+-- #569CD6
+-- #569CD6
+-- #D16D9E
+-- #D16D9E
+-- #4EC9B0
+-- #4EC9B0
+-- #abb2bf
+-- #abb2bf

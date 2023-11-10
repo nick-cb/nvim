@@ -53,20 +53,19 @@ vim.keymap.set("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>")
 vim.keymap.set("n", "gr", "<cmd>Trouble lsp_references<cr>", { desc = "[g]oto [r]eferences" })
 
 local format_filters = function(client)
-  return client.name == "null-ls"
-  -- local filetype = vim.bo.filetype
-  -- local n = require("null-ls")
-  -- local s = require("null-ls.sources")
-  -- local method = n.methods.formatting
-  -- local available_formatters = s.get_available(filetype, method)
+  local filetype = vim.bo.filetype
+  local n = require("null-ls")
+  local s = require("null-ls.sources")
+  local method = n.methods.formatting
+  local available_formatters = s.get_available(filetype, method)
 
-  -- if #available_formatters > 0 then
-  --   return client.name == "null-ls"
-  -- elseif client.supports_method("textdocument/formatting") then
-  --   return true
-  -- else
-  --   return false
-  -- end
+  if #available_formatters > 0 then
+    return client.name == "null-ls"
+  elseif client.supports_method("textdocument/formatting") then
+    return true
+  else
+    return false
+  end
 end
 
 local format_file = function(bufnr)
