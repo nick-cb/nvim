@@ -525,7 +525,7 @@ lazy.setup({
           'RainbowDelimiterOrange',
           'RainbowDelimiterGreen',
         },
-        blacklist = { 'sql' }
+        blacklist = { 'sql', 'markdown' }
       }
     end
   },
