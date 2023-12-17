@@ -22,20 +22,20 @@ local config = {
       return status_ok and big_file_detected
     end,
   },
-  context_commentstring = {
-    enable = true,
-    enable_autocmd = false,
-    config = {
-      -- Languages that have a single comment style
-      typescript = "// %s",
-      css = "/* %s */",
-      scss = "/* %s */",
-      html = "<!-- %s -->",
-      svelte = "<!-- %s -->",
-      vue = "<!-- %s -->",
-      json = "",
-    },
-  },
+  -- context_commentstring = {
+  --   enable = true,
+  --   enable_autocmd = false,
+  --   config = {
+  --     -- Languages that have a single comment style
+  --     typescript = "// %s",
+  --     css = "/* %s */",
+  --     scss = "/* %s */",
+  --     html = "<!-- %s -->",
+  --     svelte = "<!-- %s -->",
+  --     vue = "<!-- %s -->",
+  --     json = "",
+  --   },
+  -- },
   indent = { enable = true, disable = { "yaml", "python" } },
   autotag = { enable = true },
   textobjects = {
@@ -79,6 +79,7 @@ local config = {
 }
 
 M.setup = function()
+  vim.g.skip_ts_context_commentstring_module = true
   local ts_ok, ts = pcall(require, "nvim-treesitter.configs")
   if not ts_ok then
     return
@@ -89,6 +90,24 @@ M.setup = function()
   local ts_utils = require('nvim-treesitter.ts_utils')
   ts_utils.is_in_node_range = vim.treesitter.is_in_node_range
   ts_utils.get_node_range = vim.treesitter.get_node_range
+
+  require("ts_context_commentstring").setup({
+    enable_autocmd = false,
+    commentary_integration = {},
+    config = {
+
+    },
+    languages = {
+      typescript = "// %s",
+      css = "/* %s */",
+      scss = "/* %s */",
+      html = "<!-- %s -->",
+      svelte = "<!-- %s -->",
+      vue = "<!-- %s -->",
+      json = "",
+    }
+  })
+  vim.g.skip_ts_context_commentstring_module = true
 end
 
 return M
