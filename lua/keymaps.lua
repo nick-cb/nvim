@@ -45,7 +45,7 @@ vim.keymap.set("t", "<c-k>", "<c-\\><c-n><c-w>k")
 vim.keymap.set("t", "<c-l>", "<c-\\><c-n><c-w>l")
 
 -- lsp
-vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<cr>")
+vim.keymap.set("n", "<leader>e", "<CMD>Oil --float<CR>")
 vim.keymap.set("n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>")
 vim.keymap.set("n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>")
 vim.keymap.set("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>")
@@ -69,14 +69,21 @@ local format_filters = function(client)
 end
 
 local format_file = function(bufnr)
-  vim.lsp.buf.format({
-    filter = format_filters,
-    bufnr = bufnr,
-    timeout = 30000,
-  })
+  local ok, comfort = pcall(require, "conform")
+  if not ok then
+    return
+  end
+  comfort.format({ bufnr })
+  -- vim.lsp.buf.format({
+  --   filter = format_filters,
+  --   bufnr = bufnr,
+  --   timeout = 30000,
+  -- })
 end
 
 vim.keymap.set("n", "<space>lf", format_file)
+
+vim.keymap.set("n", "<leader>sb", "<cmd>Telescope buffers<cr>", { desc = "[s]earch [b]uffers" })
 
 vim.keymap.set("n", "<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "[s]earch [f]iles" })
 vim.keymap.set("n", "<leader>sh", "<cmd>Telescope help_tags theme=dropdown<cr>", { desc = "[s]earch [h]elp" })
@@ -93,7 +100,7 @@ vim.keymap.set("n", "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", { desc = "clos
 vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "delete current buffer" })
 vim.keymap.set("n", "<leader>bD", "<cmd>:BufferLinePickClose<CR>", { desc = "pick buffer to close" })
 
-vim.keymap.set("n", "<leader><TAB>", "<cmd>lua require('telescope-tabs').list_tabs()<cr>", { desc = "list tabs" })
+-- vim.keymap.set("n", "<leader><TAB>", "<cmd>lua require('telescope-tabs').list_tabs()<cr>", { desc = "list tabs" })
 
 vim.keymap.set("n", "<leader>gj", "<cmd>lua require 'gitsigns'.next_hunk({navigation_message = false})<cr>",
   { desc = "Next Hunk" })
@@ -108,3 +115,24 @@ vim.keymap.set("n", "<leader>gu",
   "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
   { desc = "Undo Stage Hunk" }
 )
+
+local harpoon = require("harpoon")
+vim.keymap.set("n", "<leader>a", function()
+  harpoon:list():append()
+end)
+vim.keymap.set("n", "<leader>ll", function()
+  harpoon.ui:toggle_quick_menu(harpoon:list())
+end)
+
+vim.keymap.set("n", "<leader>ha", function()
+  harpoon:list():select(1)
+end)
+vim.keymap.set("n", "<leader>hs", function()
+  harpoon:list():select(2)
+end)
+vim.keymap.set("n", "<leader>hd", function()
+  harpoon:list():select(3)
+end)
+vim.keymap.set("n", "<leader>hf", function()
+  harpoon:list():select(4)
+end)

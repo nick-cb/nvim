@@ -24,25 +24,16 @@ lazy.setup({
       vim.cmd([[colorscheme darkplus]])
       -- vim.cmd([[hi Normal guibg=NONE ctermbg=NONE]])
     end,
-    -- commit = "1826879d9cb14e5d93cd142d19f02b23840408a6"
   },
   -- {
-  --   'projekt0n/github-nvim-theme', tag = 'v0.0.7',
+  --   "kyazdani42/nvim-tree.lua",
   --   config = function()
-  --     require('github-theme').setup({})
-
-  --     vim.cmd('colorscheme github_dark')
+  --     require("user.nvim-tree").setup()
   --   end,
+  --   cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
+  --   event = "User DirOpened",
+  --   commit = "78a9ca5ed6557f29cd0ce203df44213e54bfabb9",
   -- },
-  {
-    "kyazdani42/nvim-tree.lua",
-    config = function()
-      require("user.nvim-tree").setup()
-    end,
-    cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
-    event = "User DirOpened",
-    commit = "78a9ca5ed6557f29cd0ce203df44213e54bfabb9",
-  },
   {
     "nvim-treesitter/nvim-treesitter",
     config = function()
@@ -74,7 +65,7 @@ lazy.setup({
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
     },
-    commit = "51260c02a8ffded8e16162dcf41a23ec90cfba62"
+    commit = "538e37ba87284942c1d76ed38dd497e54e65b891"
   },
   {
     "neovim/nvim-lspconfig",
@@ -83,31 +74,25 @@ lazy.setup({
     end,
     -- lazy = true,
     dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
       {
         "williamboman/mason.nvim",
         config = true,
         commit = "cd7835b15f5a4204fc37e0aa739347472121a54c"
       },
       "williamboman/mason-lspconfig.nvim",
-
-      -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { "j-hui/fidget.nvim", opts = {}, branch = "legacy" },
-
-      -- Additional lua configuration, makes nvim stuff amazing!
       "folke/neodev.nvim",
     },
-    commit = "d0467b9574b48429debf83f8248d8cee79562586",
+    -- commit = "d0467b9574b48429debf83f8248d8cee79562586",
   },
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    config = function()
-      require("user.null-ls").setup()
-    end,
-    lazy = true,
-    dependencies = { "nvim-lua/plenary.nvim", "telescope-fzf-native.nvim" },
-  },
+  -- {
+  --   "jose-elias-alvarez/null-ls.nvim",
+  --   config = function()
+  --     require("user.null-ls").setup()
+  --   end,
+  --   lazy = true,
+  --   dependencies = { "nvim-lua/plenary.nvim", "telescope-fzf-native.nvim" },
+  -- },
   {
     "nvim-telescope/telescope.nvim",
     config = function()
@@ -115,7 +100,7 @@ lazy.setup({
     end,
     lazy = true,
     dependencies = { "nvim-lua/plenary.nvim" },
-    commit = "7011eaae0ac1afe036e30c95cf80200b8dc3f21a",
+    commit = "84f2dd42efffa20d505ac44c78568d778ca7e0a1",
   },
   {
     "nvim-telescope/telescope-fzf-native.nvim",
@@ -153,25 +138,22 @@ lazy.setup({
     enabled = true,
     lazy = true,
   },
-  -- Status Line and Bufferline
   {
-    -- "hoob3rt/lualine.nvim",
     "nvim-lualine/lualine.nvim",
-    -- "Lunarvim/lualine.nvim",
     config = function()
       require('user.lualine').setup()
     end,
     event = "VimEnter",
   },
-  {
-    "akinsho/bufferline.nvim",
-    config = function()
-      require("user.bufferline").setup()
-    end,
-    branch = "main",
-    event = "User FileOpened",
-    commit = "6ecd37e0fa8b156099daedd2191130e083fb1490",
-  },
+  -- {
+  --   "akinsho/bufferline.nvim",
+  --   config = function()
+  --     require("user.bufferline").setup()
+  --   end,
+  --   branch = "main",
+  --   event = "User FileOpened",
+  --   commit = "6ecd37e0fa8b156099daedd2191130e083fb1490",
+  -- },
   {
     "windwp/nvim-ts-autotag",
     event = "InsertEnter",
@@ -234,13 +216,13 @@ lazy.setup({
       require("scope").setup()
     end,
   },
-  {
-    "nick-cb/telescope-tabs",
-    dependencies = { "nvim-telescope/telescope.nvim" },
-    config = function()
-      require("user.telescope-tabs").config()
-    end,
-  },
+  -- {
+  --   "nick-cb/telescope-tabs",
+  --   dependencies = { "nvim-telescope/telescope.nvim" },
+  --   config = function()
+  --     require("user.telescope-tabs").config()
+  --   end,
+  -- },
   { "tpope/vim-fugitive" },
   { "rickhowe/diffchar.vim" },
   {
@@ -264,14 +246,14 @@ lazy.setup({
       "typescript.tsx",
     },
   },
-  {
-    "stevearc/dressing.nvim",
-    config = function()
-      require("user.dress").config()
-    end,
-    event = "BufWinEnter",
-    commit = "1f2d1206a03bd3add8aedf6251e4534611de577f",
-  },
+  -- {
+  --   "stevearc/dressing.nvim",
+  --   config = function()
+  --     require("user.dress").config()
+  --   end,
+  --   event = "BufWinEnter",
+  --   commit = "1f2d1206a03bd3add8aedf6251e4534611de577f",
+  -- },
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
@@ -325,7 +307,8 @@ lazy.setup({
       })
     end,
     commit = "3eb26b949e1b90798e84926848551046e2eb0721",
-    cmd = { "SessionSave", "SessionRestore", "SessionRestoreFromFile" }
+    cmd = { "SessionSave", "SessionRestore", "SessionRestoreFromFile" },
+    lazy = true,
   },
   {
     "RRethy/vim-illuminate",
@@ -339,61 +322,7 @@ lazy.setup({
   {
     "folke/trouble.nvim",
     config = function()
-      require("trouble").setup({
-        position = "bottom", -- position of the list can be: bottom, top, left, right
-        height = 10, -- height of the trouble list when position is top or bottom
-        width = 50, -- width of the list when position is left or right
-        icons = true, -- use devicons for filenames
-        mode = "workspace_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
-        severity = nil, -- nil (ALL) or vim.diagnostic.severity.ERROR | WARN | INFO | HINT
-        fold_open = "", -- icon used for open folds
-        fold_closed = "", -- icon used for closed folds
-        group = true, -- group results by file
-        padding = true, -- add an extra new line on top of the list
-        cycle_results = true, -- cycle item list when reaching beginning or end of list
-        action_keys = { -- key mappings for actions in the trouble list
-          -- map to {} to remove a mapping, for example:
-          -- close = {},
-          close = "q",                                 -- close the list
-          cancel = "<esc>",                            -- cancel the preview and get back to your last window / buffer / cursor
-          refresh = "r",                               -- manually refresh
-          jump = { "<cr>", "<tab>", "<2-leftmouse>" }, -- jump to the diagnostic or open / close folds
-          open_split = { "<c-x>" },                    -- open buffer in new split
-          open_vsplit = { "<c-v>" },                   -- open buffer in new vsplit
-          open_tab = { "<c-t>" },                      -- open buffer in new tab
-          jump_close = { "o" },                        -- jump to the diagnostic and close the list
-          toggle_mode = "m",                           -- toggle between "workspace" and "document" diagnostics mode
-          switch_severity = "s",                       -- switch "diagnostics" severity filter level to HINT / INFO / WARN / ERROR
-          toggle_preview = "P",                        -- toggle auto_preview
-          hover = "K",                                 -- opens a small popup with the full multiline message
-          preview = "p",                               -- preview the diagnostic location
-          open_code_href = "c",                        -- if present, open a URI with more information about the diagnostic error
-          -- close_folds = { "zM", "zm" },                -- close all folds
-          -- open_folds = { "zR", "zr" },                 -- open all folds
-          -- toggle_fold = { "zA", "za" },     -- toggle fold of current file
-          previous = "k",                   -- previous item
-          next = "j",                       -- next item
-          help = "?"                        -- help menu
-        },
-        multiline = true,                   -- render multi-line messages
-        indent_lines = true,                -- add an indent guide below the fold icons
-        win_config = { border = "single" }, -- window configuration for floating windows. See |nvim_open_win()|.
-        auto_open = false,                  -- automatically open the list when you have diagnostics
-        auto_close = false,                 -- automatically close the list when you have no diagnostics
-        auto_preview = true,                -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
-        auto_fold = false,                  -- automatically fold a file trouble list at creation
-        auto_jump = { "lsp_definitions" },  -- for the given modes, automatically jump if there is only a single result
-        include_declaration = {},           -- for the given modes, include the declaration of the current symbol in the results
-        signs = {
-          -- icons / text used for a diagnostic
-          error = "",
-          warning = "",
-          hint = "",
-          information = "",
-          other = "",
-        },
-        use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
-      })
+      require("user.trouble").setup()
     end,
     commit = "f1168feada93c0154ede4d1fe9183bf69bac54ea",
   },
@@ -402,49 +331,7 @@ lazy.setup({
     cmd = "Copilot",
     event = "InsertEnter",
     config = function()
-      require("copilot").setup({
-        panel = {
-          enabled = true,
-          auto_refresh = false,
-          keymap = {
-            jump_prev = "[[",
-            jump_next = "]]",
-            accept = "<CR>",
-            refresh = "gr",
-            open = "<M-CR>"
-          },
-          layout = {
-            position = "bottom", -- | top | left | right
-            ratio = 0.4
-          },
-        },
-        suggestion = {
-          enabled = true,
-          auto_trigger = true,
-          debounce = 75,
-          keymap = {
-            accept = "<C-l>",
-            accept_word = false,
-            accept_line = false,
-            next = "<M-]>",
-            prev = "<M-[>",
-            dismiss = "<C-]>",
-          },
-        },
-        filetypes = {
-          yaml = false,
-          markdown = false,
-          help = false,
-          gitcommit = false,
-          gitrebase = false,
-          hgcommit = false,
-          svn = false,
-          cvs = false,
-          ["."] = false,
-        },
-        copilot_node_command = 'node', -- Node.js version must be > 16.x
-        server_opts_overrides = {},
-      })
+      require("user.copilot").setup()
     end,
   },
   {
@@ -459,6 +346,7 @@ lazy.setup({
     cmd = "Neorg",
     build = ":Neorg sync-parsers",
     dependencies = { "nvim-lua/plenary.nvim" },
+    lazy = true,
     config = function()
       require("neorg").setup {
         load = {
@@ -490,6 +378,7 @@ lazy.setup({
       "rcarriga/nvim-notify",
       "nvim-tree/nvim-web-devicons",
     },
+    lazy = true,
     opts = {
       lang = "javascript",
       console = {
@@ -499,6 +388,7 @@ lazy.setup({
   },
   {
     "iamcco/markdown-preview.nvim",
+    lazy = true,
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     ft = { "markdown" },
     build = function() vim.fn["mkdp#util#install"]() end,
@@ -511,7 +401,6 @@ lazy.setup({
     config = function()
       require('rainbow-delimiters.setup').setup {
         strategy = {
-          -- ...
         },
         query = {
           tsx = 'rainbow-parens'
@@ -525,7 +414,7 @@ lazy.setup({
           'RainbowDelimiterOrange',
           'RainbowDelimiterGreen',
         },
-        blacklist = { 'sql', 'markdown' }
+        blacklist = { 'sql', 'markdown', 'ejs', 'html' }
       }
     end
   },
@@ -534,7 +423,7 @@ lazy.setup({
   --   lazy = false,
   --   dependencies = {
   --     'nvim-lua/plenary.nvim',
-  --     'stevearc/dressing.nvim', -- optional for vim.ui.select
+  --     -- 'stevearc/dressing.nvim', -- optional for vim.ui.select
   --   },
   --   config = function()
   --     require("flutter-tools").setup {} -- use defaults
@@ -544,6 +433,96 @@ lazy.setup({
     "SmiteshP/nvim-navic",
     config = function()
       require('user.breadcrumbs').setup()
+    end
+  },
+  -- {
+  --   "giusgad/pets.nvim",
+  --   dependencies = { "MunifTanjim/nui.nvim", "giusgad/hologram.nvim" },
+  --   lazy = true,
+  --   cmd = { "PetsNew", "PetsList", "PetsKill", "PetsKillAll" },
+  --   config = function()
+  --     require("pets").setup({})
+  --   end,
+  -- },
+  -- { "willthbill/opener.nvim", config = function() require('telescope').load_extension("opener") end },
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("user.oil").setup()
+    end
+  },
+  {
+    "LunarVim/bigfile.nvim",
+    config = function()
+      require("bigfile").setup {
+        filesize = 2,      -- size of the file in MiB, the plugin round file sizes to the closest MiB
+        pattern = { "*" }, -- autocmd pattern or function see <### Overriding the detection of big files>
+        features = {       -- features to disable
+          "indent_blankline",
+          "illuminate",
+          "lsp",
+          -- "treesitter",
+          -- "syntax",
+          "matchparen",
+          "vimopts",
+          "filetype",
+        },
+      }
+    end
+  },
+  {
+    "sustech-data/wildfire.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("wildfire").setup()
+    end,
+  },
+  {
+    "chrisgrieser/nvim-spider",
+    keys = {
+      {
+        "e",
+        "<cmd>lua require('spider').motion('e')<CR>",
+        mode = { "n", "o", "x" },
+      },
+      {
+        "w",
+        "<cmd>lua require('spider').motion('w')<CR>",
+        mode = { "n", "o", "x" },
+      },
+      {
+        "b",
+        "<cmd>lua require('spider').motion('b')<CR>",
+        mode = { "n", "o", "x" },
+      }
+    },
+  },
+  {
+    'stevearc/conform.nvim',
+    opts = {},
+    config = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          lua = { "stylua" },
+          -- Conform will run multiple formatters sequentially
+          python = { "isort", "black" },
+          -- Use a sub-list to run only the first available formatter
+          javascript = { { "prettierd", "prettier" } },
+        },
+      })
+    end
+  },
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    requires = { { "nvim-lua/plenary.nvim" } },
+    config = function()
+      local harpoon = require("harpoon")
+      harpoon:setup({})
     end
   }
 })

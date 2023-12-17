@@ -82,6 +82,15 @@ M.setup = function()
 			color = "#701516",
 			name = "Gemfile",
 		},
+    proto = {
+      icon = "󰰘",
+      color = "#6089ef",
+      name = "Proto"
+    },
+    xml = {
+      icon = "󰗀",
+      color = "#bd805c"
+    }
 	})
 end
 

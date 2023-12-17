@@ -3,7 +3,7 @@ local M = {}
 local float_config = {
   focusable = true,
   style = "minimal",
-  border = "rounded",
+  border = {"┌", "─", "┐", "│", "┘", "─", "└", "│"},
   source = "always",
   header = "",
   prefix = "",
@@ -73,7 +73,7 @@ end
 
 local servers = {
   -- clangd = {},
-  -- gopls = {},
+  gopls = {},
   -- pyright = {},
   rust_analyzer = {},
   tailwindcss = {
@@ -128,12 +128,17 @@ M.setup = function()
 
   mason_lspconfig.setup_handlers({
     function(server_name)
-      require("lspconfig")[server_name].setup({
+      local ok, lspconfig = pcall(require, "lspconfig")
+      if not ok then
+        return
+      end
+      local root_pattern = lspconfig.util.root_pattern;
+      lspconfig[server_name].setup({
         capabilities = capabilities,
         on_attach = on_attach,
         settings = servers[server_name],
       })
-      require("lspconfig").sourcekit.setup({
+      lspconfig.sourcekit.setup({
         capabilities = capabilities,
         on_attach = on_attach,
         settings = {
@@ -141,7 +146,9 @@ M.setup = function()
           filetypes = { "swift", "objective-c", "objective-cpp" },
         },
       })
-      require("lspconfig").phpactor.setup({})
+      lspconfig.phpactor.setup({})
+      lspconfig.clangd.setup({})
+      lspconfig.dartls.setup({})
       -- require("lspconfig").dartls.setup({
       --   cmd = { "dart", "language-server", "--protocol=lsp" },
       --   closingLabels = true,
