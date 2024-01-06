@@ -53,32 +53,32 @@ vim.keymap.set("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>")
 vim.keymap.set("n", "gr", "<cmd>Trouble lsp_references<cr>", { desc = "[g]oto [r]eferences" })
 
 local format_filters = function(client)
-  local filetype = vim.bo.filetype
-  local n = require("null-ls")
-  local s = require("null-ls.sources")
-  local method = n.methods.formatting
-  local available_formatters = s.get_available(filetype, method)
+	local filetype = vim.bo.filetype
+	local n = require("null-ls")
+	local s = require("null-ls.sources")
+	local method = n.methods.formatting
+	local available_formatters = s.get_available(filetype, method)
 
-  if #available_formatters > 0 then
-    return client.name == "null-ls"
-  elseif client.supports_method("textdocument/formatting") then
-    return true
-  else
-    return false
-  end
+	if #available_formatters > 0 then
+		return client.name == "null-ls"
+	elseif client.supports_method("textdocument/formatting") then
+		return true
+	else
+		return false
+	end
 end
 
 local format_file = function(bufnr)
-  local ok, comfort = pcall(require, "conform")
-  if not ok then
-    return
-  end
-  comfort.format({ bufnr })
-  -- vim.lsp.buf.format({
-  --   filter = format_filters,
-  --   bufnr = bufnr,
-  --   timeout = 30000,
-  -- })
+	local ok, comfort = pcall(require, "conform")
+	if not ok then
+		return
+	end
+	comfort.format({ bufnr })
+	-- vim.lsp.buf.format({
+	--   filter = format_filters,
+	--   bufnr = bufnr,
+	--   timeout = 30000,
+	-- })
 end
 
 vim.keymap.set("n", "<space>lf", format_file)
@@ -102,37 +102,102 @@ vim.keymap.set("n", "<leader>bD", "<cmd>:BufferLinePickClose<CR>", { desc = "pic
 
 -- vim.keymap.set("n", "<leader><TAB>", "<cmd>lua require('telescope-tabs').list_tabs()<cr>", { desc = "list tabs" })
 
-vim.keymap.set("n", "<leader>gj", "<cmd>lua require 'gitsigns'.next_hunk({navigation_message = false})<cr>",
-  { desc = "Next Hunk" })
-vim.keymap.set("n", "<leader>gk", "<cmd>lua require 'gitsigns'.prev_hunk({navigation_message = false})<cr>",
-  { desc = "Prev Hunk" })
+vim.keymap.set(
+	"n",
+	"<leader>gj",
+	"<cmd>lua require 'gitsigns'.next_hunk({navigation_message = false})<cr>",
+	{ desc = "Next Hunk" }
+)
+vim.keymap.set(
+	"n",
+	"<leader>gk",
+	"<cmd>lua require 'gitsigns'.prev_hunk({navigation_message = false})<cr>",
+	{ desc = "Prev Hunk" }
+)
 vim.keymap.set("n", "<leader>gl", "<cmd>lua require 'gitsigns'.blame_line()<cr>", { desc = "Blame" })
 vim.keymap.set("n", "<leader>gp", "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", { desc = "Preview Hunk" })
 vim.keymap.set("n", "<leader>gr", "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", { desc = "Reset Hunk" })
 vim.keymap.set("n", "<leader>gR", "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", { desc = "Reset Buffer" })
 vim.keymap.set("n", "<leader>gs", "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", { desc = "Stage Hunk" })
-vim.keymap.set("n", "<leader>gu",
-  "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
-  { desc = "Undo Stage Hunk" }
-)
+vim.keymap.set("n", "<leader>gu", "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", { desc = "Undo Stage Hunk" })
 
-local harpoon = require("harpoon")
-vim.keymap.set("n", "<leader>a", function()
-  harpoon:list():append()
-end)
-vim.keymap.set("n", "<leader>ll", function()
-  harpoon.ui:toggle_quick_menu(harpoon:list())
-end)
+-- local harpoon = require("harpoon")
+-- vim.keymap.set("n", "<leader>a", function()
+--   harpoon:list():append()
+-- end)
+-- vim.keymap.set("n", "<leader>ll", function()
+--   harpoon.ui:toggle_quick_menu(harpoon:list())
+-- end)
 
-vim.keymap.set("n", "<leader>ha", function()
-  harpoon:list():select(1)
-end)
-vim.keymap.set("n", "<leader>hs", function()
-  harpoon:list():select(2)
-end)
-vim.keymap.set("n", "<leader>hd", function()
-  harpoon:list():select(3)
-end)
-vim.keymap.set("n", "<leader>hf", function()
-  harpoon:list():select(4)
-end)
+-- vim.keymap.set("n", "<leader>ha", function()
+--   harpoon:list():select(1)
+-- end)
+-- vim.keymap.set("n", "<leader>hs", function()
+--   harpoon:list():select(2)
+-- end)
+-- vim.keymap.set("n", "<leader>hd", function()
+--   harpoon:list():select(3)
+-- end)
+-- vim.keymap.set("n", "<leader>hf", function()
+--   harpoon:list():select(4)
+-- end)
+local function executeCommand(command)
+	local handle = io.popen(command)
+	local result = handle:read("*a")
+	local success, reason, status = handle:close()
+
+	return {
+		output = result,
+		success = success,
+		exit_status = status,
+		exit_reason = reason,
+	}
+end
+
+local function fileExists(filename)
+	local cmd = [[if [ -f "]] .. filename .. [[" ]; then echo 0; fi]]
+	vim.print(executeCommand(cmd).output)
+	if executeCommand(cmd).output and executeCommand(cmd).output:gsub("^%s+", ""):gsub("%s+$", "") == "0" then
+		return true
+	else
+		return false
+	end
+end
+
+vim.keymap.set("n", "<leader>sp", function()
+	local ok_builtin, builtin = pcall(require, "telescope.builtin")
+	local ok_actions, actions = pcall(require, "telescope.actions")
+	local ok_state, actions_state = pcall(require, "telescope.actions.state")
+
+	if not ok_builtin or not ok_actions or not ok_state then
+		return
+	end
+
+	builtin.colorscheme({
+		attach_mappings = function(prompt_bufnr)
+			actions.select_default:replace(function()
+				local selection = actions_state.get_selected_entry()
+				if selection == nil then
+					return
+				end
+
+				actions.close(prompt_bufnr)
+				vim.cmd.colorscheme(selection.value)
+				local wezterm_path = "~/.config/wezterm/wezterm.lua"
+				local wezterm_theme_path = "/Users/nick/.config/wezterm/themes/"
+
+				if not fileExists(wezterm_theme_path .. selection.value .. ".lua") then
+					return
+				end
+				os.execute(
+					[[sed -i '' 's/\(local theme = require("themes.\)[^"]*\(\"\)/\1]]
+						.. selection.value
+						.. [[\2/' ]]
+						.. wezterm_path
+				)
+			end)
+
+			return true
+		end,
+	})
+end, { desc = "Project Files" })
