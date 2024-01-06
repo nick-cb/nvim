@@ -246,14 +246,6 @@ lazy.setup({
 			"typescript.tsx",
 		},
 	},
-	-- {
-	--   "stevearc/dressing.nvim",
-	--   config = function()
-	--     require("user.dress").config()
-	--   end,
-	--   event = "BufWinEnter",
-	--   commit = "1f2d1206a03bd3add8aedf6251e4534611de577f",
-	-- },
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
@@ -265,21 +257,15 @@ lazy.setup({
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		config = function()
-			require("ibl").setup({
-				indent = {
-					char = "▏",
-				},
-			})
+			require("user.indentlines").setup()
 		end,
 		event = "User FileOpened",
 		main = "ibl",
 		opts = {},
 	},
 	{
-		-- Lazy loaded by Comment.nvim pre_hook
 		"JoosepAlviste/nvim-ts-context-commentstring",
 	},
-	-- Comments
 	{
 		"numToStr/Comment.nvim",
 		config = function()
@@ -339,7 +325,6 @@ lazy.setup({
 			require("copilot_cmp").setup()
 		end,
 	},
-	-- { "wakatime/vim-wakatime" },
 	{
 		"nvim-neorg/neorg",
 		cmd = "Neorg",
@@ -394,9 +379,6 @@ lazy.setup({
 			vim.fn["mkdp#util#install"]()
 		end,
 	},
-	-- {
-	--   "rktjmp/lush.nvim",
-	-- }
 	{
 		"HiPhish/rainbow-delimiters.nvim",
 		config = function()
@@ -435,16 +417,6 @@ lazy.setup({
 			require("user.breadcrumbs").setup()
 		end,
 	},
-	-- {
-	--   "giusgad/pets.nvim",
-	--   dependencies = { "MunifTanjim/nui.nvim", "giusgad/hologram.nvim" },
-	--   lazy = true,
-	--   cmd = { "PetsNew", "PetsList", "PetsKill", "PetsKillAll" },
-	--   config = function()
-	--     require("pets").setup({})
-	--   end,
-	-- },
-	-- { "willthbill/opener.nvim", config = function() require('telescope').load_extension("opener") end },
 	{
 		"stevearc/oil.nvim",
 		opts = {},
@@ -484,21 +456,21 @@ lazy.setup({
 	{
 		"chrisgrieser/nvim-spider",
 		keys = {
-			{
-				"e",
-				"<cmd>lua require('spider').motion('e')<CR>",
-				mode = { "n", "o", "x" },
-			},
+			-- {
+			-- 	"e",
+			-- 	"<cmd>lua require('spider').motion('e')<CR>",
+			-- 	mode = { "n", "o", "x" },
+			-- },
 			{
 				"w",
 				"<cmd>lua require('spider').motion('w')<CR>",
 				mode = { "n", "o", "x" },
 			},
-			{
-				"b",
-				"<cmd>lua require('spider').motion('b')<CR>",
-				mode = { "n", "o", "x" },
-			},
+			-- {
+			-- 	"b",
+			-- 	"<cmd>lua require('spider').motion('b')<CR>",
+			-- 	mode = { "n", "o", "x" },
+			-- },
 		},
 	},
 	{
@@ -522,53 +494,35 @@ lazy.setup({
 		requires = { { "nvim-lua/plenary.nvim" } },
 		config = function()
 			local harpoon = require("harpoon")
-			local Path = require("plenary.path")
-			local function normalize_path(buf_name, root)
-				return Path:new(buf_name):make_relative(root)
-			end
-
 			harpoon:setup({
-				settings = {
-					save_on_toggle = false,
-					sync_on_ui_close = true,
-				},
-				default = {
-					select = function(list_item, list, options)
-						if list_item == nil then
-							return
-						end
-
-						local bufnr = vim.fn.bufnr(list_item.value)
-						if bufnr == -1 then
-							bufnr = vim.fn.bufnr(list_item.value, true)
-						end
-
-						if not vim.api.nvim_buf_is_loaded(bufnr) then
-							vim.fn.bufload(bufnr)
-							vim.api.nvim_set_option_value("buflisted", true, {
-								buf = bufnr,
-							})
-						end
-						vim.api.nvim_set_current_buf(bufnr)
-						vim.api.nvim_win_set_cursor(0, {
-							list_item.context.row or 1,
-							list_item.context.col or 0,
-						})
-					end,
-					BufLeave = function(event, list)
-            local name = normalize_path(event.file, list.config.get_root_dir())
-            local items = list.items
-
-            for _, item in ipairs(items) do
-              if item.value == name then
-                item.context.row = vim.api.nvim_win_get_cursor(0)[1]
-                item.context.col = vim.api.nvim_win_get_cursor(0)[2]
-                break
-              end
-            end
-					end,
-				},
+				default = {},
 			})
 		end,
+	},
+	{
+		"prochri/telescope-all-recent.nvim",
+		config = function()
+			require("telescope-all-recent").setup({
+				-- your config goes here
+			})
+		end,
+		dependencies = { "kkharji/sqlite.lua" },
+	},
+	{
+		"otavioschwanck/arrow.nvim",
+		opts = {
+			show_icons = true,
+			leader_key = ";", -- Recommended to be a single key
+			buffer_key_maps = { "a", "s", "d", "f", "g" },
+			mappings = {
+				edit = "E",
+				delete_mode = "D",
+				clear_all_items = "C",
+				toggle = "n",
+				open_vertical = "V",
+				open_horizontal = "X",
+				quit = "q",
+			},
+		},
 	},
 })

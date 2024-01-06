@@ -164,3 +164,108 @@ end
 --     set termguicolors
 --   endif
 -- ]]
+--
+local ts = require('nvim-treesitter')
+local lsp = vim.lsp
+
+function get_call_expressions()
+  local file = io.open("/Users/nick/workspaces/works/be-gateway/app.js", "r");
+  if file == nil then
+    return
+  end
+  local source_code = file:read("*all")
+  file:close()
+  local parser = vim.treesitter.get_string_parser(source_code, "javascript")
+  local tree = parser:parse(source_code)[1]
+  local query = vim.treesitter.query.parse("javascript", [[
+    (call_expression
+      function: (member_expression
+        object: (identifier) @object (#eq? @object "app")
+        property: (property_identifier) @property (#eq? @property "use"))
+      arguments: (arguments
+        (string) @route
+        (identifier)* @handlers
+      )) @expression
+  ]]);
+
+  -- local root = parser:parse()[1]:root()
+  -- local start_row, _, end_row, _ = root:range()
+     
+  local matches = query:iter_captures(tree:root(), 0)
+
+  local endpoints = {}
+  for id, node in matches do
+    local capture_name = query.captures[id];
+    local root_endpoint = {name = '', handlers = {}}
+    if capture_name == 'route' then
+      local route = vim.treesitter.get_node_text(node, 0)
+      root_endpoint.name = route.gsub(route, "'", '')
+      -- table.insert(routes, vim.treesitter.get_node_text(node, 0))
+      -- vim.print(vim.treesitter.get_node_text(node, 0))
+    end
+    if capture_name == 'handlers' then
+      local start_r, start_col, _, _ = vim.treesitter.get_node_range(node)
+      local params = { textDocument = vim.lsp.util.make_text_document_params(), position = { line = start_r, character = start_col } }
+      local handler_definitions = lsp.buf_request_sync(0, 'textDocument/definition', params)
+      for _, result in pairs(handler_definitions or {}) do
+        for _, definition in pairs(result.result or {}) do
+          local handler_file = io.open(vim.uri_to_fname(definition.targetUri), "r");
+          -- table.insert(endpoint, definition.targetUri)
+          if handler_file == nil then
+            goto continue
+          end
+          local handler_source = handler_file:read("*all")
+          handler_file:close()
+          local handler_file_parser = vim.treesitter.get_string_parser(handler_source, "javascript")
+          local handler_file_tree = handler_file_parser:parse(handler_source)[1]
+          local handler_query = vim.treesitter.query.parse("javascript", [[
+              (call_expression
+                function: (member_expression
+                  object: (identifier) @object (#eq? @object "router")
+                  property: (property_identifier) @property (#any-of? @property "get" "post" "put" "delete"))
+                arguments: (arguments
+                  (string) @route
+                  (member_expression
+                    object: (identifier) @controller (#match? @controller "\\w+Controller")
+                    property: (property_identifier) @handler)
+              )) @expression
+          ]]);
+
+          local handler_matches = handler_query:iter_captures(handler_file_tree:root(), 0)
+
+          local handler_endpoints = {}
+          for handler_id, handler_node in handler_matches do
+            local handler_capture_name = handler_query.captures[handler_id];
+            local handler_endpoint = {name = '', handlers = {}}
+
+            if capture_name == 'route' then
+              table.insert(handler_endpoints, vim.treesitter.get_node_text(handler_node, 0))
+            end
+          end
+
+
+          ::continue::
+        end
+      end
+    end
+
+    table.insert(endpoints, root_endpoint)
+  end
+
+  vim.print(endpoints)
+  local conf = require("telescope.config").values
+  pickers.new({}, {
+    promt_title = "Endpoints",
+    finder = finders.new_table({
+      results = endpoints,
+      entry_maker = function(entry)
+        return {
+          value = entry,
+          display = entry,
+          ordinal = entry,
+        }
+      end,
+    }),
+    sorter = conf.generic_sorter({}),
+  }):find()
+end
