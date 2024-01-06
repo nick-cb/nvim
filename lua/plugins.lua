@@ -25,6 +25,10 @@ lazy.setup({
 			-- vim.cmd([[hi Normal guibg=NONE ctermbg=NONE]])
 		end,
 	},
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+  },
 	-- {
 	--   "kyazdani42/nvim-tree.lua",
 	--   config = function()
