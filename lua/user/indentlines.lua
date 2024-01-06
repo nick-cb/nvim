@@ -22,31 +22,31 @@ M.setup = function()
 	indent_blankline.setup({
 		indent = {
 			char = icons.ui.LineMiddleDot,
-			highlight = {
-				"IndentBlanklineChar",
-				-- 	"RainbowRed",
-				-- 	"RainbowYellow",
-				-- 	"RainbowBlue",
-				-- 	"RainbowOrange",
-				-- 	"RainbowGreen",
-				-- 	"RainbowViolet",
-				-- 	"RainbowCyan",
-			},
+			-- highlight = {
+			-- 	-- "IndentBlanklineChar",
+			-- 	-- 	"RainbowRed",
+			-- 	-- 	"RainbowYellow",
+			-- 	-- 	"RainbowBlue",
+			-- 	-- 	"RainbowOrange",
+			-- 	-- 	"RainbowGreen",
+			-- 	-- 	"RainbowViolet",
+			-- 	-- 	"RainbowCyan",
+			-- },
 		},
 		scope = {
 			enabled = true,
 			show_start = false,
 			show_end = false,
-			highlight = {
-				"IndentBlanklineContextChar",
-				-- "RainbowRed",
-				-- "RainbowYellow",
-				-- "RainbowBlue",
-				-- "RainbowOrange",
-				-- "RainbowGreen",
-				-- "RainbowViolet",
-				-- "RainbowCyan",
-			},
+			-- highlight = {
+			-- 	-- "IndentBlanklineContextChar",
+			-- 	-- "RainbowRed",
+			-- 	-- "RainbowYellow",
+			-- 	-- "RainbowBlue",
+			-- 	-- "RainbowOrange",
+			-- 	-- "RainbowGreen",
+			-- 	-- "RainbowViolet",
+			-- 	-- "RainbowCyan",
+			-- },
 		},
 	})
 
