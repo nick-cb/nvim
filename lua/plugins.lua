@@ -25,9 +25,20 @@ lazy.setup({
 			-- vim.cmd([[hi Normal guibg=NONE ctermbg=NONE]])
 		end,
 	},
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+	},
+	{
+		"rebelot/kanagawa.nvim",
+		config = function()
+			require("kanagawa").setup({
+				undercurl = true,
+			})
+		end,
+	},
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "savq/melange-nvim"
   },
 	-- {
 	--   "kyazdani42/nvim-tree.lua",
