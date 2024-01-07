@@ -38,7 +38,7 @@ lazy.setup({
 		end,
 	},
   {
-    "savq/melange-nvim"
+    "nick-cb/melange-nvim"
   },
 	-- {
 	--   "kyazdani42/nvim-tree.lua",
@@ -100,14 +100,6 @@ lazy.setup({
 		},
 		-- commit = "d0467b9574b48429debf83f8248d8cee79562586",
 	},
-	-- {
-	--   "jose-elias-alvarez/null-ls.nvim",
-	--   config = function()
-	--     require("user.null-ls").setup()
-	--   end,
-	--   lazy = true,
-	--   dependencies = { "nvim-lua/plenary.nvim", "telescope-fzf-native.nvim" },
-	-- },
 	{
 		"nvim-telescope/telescope.nvim",
 		config = function()
@@ -115,7 +107,7 @@ lazy.setup({
 		end,
 		lazy = true,
 		dependencies = { "nvim-lua/plenary.nvim" },
-		commit = "84f2dd42efffa20d505ac44c78568d778ca7e0a1",
+		commit = "87e92ea31b2b61d45ad044cf7b2d9b66dad2a618",
 	},
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
@@ -524,10 +516,10 @@ lazy.setup({
 		dependencies = { "kkharji/sqlite.lua" },
 	},
 	{
-		"otavioschwanck/arrow.nvim",
+		"nick-cb/arrow.nvim",
 		opts = {
 			show_icons = true,
-			leader_key = ";", -- Recommended to be a single key
+			leader_key = "<SPACE>;", -- Recommended to be a single key
 			buffer_key_maps = { "a", "s", "d", "f", "g" },
 			mappings = {
 				edit = "E",
