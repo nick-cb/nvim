@@ -20,10 +20,6 @@ end
 lazy.setup({
 	{
 		"nick-cb/darkplus.nvim",
-		config = function()
-			vim.cmd([[colorscheme darkplus]])
-			-- vim.cmd([[hi Normal guibg=NONE ctermbg=NONE]])
-		end,
 	},
 	{
 		"catppuccin/nvim",
