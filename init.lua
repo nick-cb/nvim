@@ -3,7 +3,7 @@ require('user.quickscope')
 require("plugins")
 require('autocmds')
 require("keymaps")
-vim.cmd([[colorscheme melange]])
+vim.cmd([[colorscheme darkplus]])
 
 require("luasnip.loaders.from_vscode").lazy_load({
   paths = {

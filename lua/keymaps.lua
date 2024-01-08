@@ -156,7 +156,6 @@ end
 
 local function fileExists(filename)
 	local cmd = [[if [ -f "]] .. filename .. [[" ]; then echo 0; fi]]
-	vim.print(executeCommand(cmd).output)
 	if executeCommand(cmd).output and executeCommand(cmd).output:gsub("^%s+", ""):gsub("%s+$", "") == "0" then
 		return true
 	else
@@ -186,12 +185,21 @@ vim.keymap.set("n", "<leader>sp", function()
 				local wezterm_path = "~/.config/wezterm/wezterm.lua"
 				local wezterm_theme_path = "/Users/nick/.config/wezterm/themes/"
 
-				if not fileExists(wezterm_theme_path .. selection.value .. ".lua") then
+        local theme = selection.value
+        if theme == 'melange' then
+          if vim.opt.background:get() == 'dark' then
+            theme = 'melange-dark'
+          else
+            theme = 'melange-light'
+          end
+        end
+
+				if not fileExists(wezterm_theme_path .. theme .. ".lua") then
 					return
 				end
 				os.execute(
 					[[sed -i '' 's/\(local theme = require("themes.\)[^"]*\(\"\)/\1]]
-						.. selection.value
+						.. theme
 						.. [[\2/' ]]
 						.. wezterm_path
 				)
