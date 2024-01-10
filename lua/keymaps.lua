@@ -185,14 +185,14 @@ vim.keymap.set("n", "<leader>sp", function()
 				local wezterm_path = "~/.config/wezterm/wezterm.lua"
 				local wezterm_theme_path = "/Users/nick/.config/wezterm/themes/"
 
-        local theme = selection.value
-        if theme == 'melange' then
-          if vim.opt.background:get() == 'dark' then
-            theme = 'melange-dark'
-          else
-            theme = 'melange-light'
-          end
-        end
+				local theme = selection.value
+				if theme == "melange" then
+					if vim.opt.background:get() == "dark" then
+						theme = "melange-dark"
+					else
+						theme = "melange-light"
+					end
+				end
 
 				if not fileExists(wezterm_theme_path .. theme .. ".lua") then
 					return

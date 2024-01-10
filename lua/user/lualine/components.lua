@@ -115,14 +115,14 @@ return {
       end
 
       -- add formatter
-      local formatters = require "lvim.lsp.null-ls.formatters"
-      local supported_formatters = formatters.list_registered(buf_ft)
-      vim.list_extend(buf_client_names, supported_formatters)
+      -- local formatters = require "lvim.lsp.null-ls.formatters"
+      -- local supported_formatters = formatters.list_registered(buf_ft)
+      -- vim.list_extend(buf_client_names, supported_formatters)
 
-      -- add linter
-      local linters = require "lvim.lsp.null-ls.linters"
-      local supported_linters = linters.list_registered(buf_ft)
-      vim.list_extend(buf_client_names, supported_linters)
+      -- -- add linter
+      -- local linters = require "lvim.lsp.null-ls.linters"
+      -- local supported_linters = linters.list_registered(buf_ft)
+      -- vim.list_extend(buf_client_names, supported_linters)
 
       local unique_client_names = vim.fn.uniq(buf_client_names)
 
@@ -135,7 +135,7 @@ return {
       return language_servers
     end,
     color = { gui = "bold" },
-    cond = conditions.hide_in_width,
+    -- cond = conditions.hide_in_width,
   },
   location = { "location" },
   progress = {
