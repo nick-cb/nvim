@@ -33,9 +33,9 @@ lazy.setup({
 			})
 		end,
 	},
-  {
-    "nick-cb/melange-nvim"
-  },
+	{
+		"nick-cb/melange-nvim",
+	},
 	-- {
 	--   "kyazdani42/nvim-tree.lua",
 	--   config = function()
@@ -483,10 +483,12 @@ lazy.setup({
 			require("conform").setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
-					-- Conform will run multiple formatters sequentially
 					python = { "isort", "black" },
-					-- Use a sub-list to run only the first available formatter
 					javascript = { { "prettierd", "prettier" } },
+					javascriptreact = { { "prettierd", "prettier" } },
+					typescript = { { "prettierd", "prettier" } },
+          typescriptreact = { { "prettierd", "prettier" } },
+          go = { "gofmt" },
 				},
 			})
 		end,
