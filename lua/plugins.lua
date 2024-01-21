@@ -487,8 +487,10 @@ lazy.setup({
 					javascript = { { "prettierd", "prettier" } },
 					javascriptreact = { { "prettierd", "prettier" } },
 					typescript = { { "prettierd", "prettier" } },
-          typescriptreact = { { "prettierd", "prettier" } },
-          go = { "gofmt" },
+					typescriptreact = { { "prettierd", "prettier" } },
+					go = { "gofmt" },
+					html = { { "prettierd", "prettier" } },
+					css = { { "prettierd", "prettier" } },
 				},
 			})
 		end,
@@ -530,4 +532,5 @@ lazy.setup({
 			},
 		},
 	},
+	{ "ctrlpvim/ctrlp.vim" },
 })
