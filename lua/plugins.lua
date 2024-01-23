@@ -343,7 +343,7 @@ lazy.setup({
 						config = {
 							workspaces = {
 								notes = "~/workspaces/notes",
-								work = "~/workspaces/ceres",
+								work = "~/workspaces/works",
 								tailwind = "~/workspaces/dev/tailwind",
 							},
 						},
@@ -533,4 +533,5 @@ lazy.setup({
 		},
 	},
 	{ "ctrlpvim/ctrlp.vim" },
+  { 'wakatime/vim-wakatime', lazy = false }
 })
