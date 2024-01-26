@@ -35,6 +35,27 @@ local function make_popup(options)
   return TSLayout.Window(popup)
 end
 
+local previewers = require("telescope.previewers")
+local Job = require("plenary.job")
+local ingore_file_type = function (filepath, bufnr, opts)
+  filepath = vim.fn.expand(filepath)
+  Job:new({
+    command = "file",
+    args = { "--mime-type", "-b", filepath },
+    on_exit = function(j)
+      local mime_type = vim.split(j:result()[1], "/")[1]
+      if mime_type == "text" then
+        previewers.buffer_previewer_maker(filepath, bufnr, opts)
+      else
+        -- maybe we want to write something to the buffer here
+        vim.schedule(function()
+          vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, { "BINARY" })
+        end)
+      end
+    end
+  }):sync()
+end
+
 M.setup = function()
   local telescope = require("telescope")
   local actions = require("telescope.actions")
@@ -50,31 +71,16 @@ M.setup = function()
       layout_config = {
         horizontal = {
           size = {
-            width = "80%",
-            height = "70%",
+            width = "90%",
+            height = "80%",
           },
-          -- height = 0.9,
-          -- preview_cutoff = 120,
-          -- prompt_position = "bottom",
-          -- width = 0.8,
-          -- preview_width = 0.6
         },
         vertical = {
           size = {
             width = "90%",
             height = "90%",
           },
-          -- height = 0.9,
-          -- preview_cutoff = 40,
-          -- prompt_position = "bottom",
-          -- width = 0.8,
         },
-        -- center = {
-        --   height = 0.4,
-        --   preview_cutoff = 40,
-        --   prompt_position = "top",
-        --   width = 0.5
-        -- },
       },
       create_layout = function(picker)
         local border = {
@@ -161,9 +167,6 @@ M.setup = function()
               top_align = "center",
             },
           },
-          -- win_options = {
-          --   winhighlight = "Normal:Normal",
-          -- },
         })
 
         local prompt = make_popup({
@@ -175,9 +178,6 @@ M.setup = function()
               top_align = "center",
             },
           },
-          -- win_options = {
-          --   winhighlight = "Normal:Normal",
-          -- },
         })
 
         local preview = make_popup({
@@ -305,6 +305,7 @@ M.setup = function()
       borderchars = nil,
       color_devicons = true,
       set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
+      buffer_previewer_maker = ingore_file_type,
     },
     pickers = {
       find_files = {

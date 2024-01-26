@@ -177,7 +177,6 @@ local create_config = function()
         if max_width ~= 0 and #vim_item.abbr > max_width then
           vim_item.abbr = string.sub(vim_item.abbr, 1, max_width - 1) .. icons.ui.Ellipsis
         end
-        vim.print(vim_item.kind)
         vim_item.kind = icons.kind[vim_item.kind]
 
         if entry.source.name == "copilot" then

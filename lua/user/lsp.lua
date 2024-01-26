@@ -90,7 +90,7 @@ local servers = {
       },
     },
   },
-  tsserver = {},
+  -- tsserver = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -115,48 +115,17 @@ M.setup = function()
   })
 
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(function(error, result, ctx, config)
-    -- local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
     vim.lsp.handlers.hover(error, result, ctx, config)
-    -- vim.print({ bufnr, is_nil = bufnr == nil })
-    -- if bufnr == nil then
-    -- else
-    --   vim.print({ bufnr, is_nil = bufnr == nil })
-    --   vim.api.nvim_buf_set_option(bufnr, 'filetype', filetype)
-    -- end
   end, float_config)
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float_config)
 
   mason_lspconfig.setup_handlers({
     function(server_name)
-      local ok, lspconfig = pcall(require, "lspconfig")
-      if not ok then
-        return
-      end
-      local root_pattern = lspconfig.util.root_pattern;
-      lspconfig[server_name].setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = servers[server_name],
-      })
-      lspconfig.sourcekit.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = {
-          cmd = "sourcekit-lsp",
-          filetypes = { "swift", "objective-c", "objective-cpp" },
-        },
-      })
-      lspconfig.phpactor.setup({})
-      lspconfig.clangd.setup({})
-      lspconfig.dartls.setup({})
-      -- require("lspconfig").dartls.setup({
-      --   cmd = { "dart", "language-server", "--protocol=lsp" },
-      --   closingLabels = true,
-      --   flutterOutline = true,
-      --   onlyAnalyzeProjectsWithOpenFiles = true,
-      --   outline = true,
-      --   suggestFromUnimportedLibraries = true
-      -- })
+      require("user.lspconfig").setup_server(
+        server_name,
+        capabilities,
+        on_attach
+      )
     end,
   })
 end
