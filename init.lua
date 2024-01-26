@@ -5,11 +5,11 @@ require('autocmds')
 require("keymaps")
 vim.cmd([[colorscheme darkplus]])
 
-require("luasnip.loaders.from_vscode").lazy_load({
-  paths = {
-    "/Users/nick/.local/share/nvim/lazy/vscode-es7-javascript-react-snippets/",
-  },
-})
+-- require("luasnip.loaders.from_vscode").lazy_load({
+--   paths = {
+--     "/Users/nick/.local/share/nvim/lazy/vscode-es7-javascript-react-snippets/",
+--   },
+-- })
 local links = {
   ['@lsp.type.namespace'] = '@namespace',
   ['@lsp.type.type'] = '@type',
@@ -153,11 +153,6 @@ function GET_PROJECT()
   }):find()
 end
 
--- require("luasnip.loaders.from_vscode").lazy_load({
--- 	paths = {
--- 		"/home/nick/.local/share/lunarvim/site/pack/packer/opt/awesome-flutter-snippets/",
--- 	},
--- })
 -- vim.cmd[[
 --   if exists('+termguicolors')
 --     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -170,7 +165,7 @@ local ts = require('nvim-treesitter')
 local lsp = vim.lsp
 
 function get_call_expressions()
-  local file = io.open("/Users/nick/workspaces/works/be-gateway/app.js", "r");
+  local file = io.open("/Users/nick/workspaces/be-gateway/app.js", "r");
   if file == nil then
     return
   end
@@ -189,20 +184,15 @@ function get_call_expressions()
       )) @expression
   ]]);
 
-  -- local root = parser:parse()[1]:root()
-  -- local start_row, _, end_row, _ = root:range()
-     
-  local matches = query:iter_captures(tree:root(), 0)
+  local matches = query:iter_captures(tree:root(), source_code)
 
   local endpoints = {}
   for id, node in matches do
     local capture_name = query.captures[id];
     local root_endpoint = {name = '', handlers = {}}
     if capture_name == 'route' then
-      local route = vim.treesitter.get_node_text(node, 0)
-      root_endpoint.name = route.gsub(route, "'", '')
-      -- table.insert(routes, vim.treesitter.get_node_text(node, 0))
-      -- vim.print(vim.treesitter.get_node_text(node, 0))
+      local route = vim.treesitter.get_node_text(node, source_code):gsub('"', '')
+      root_endpoint.name = route
     end
     if capture_name == 'handlers' then
       local start_r, start_col, _, _ = vim.treesitter.get_node_range(node)
@@ -210,8 +200,7 @@ function get_call_expressions()
       local handler_definitions = lsp.buf_request_sync(0, 'textDocument/definition', params)
       for _, result in pairs(handler_definitions or {}) do
         for _, definition in pairs(result.result or {}) do
-          local handler_file = io.open(vim.uri_to_fname(definition.targetUri), "r");
-          -- table.insert(endpoint, definition.targetUri)
+          local handler_file = io.open(vim.uri_to_fname(definition.targetUri):gsub(" ", ""), "r");
           if handler_file == nil then
             goto continue
           end
@@ -232,41 +221,50 @@ function get_call_expressions()
               )) @expression
           ]]);
 
-          local handler_matches = handler_query:iter_captures(handler_file_tree:root(), 0)
+          local handler_matches = handler_query:iter_captures(handler_file_tree:root(), handler_source)
 
           local handler_endpoints = {}
           for handler_id, handler_node in handler_matches do
             local handler_capture_name = handler_query.captures[handler_id];
-            local handler_endpoint = {name = '', handlers = {}}
+            local handler_endpoint = {name = ''}
 
-            if capture_name == 'route' then
-              table.insert(handler_endpoints, vim.treesitter.get_node_text(handler_node, 0))
+            if handler_capture_name == 'route' then
+              handler_endpoint.name = vim.treesitter.get_node_text(handler_node, handler_source):gsub("'", '')
+              table.insert(handler_endpoints, handler_endpoint)
+            end
+            -- vim.print(handler_endpoint)
+            if handler_endpoint.name ~= '' then
+              table.insert(handler_endpoints, handler_endpoint)
             end
           end
 
+          table.insert(root_endpoint.handlers, handler_endpoints)
 
           ::continue::
         end
       end
     end
 
-    table.insert(endpoints, root_endpoint)
+    if root_endpoint.name ~= '' then
+      table.insert(endpoints, root_endpoint)
+    end
   end
-
   vim.print(endpoints)
-  local conf = require("telescope.config").values
-  pickers.new({}, {
-    promt_title = "Endpoints",
-    finder = finders.new_table({
-      results = endpoints,
-      entry_maker = function(entry)
-        return {
-          value = entry,
-          display = entry,
-          ordinal = entry,
-        }
-      end,
-    }),
-    sorter = conf.generic_sorter({}),
-  }):find()
+
+  -- vim.print(endpoints)
+  -- local conf = require("telescope.config").values
+  -- pickers.new({}, {
+  --   promt_title = "Endpoints",
+  --   finder = finders.new_table({
+  --     results = endpoints,
+  --     entry_maker = function(entry)
+  --       return {
+  --         value = entry,
+  --         display = entry,
+  --         ordinal = entry,
+  --       }
+  --     end,
+  --   }),
+  --   sorter = conf.generic_sorter({}),
+  -- }):find()
 end
