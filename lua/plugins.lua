@@ -77,6 +77,7 @@ lazy.setup({
 			"hrsh7th/cmp-path",
 		},
 		commit = "538e37ba87284942c1d76ed38dd497e54e65b891",
+		enabled = true,
 	},
 	{
 		"neovim/nvim-lspconfig",
@@ -94,6 +95,7 @@ lazy.setup({
 			{ "j-hui/fidget.nvim", opts = {}, branch = "legacy" },
 			"folke/neodev.nvim",
 		},
+		enabled = true,
 		-- commit = "d0467b9574b48429debf83f8248d8cee79562586",
 	},
 	{
@@ -161,7 +163,7 @@ lazy.setup({
 		"windwp/nvim-ts-autotag",
 		event = "InsertEnter",
 		after = "nvim-treesitter",
-		ft = { "html", "javascript", "markdown", "javascriptreact", "typescript", "typescriptreact" },
+		ft = { "html", "javascript", "markdown", "javascriptreact", "typescript", "typescriptreact", "svelte" },
 	},
 	{
 		"tpope/vim-surround",
@@ -185,6 +187,7 @@ lazy.setup({
 			"config",
 			"python",
 			"php",
+			"svelte",
 		},
 		config = function()
 			require("user.colorizer").config()
@@ -321,12 +324,14 @@ lazy.setup({
 		config = function()
 			require("user.copilot").setup()
 		end,
+		enabled = false,
 	},
 	{
 		"zbirenbaum/copilot-cmp",
 		config = function()
 			require("copilot_cmp").setup()
 		end,
+		enabled = false,
 	},
 	{
 		"nvim-neorg/neorg",
@@ -491,6 +496,7 @@ lazy.setup({
 					go = { "gofmt" },
 					html = { { "prettierd", "prettier" } },
 					css = { { "prettierd", "prettier" } },
+					svelte = { { "prettier", "prettierd" } },
 				},
 			})
 		end,
@@ -533,5 +539,25 @@ lazy.setup({
 		},
 	},
 	{ "ctrlpvim/ctrlp.vim" },
-  { 'wakatime/vim-wakatime', lazy = false }
+	{ "wakatime/vim-wakatime", lazy = false },
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = {},
+	},
+	{
+		"pmizio/typescript-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		opts = {},
+	},
+  {
+    "kevinhwang91/nvim-ufo",
+    config = function ()
+      require("user.ufo").setup()
+    end,
+    dependencies = {
+      "kevinhwang91/promise-async",
+      "luukvbaal/statuscol.nvim",
+    },
+  }
 })
