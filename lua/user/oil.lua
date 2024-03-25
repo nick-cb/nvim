@@ -57,7 +57,7 @@ M.setup = function()
       ["<C-l>"] = "actions.select",
       ["<C-v>"] = "actions.select_vsplit",
       ["<C-x>"] = "actions.select_split",
-      ["<C-t>"] = "actions.select_tab",
+      -- ["<C-t>"] = "actions.select_tab",
       ["<C-p>"] = "actions.preview",
       ["R"] = "actions.refresh",
       ["<C-h>"] = "actions.parent",
@@ -69,6 +69,7 @@ M.setup = function()
       ["g."] = "actions.toggle_hidden",
       ["g\\"] = "actions.toggle_trash",
       ["q"] = "actions.close",
+      ["<C-y>"] = "actions.copy_entry_path",
     },
     -- Set to false to disable all of the above keymaps
     use_default_keymaps = true,

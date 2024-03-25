@@ -214,7 +214,7 @@ vim.keymap.set("n", "<leader>sp", function()
 	})
 end, { desc = "Project Files" })
 
-vim.keymap.set("n", "<c-p>", function()
+vim.keymap.set("n", "<c-f>", function()
   local previous_winid = vim.api.nvim_get_current_win()
   local previous_bufnr = vim.api.nvim_get_current_buf()
   vim.g.qf_previous_winid = previous_winid

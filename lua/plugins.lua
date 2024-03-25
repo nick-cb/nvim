@@ -471,7 +471,7 @@ lazy.setup({
 	},
 	{ "nvim-treesitter/nvim-treesitter-context" },
 	{
-		"mangelozzi/rgflow.nvim",
+		"nick-cb/rgflow.nvim",
 		config = function()
 			require("rgflow").setup({
 				-- Set the default rip grep flags and options for when running a search via
@@ -485,14 +485,15 @@ lazy.setup({
 				default_ui_mappings = true,
 				-- QuickFix window only mapping
 				default_quickfix_mappings = true,
-        quickfix = {
-          n = {
-            ["j"] = function ()
-              print("J hello")
-            end
-          }
-        }
+				quickfix = {
+					n = {
+						["j"] = function()
+							print("J hello")
+						end,
+					},
+				},
 			})
 		end,
 	},
+	{ "ctrlpvim/ctrlp.vim" },
 })
