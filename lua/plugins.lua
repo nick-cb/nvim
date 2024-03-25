@@ -26,25 +26,8 @@ lazy.setup({
 		name = "catppuccin",
 	},
 	{
-		"rebelot/kanagawa.nvim",
-		config = function()
-			require("kanagawa").setup({
-				undercurl = true,
-			})
-		end,
-	},
-	{
 		"nick-cb/melange-nvim",
 	},
-	-- {
-	--   "kyazdani42/nvim-tree.lua",
-	--   config = function()
-	--     require("user.nvim-tree").setup()
-	--   end,
-	--   cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
-	--   event = "User DirOpened",
-	--   commit = "78a9ca5ed6557f29cd0ce203df44213e54bfabb9",
-	-- },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		config = function()
@@ -109,8 +92,6 @@ lazy.setup({
 	},
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
-		-- NOTE: If you are having trouble with this installation,
-		--       refer to the README for telescope-fzf-native for more instructions.
 		build = "make",
 		lazy = true,
 		cond = function()
@@ -150,15 +131,6 @@ lazy.setup({
 		end,
 		event = "VimEnter",
 	},
-	-- {
-	--   "akinsho/bufferline.nvim",
-	--   config = function()
-	--     require("user.bufferline").setup()
-	--   end,
-	--   branch = "main",
-	--   event = "User FileOpened",
-	--   commit = "6ecd37e0fa8b156099daedd2191130e083fb1490",
-	-- },
 	{
 		"windwp/nvim-ts-autotag",
 		event = "InsertEnter",
@@ -216,19 +188,6 @@ lazy.setup({
 		end,
 		cmd = "SymbolOutlineToggle",
 	},
-	{
-		"tiagovla/scope.nvim",
-		config = function()
-			require("scope").setup()
-		end,
-	},
-	-- {
-	--   "nick-cb/telescope-tabs",
-	--   dependencies = { "nvim-telescope/telescope.nvim" },
-	--   config = function()
-	--     require("user.telescope-tabs").config()
-	--   end,
-	-- },
 	{ "tpope/vim-fugitive" },
 	{ "rickhowe/diffchar.vim" },
 	{
@@ -324,7 +283,7 @@ lazy.setup({
 		config = function()
 			require("user.copilot").setup()
 		end,
-		enabled = false,
+		enabled = true,
 	},
 	{
 		"zbirenbaum/copilot-cmp",
@@ -408,23 +367,6 @@ lazy.setup({
 			})
 		end,
 	},
-	-- {
-	--   'akinsho/flutter-tools.nvim',
-	--   lazy = false,
-	--   dependencies = {
-	--     'nvim-lua/plenary.nvim',
-	--     -- 'stevearc/dressing.nvim', -- optional for vim.ui.select
-	--   },
-	--   config = function()
-	--     require("flutter-tools").setup {} -- use defaults
-	--   end,
-	-- },
-	{
-		"SmiteshP/nvim-navic",
-		config = function()
-			require("user.breadcrumbs").setup()
-		end,
-	},
 	{
 		"stevearc/oil.nvim",
 		opts = {},
@@ -454,34 +396,6 @@ lazy.setup({
 		end,
 	},
 	{
-		"sustech-data/wildfire.nvim",
-		event = "VeryLazy",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		config = function()
-			require("wildfire").setup()
-		end,
-	},
-	{
-		"chrisgrieser/nvim-spider",
-		keys = {
-			-- {
-			-- 	"e",
-			-- 	"<cmd>lua require('spider').motion('e')<CR>",
-			-- 	mode = { "n", "o", "x" },
-			-- },
-			{
-				"w",
-				"<cmd>lua require('spider').motion('w')<CR>",
-				mode = { "n", "o", "x" },
-			},
-			-- {
-			-- 	"b",
-			-- 	"<cmd>lua require('spider').motion('b')<CR>",
-			-- 	mode = { "n", "o", "x" },
-			-- },
-		},
-	},
-	{
 		"stevearc/conform.nvim",
 		opts = {},
 		config = function()
@@ -502,17 +416,6 @@ lazy.setup({
 		end,
 	},
 	{
-		"ThePrimeagen/harpoon",
-		branch = "harpoon2",
-		requires = { { "nvim-lua/plenary.nvim" } },
-		config = function()
-			local harpoon = require("harpoon")
-			harpoon:setup({
-				default = {},
-			})
-		end,
-	},
-	{
 		"prochri/telescope-all-recent.nvim",
 		config = function()
 			require("telescope-all-recent").setup({
@@ -521,24 +424,6 @@ lazy.setup({
 		end,
 		dependencies = { "kkharji/sqlite.lua" },
 	},
-	{
-		"nick-cb/arrow.nvim",
-		opts = {
-			show_icons = true,
-			leader_key = "<SPACE>;", -- Recommended to be a single key
-			buffer_key_maps = { "a", "s", "d", "f", "g" },
-			mappings = {
-				edit = "E",
-				delete_mode = "D",
-				clear_all_items = "C",
-				toggle = "n",
-				open_vertical = "V",
-				open_horizontal = "X",
-				quit = "q",
-			},
-		},
-	},
-	{ "ctrlpvim/ctrlp.vim" },
 	{ "wakatime/vim-wakatime", lazy = false },
 	{
 		"folke/todo-comments.nvim",
@@ -546,18 +431,68 @@ lazy.setup({
 		opts = {},
 	},
 	{
-		"pmizio/typescript-tools.nvim",
-		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-		opts = {},
+		"cbochs/grapple.nvim",
+		dependencies = {
+			{ "nvim-tree/nvim-web-devicons", lazy = true },
+		},
+		opts = {
+			scope = "git_branch",
+			icons = true,
+			quick_select = "12345",
+		},
+		keys = {
+			{ "<space>;", "<cmd>Grapple toggle_tags<cr>", desc = "Toggle tags menu" },
+			{ "<c-s>", "<cmd>Grapple toggle<cr>", desc = "Toggle tag" },
+			{ "H", "<cmd>Grapple cycle forward<cr>", desc = "Go to next tag" },
+			{ "L", "<cmd>Grapple cycle backward<cr>", desc = "Go to previous tag" },
+		},
 	},
-  {
-    "kevinhwang91/nvim-ufo",
-    config = function ()
-      require("user.ufo").setup()
-    end,
-    dependencies = {
-      "kevinhwang91/promise-async",
-      "luukvbaal/statuscol.nvim",
-    },
-  }
+	{
+		"luckasRanarison/tailwind-tools.nvim",
+		opts = {
+			document_color = {
+				kind = "background",
+			},
+			conceal = {
+				symbol = "󱏿", -- only a single character is allowed
+				highlight = { -- extmark highlight options, see :h 'highlight'
+					fg = "#38BDF8",
+				},
+			},
+		},
+	},
+	{
+		"lukas-reineke/headlines.nvim",
+		after = { "nvim-treesitter" },
+		ft = { "markdown" },
+		config = function()
+			require("headlines").setup()
+		end,
+	},
+	{ "nvim-treesitter/nvim-treesitter-context" },
+	{
+		"mangelozzi/rgflow.nvim",
+		config = function()
+			require("rgflow").setup({
+				-- Set the default rip grep flags and options for when running a search via
+				-- RgFlow. Once changed via the UI, the previous search flags are used for
+				-- each subsequent search (until Neovim restarts).
+				cmd_flags = "--smart-case --fixed-strings --ignore --max-columns 200",
+
+				-- Mappings to trigger RgFlow functions
+				default_trigger_mappings = true,
+				-- These mappings are only active when the RgFlow UI (panel) is open
+				default_ui_mappings = true,
+				-- QuickFix window only mapping
+				default_quickfix_mappings = true,
+        quickfix = {
+          n = {
+            ["j"] = function ()
+              print("J hello")
+            end
+          }
+        }
+			})
+		end,
+	},
 })

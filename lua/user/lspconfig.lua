@@ -47,6 +47,7 @@ local servers = {
   },
   clangd = {},
   dartls = {},
+  hls = {},
 }
 
 M.setup_server = function (server_name, capabilities, on_attach)

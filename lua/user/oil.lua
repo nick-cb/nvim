@@ -34,6 +34,7 @@ M.setup = function()
       conceallevel = 3,
       concealcursor = "nvic",
     },
+    experimental_watch_for_changes = true,
     -- Send deleted files to the trash instead of permanently deleting them (:help oil-trash)
     delete_to_trash = true,
     -- Skip the confirmation popup for simple operations

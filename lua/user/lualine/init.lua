@@ -17,6 +17,10 @@ local config = {
       components.branch,
     },
     lualine_c = {
+      components.filename,
+      components.grapple
+    },
+    lualine_d = {
       components.diff,
       components.python_env,
     },

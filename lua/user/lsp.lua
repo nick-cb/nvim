@@ -67,7 +67,7 @@ local on_attach = function(client, bufnr)
   if client.name == "tsserver" then
     client.server_capabilities.document_formatting = false
     client.server_capabilities.document_range_formatting = false
-    require("nvim-navic").attach(client, bufnr)
+    -- require("nvim-navic").attach(client, bufnr)
   end
 end
 
@@ -118,6 +118,10 @@ M.setup = function()
     vim.lsp.handlers.hover(error, result, ctx, config)
   end, float_config)
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float_config)
+  -- vim.lsp.handlers["textDocument/definition"] = vim.lsp.with(function (error, result, ctx, config)
+  --   vim.print(result)
+  --   vim.lsp.handlers.definition(error, result, ctx, config)
+  -- end, float_config)
 
   mason_lspconfig.setup_handlers({
     function(server_name)

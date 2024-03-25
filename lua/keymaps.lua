@@ -7,9 +7,9 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("n", "<C-s>", ":SymbolsOutline<cr>")
-vim.keymap.set("n", "<s-l>", ":BufferLineCycleNext<cr>")
-vim.keymap.set("n", "<s-h>", ":BufferLineCyclePrev<cr>")
+-- vim.keymap.set("n", "<C-s>", ":SymbolsOutline<cr>")
+-- vim.keymap.set("n", "<s-l>", ":BufferLineCycleNext<cr>")
+-- vim.keymap.set("n", "<s-h>", ":BufferLineCyclePrev<cr>")
 
 vim.keymap.set("n", "vv", "V")
 vim.keymap.set("n", "V", "v$")
@@ -45,7 +45,11 @@ vim.keymap.set("t", "<c-k>", "<c-\\><c-n><c-w>k")
 vim.keymap.set("t", "<c-l>", "<c-\\><c-n><c-w>l")
 
 -- lsp
-vim.keymap.set("n", "<leader>e", "<CMD>Oil --float<CR>")
+vim.keymap.set("n", "<leader>e", function()
+	vim.cmd("Oil")
+	-- local pwd = vim.fn.getcwd()
+	-- vim.api.nvim_command(string.format("edit %s", pwd))
+end)
 vim.keymap.set("n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>")
 vim.keymap.set("n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>")
 vim.keymap.set("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>")
@@ -209,3 +213,12 @@ vim.keymap.set("n", "<leader>sp", function()
 		end,
 	})
 end, { desc = "Project Files" })
+
+vim.keymap.set("n", "<c-p>", function()
+  local previous_winid = vim.api.nvim_get_current_win()
+  local previous_bufnr = vim.api.nvim_get_current_buf()
+  vim.g.qf_previous_winid = previous_winid
+  vim.g.qf_previous_bufnr = previous_bufnr
+  vim.g.qf_previous_pos = vim.api.nvim_win_get_cursor(previous_winid)
+	require("rgflow").open()
+end)
