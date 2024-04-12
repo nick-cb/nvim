@@ -29,6 +29,25 @@ lazy.setup({
 		"nick-cb/melange-nvim",
 	},
 	{
+		"kyazdani42/nvim-tree.lua",
+		config = function()
+			require("user.nvim-tree").setup()
+		end,
+		cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
+		event = "User DirOpened",
+		commit = "78a9ca5ed6557f29cd0ce203df44213e54bfabb9",
+	},
+	{
+		"antosha417/nvim-lsp-file-operations",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-tree.lua",
+		},
+		config = function()
+			require("lsp-file-operations").setup()
+		end,
+	},
+	{
 		"nvim-treesitter/nvim-treesitter",
 		config = function()
 			require("user.treesitter").setup()
@@ -367,15 +386,15 @@ lazy.setup({
 			})
 		end,
 	},
-	{
-		"stevearc/oil.nvim",
-		opts = {},
-		-- Optional dependencies
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			require("user.oil").setup()
-		end,
-	},
+	-- {
+	-- 	"stevearc/oil.nvim",
+	-- 	opts = {},
+	-- 	-- Optional dependencies
+	-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
+	-- 	config = function()
+	-- 		require("user.oil").setup()
+	-- 	end,
+	-- },
 	{
 		"LunarVim/bigfile.nvim",
 		config = function()
@@ -469,7 +488,25 @@ lazy.setup({
 			require("headlines").setup()
 		end,
 	},
-	{ "nvim-treesitter/nvim-treesitter-context" },
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		config = function()
+			require("treesitter-context").setup({
+				enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+				max_lines = 5, -- How many lines the window should span. Values <= 0 mean no limit.
+				min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+				line_numbers = true,
+				multiline_threshold = 20, -- Maximum number of lines to show for a single context
+				trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+				mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
+				-- Separator between context and content. Should be a single character string, like '-'.
+				-- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+				separator = nil,
+				zindex = 20, -- The Z-index of the context window
+				on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+			})
+		end,
+	},
 	{
 		"nick-cb/rgflow.nvim",
 		config = function()
@@ -496,4 +533,18 @@ lazy.setup({
 		end,
 	},
 	{ "ctrlpvim/ctrlp.vim" },
+	-- {
+	-- 	"echasnovski/mini.files",
+	-- 	config = function()
+	-- 		require("mini.files").setup({
+	--        options = {
+	--          permanent_delete = false,
+	--        },
+	--        windows = {
+	--          preview = true,
+	--          width_preview = 50
+	--        }
+	--      })
+	-- 	end,
+	-- },
 })

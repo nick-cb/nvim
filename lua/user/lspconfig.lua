@@ -48,6 +48,9 @@ local servers = {
   clangd = {},
   dartls = {},
   hls = {},
+  eslint = {
+    filetypes = { "javascript", "javascriptreact" },
+  }
 }
 
 M.setup_server = function (server_name, capabilities, on_attach)
