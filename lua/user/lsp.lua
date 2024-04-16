@@ -75,6 +75,10 @@ local on_attach = function(client, bufnr)
 		float = float_config,
 	})
 
+	-- if client.server_capabilities.inlayHintProvider then
+	-- 	vim.lsp.inlay_hint.enable(bufnr, true)
+	-- end
+
 	if client.name == "tsserver" then
 		client.server_capabilities.document_formatting = false
 		client.server_capabilities.document_range_formatting = false
@@ -87,20 +91,7 @@ local servers = {
 	-- gopls = {},
 	-- pyright = {},
 	rust_analyzer = {},
-	tailwindcss = {
-		tailwindCSS = {
-			experimental = {
-				classRegex = {
-					{ "[a-zA-Z]*ClassName='([^']+)'" },
-					{ '[a-zA-Z]*ClassName="([^"]+)"' },
-					{ "[a-zA-Z]*ClassName=`([^`]+)`" },
-					{ "[a-zA-Z]*ClassName={*([^]+)}", "'([^']*)'" },
-					{ "[a-zA-Z]*ClassName={*([^]+)}", "`([^`]*)`" },
-					{ "[a-zA-Z]*ClassName={*([^]+)}", '"([^"]*)"' },
-				},
-			},
-		},
-	},
+	tailwindcss = {},
 	tsserver = {},
 	lua_ls = {
 		Lua = {
@@ -108,9 +99,6 @@ local servers = {
 			telemetry = { enable = false },
 		},
 	},
-	-- dartls = {
-	--   cmd = { "dart", "language-server", "--protocol=lsp" }
-	-- }
 }
 
 M.setup = function()
@@ -129,6 +117,12 @@ M.setup = function()
 		vim.lsp.handlers.hover(error, result, ctx, config)
 	end, float_config)
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float_config)
+  -- vim.lsp.handlers["textDocument/inlayHint"] = vim.lsp.with(function (error, result, ctx, config)
+  --   vim.print({result = result})
+  --   local hint = vim.lsp.inlay_hint.get({ bufnr = 0 })
+  --   vim.print({hint = {}})
+  --   return hint
+  -- end, {})
 	-- vim.lsp.handlers["textDocument/definition"] = vim.lsp.with(function (error, result, ctx, config)
 	--   vim.print(result)
 	--   vim.lsp.handlers.definition(error, result, ctx, config)
