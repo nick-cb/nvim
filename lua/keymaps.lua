@@ -85,7 +85,7 @@ vim.keymap.set("n", "<space>lf", format_file)
 
 vim.keymap.set("n", "<leader>sb", "<cmd>Telescope buffers<cr>", { desc = "[s]earch [b]uffers" })
 
-vim.keymap.set("n", "<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "[s]earch [f]iles" })
+vim.keymap.set("n", "<leader>sf", "<cmd>lua require('telescope').extensions['recent-files'].recent_files({initial_mode = 'insert'})<cr>", { desc = "[s]earch [f]iles" })
 vim.keymap.set("n", "<leader>sh", "<cmd>Telescope help_tags theme=dropdown<cr>", { desc = "[s]earch [h]elp" })
 vim.keymap.set("n", "<leader>st", "<cmd>Telescope live_grep theme=dropdown<cr>", { desc = "[s]earch by [g]rep" })
 

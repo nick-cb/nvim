@@ -106,8 +106,8 @@ lazy.setup({
 			require("user.telescope").setup()
 		end,
 		lazy = true,
-		dependencies = { "nvim-lua/plenary.nvim" },
-		commit = "87e92ea31b2b61d45ad044cf7b2d9b66dad2a618",
+		dependencies = { "nvim-lua/plenary.nvim", "mollerhoj/telescope-recent-files.nvim" },
+		tag = "0.1.6",
 	},
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
@@ -116,7 +116,6 @@ lazy.setup({
 		cond = function()
 			return vim.fn.executable("make") == 1
 		end,
-		commit = "6c921ca12321edaa773e324ef64ea301a1d0da62",
 	},
 	{
 		"akinsho/toggleterm.nvim",
@@ -311,30 +310,30 @@ lazy.setup({
 		end,
 		enabled = false,
 	},
-	{
-		"nvim-neorg/neorg",
-		cmd = "Neorg",
-		build = ":Neorg sync-parsers",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		lazy = true,
-		config = function()
-			require("neorg").setup({
-				load = {
-					["core.defaults"] = {}, -- Loads default behaviour
-					["core.concealer"] = {}, -- Adds pretty icons to your documents
-					["core.dirman"] = { -- Manages Neorg workspaces
-						config = {
-							workspaces = {
-								notes = "~/workspaces/notes",
-								work = "~/workspaces/works",
-								tailwind = "~/workspaces/dev/tailwind",
-							},
-						},
-					},
-				},
-			})
-		end,
-	},
+	-- {
+	-- 	"nvim-neorg/neorg",
+	-- 	cmd = "Neorg",
+	-- 	build = ":Neorg sync-parsers",
+	-- 	dependencies = { "nvim-lua/plenary.nvim" },
+	-- 	lazy = true,
+	-- 	config = function()
+	-- 		require("neorg").setup({
+	-- 			load = {
+	-- 				["core.defaults"] = {}, -- Loads default behaviour
+	-- 				["core.concealer"] = {}, -- Adds pretty icons to your documents
+	-- 				["core.dirman"] = { -- Manages Neorg workspaces
+	-- 					config = {
+	-- 						workspaces = {
+	-- 							notes = "~/workspaces/notes",
+	-- 							work = "~/workspaces/works",
+	-- 							tailwind = "~/workspaces/dev/tailwind",
+	-- 						},
+	-- 					},
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		"kawre/leetcode.nvim",
 		build = ":TSUpdate html",
@@ -434,15 +433,15 @@ lazy.setup({
 			})
 		end,
 	},
-	{
-		"prochri/telescope-all-recent.nvim",
-		config = function()
-			require("telescope-all-recent").setup({
-				-- your config goes here
-			})
-		end,
-		dependencies = { "kkharji/sqlite.lua" },
-	},
+	-- {
+	-- 	"prochri/telescope-all-recent.nvim",
+	-- 	config = function()
+	-- 		require("telescope-all-recent").setup({
+	-- 			-- your config goes here
+	-- 		})
+	-- 	end,
+	-- 	dependencies = { "kkharji/sqlite.lua" },
+	-- },
 	{ "wakatime/vim-wakatime", lazy = false },
 	{
 		"folke/todo-comments.nvim",
