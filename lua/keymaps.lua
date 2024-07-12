@@ -85,13 +85,13 @@ vim.keymap.set("n", "<space>lf", format_file)
 
 vim.keymap.set("n", "<leader>sb", "<cmd>Telescope buffers<cr>", { desc = "[s]earch [b]uffers" })
 
-vim.keymap.set("n", "<leader>sf", "<cmd>lua require('telescope').extensions['recent-files'].recent_files({initial_mode = 'insert'})<cr>", { desc = "[s]earch [f]iles" })
-vim.keymap.set("n", "<leader>sh", "<cmd>Telescope help_tags theme=dropdown<cr>", { desc = "[s]earch [h]elp" })
-vim.keymap.set("n", "<leader>st", "<cmd>Telescope live_grep theme=dropdown<cr>", { desc = "[s]earch by [g]rep" })
+vim.keymap.set("n", "<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "[s]earch [f]iles" })
+vim.keymap.set("n", "<leader>sh", "<cmd>Telescope help_tags<cr>", { desc = "[s]earch [h]elp" })
+vim.keymap.set("n", "<leader>st", "<cmd>Telescope live_grep<cr>", { desc = "[s]earch by [g]rep" })
 
-vim.keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches theme=dropdown<cr>", { desc = "[s]earch [b]ranchs" })
-vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits theme=dropdown<cr>", { desc = "[s]earch [c]ommit" })
-vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_bcommits theme=dropdown<cr>", { desc = "[c]check out" })
+vim.keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "[s]earch [b]ranchs" })
+vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "[s]earch [c]ommit" })
+vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_bcommits<cr>", { desc = "[c]check out" })
 vim.keymap.set("n", "<leader>gg", "<cmd>lua require('user.toggleterm').lazygit_toggle()<cr>")
 vim.keymap.set("n", "<leader>gd", "<cmd>lua require('user.telescope').compare_revision()<cr>")
 

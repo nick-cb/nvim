@@ -55,7 +55,7 @@ local servers = {
 	dartls = {},
 	hls = {},
 	eslint = {
-		filetypes = { "javascript", "javascriptreact" },
+		filetypes = { "javascript", "javascriptreact", "typescriptreact" },
 	},
 }
 

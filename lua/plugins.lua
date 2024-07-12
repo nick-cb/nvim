@@ -106,7 +106,7 @@ lazy.setup({
 			require("user.telescope").setup()
 		end,
 		lazy = true,
-		dependencies = { "nvim-lua/plenary.nvim", "mollerhoj/telescope-recent-files.nvim" },
+		dependencies = { "nvim-lua/plenary.nvim" },
 		tag = "0.1.6",
 	},
 	{
@@ -531,7 +531,16 @@ lazy.setup({
 			})
 		end,
 	},
-	{ "ctrlpvim/ctrlp.vim" },
+	{
+		dir = "~/workspaces/personal/nvim-sardaukar",
+		name = "nvim-sardaukar",
+		config = function()
+			require("nvim-sardaukar").setup({})
+			vim.keymap.set("n", "ss", function()
+				require("lazy.core.loader").load("nvim-sardaukar", { reload = "" })
+			end, { noremap = true, silent = true })
+		end,
+	},
 	-- {
 	-- 	"echasnovski/mini.files",
 	-- 	config = function()
@@ -546,4 +555,21 @@ lazy.setup({
 	--      })
 	-- 	end,
 	-- },
+	{
+		"vhyrro/luarocks.nvim",
+    config = function ()
+      require("luarocks-nvim").setup()
+    end,
+		opts = {
+			rocks = { "lua-curl", "nvim-nio", "mimetypes", "xml2lua" },
+		},
+	},
+	{
+		"rest-nvim/rest.nvim",
+		ft = "http",
+		dependencies = { "luarocks.nvim" },
+		config = function()
+			require("rest-nvim").setup({})
+		end,
+	},
 })

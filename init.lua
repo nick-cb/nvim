@@ -35,10 +35,6 @@ local links = {
   ['@lsp.typemod.variable.readonly.typescriptreact'] = 'Constant',
   ['@lsp.typemod.variable.readonly.typescript'] = 'Constant',
   ['@keyword.exception.typescript'] = 'Include',
-  ['@keyword.coroutine.javascript'] = 'Include',
-  ['@keyword.conditional.javascript'] = 'Include',
-  ['@keyword.repeat.javascript'] = 'Include',
-  ['@lsp.typemod.variable.readonly.javascript'] = 'Constant',
 }
 for newgroup, oldgroup in pairs(links) do
   vim.api.nvim_set_hl(0, newgroup, { link = oldgroup, default = true })
@@ -281,3 +277,7 @@ function get_call_expressions()
   --   sorter = conf.generic_sorter({}),
   -- }):find()
 end
+
+vim.cmd([[
+  set rtp+=/opt/homebrew/opt/fzf
+]])

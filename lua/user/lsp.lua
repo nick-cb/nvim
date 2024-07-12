@@ -50,7 +50,7 @@ local on_attach = function(client, bufnr)
 	nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
 	nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
 	nmap("<leader>wl", function()
-		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+		-- print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, "[W]orkspace [L]ist Folders")
 	nmap("gl", function()
 		float_config.scope = "line"
@@ -80,6 +80,7 @@ local on_attach = function(client, bufnr)
 	-- end
 
 	if client.name == "tsserver" then
+    -- vim.print({server_capabilities = client.server_capabilities or 'uh' })
 		client.server_capabilities.document_formatting = false
 		client.server_capabilities.document_range_formatting = false
 		-- require("nvim-navic").attach(client, bufnr)
@@ -117,12 +118,16 @@ M.setup = function()
 		vim.lsp.handlers.hover(error, result, ctx, config)
 	end, float_config)
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float_config)
-  -- vim.lsp.handlers["textDocument/inlayHint"] = vim.lsp.with(function (error, result, ctx, config)
-  --   vim.print({result = result})
-  --   local hint = vim.lsp.inlay_hint.get({ bufnr = 0 })
-  --   vim.print({hint = {}})
-  --   return hint
-  -- end, {})
+	-- vim.lsp.handlers["textDocument/documentSymbol"] = vim.lsp.with(function(error, result, ctx, config)
+ --    vim.print({result = result})
+	-- 	vim.lsp.handlers.document_symbol(error, result, ctx, config)
+	-- end, float_config)
+	-- vim.lsp.handlers["textDocument/inlayHint"] = vim.lsp.with(function (error, result, ctx, config)
+	--   vim.print({result = result})
+	--   local hint = vim.lsp.inlay_hint.get({ bufnr = 0 })
+	--   vim.print({hint = {}})
+	--   return hint
+	-- end, {})
 	-- vim.lsp.handlers["textDocument/definition"] = vim.lsp.with(function (error, result, ctx, config)
 	--   vim.print(result)
 	--   vim.lsp.handlers.definition(error, result, ctx, config)

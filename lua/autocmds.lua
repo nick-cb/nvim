@@ -37,7 +37,6 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 	pattern = "*",
 	callback = function()
 		local saved_tab = vim.fn.tabpagenr()
-		print(saved_tab)
 		vim.cmd("tabdo wincmd=")
 		vim.cmd("tabnext " .. saved_tab)
 	end,
@@ -104,3 +103,10 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 		end
 	end,
 })
+
+-- Add filetype detection based on file extension
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+    pattern = "*.http",
+    command = "set filetype=http"
+})
+

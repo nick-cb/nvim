@@ -13,7 +13,6 @@ M.compare_revision = function()
 				actions.select_default:replace(function()
 					actions.close(prompt_bufnr)
 					local selection = actions_state.get_selected_entry()
-					print(vim.inspect(prompt_bufnr))
 					vim.fn.execute("Gitsigns diffthis " .. selection.value)
 				end)
 				return true
@@ -82,6 +81,9 @@ M.setup = function()
 				"--smart-case",
 				"--hidden",
 				"--glob=!.git/",
+        "--glob=!node_modules/",
+        "--glob=!_js_libs.ejs",
+        "--glob=!statics/",
 			},
 			mappings = {
 				i = {
@@ -118,16 +120,25 @@ M.setup = function()
 		--     hidden = true,
 		--     theme = "dropdown",
 		    initial_mode = "insert",
+        find_command = {
+          "rg",
+          "--files",
+          "--hidden",
+          "--glob=!**/.git/*",
+          "--glob=!**/node_modules/*",
+          -- "--glob=!**/_js_libs/*",
+          "--glob=!**/statics/assets/*",
+        }
 		  },
-		--   live_grep = {
-		--     --@usage don't include the filename in the search results
-		--     only_sort_text = true,
-		--     initial_mode = "insert",
-		--   },
-		--   grep_string = {
-		--     only_sort_text = true,
-		--     initial_mode = "insert",
-		--   },
+		  live_grep = {
+		    --@usage don't include the filename in the search results
+		    only_sort_text = true,
+		    initial_mode = "insert",
+		  },
+		  grep_string = {
+		    only_sort_text = true,
+		    initial_mode = "insert",
+		  },
 		--   buffers = {
 		--     initial_mode = "normal",
 		--     mappings = {
@@ -147,9 +158,9 @@ M.setup = function()
 		--     hidden = true,
 		--     show_untracked = true,
 		--   },
-		--   colorscheme = {
-		--     enable_preview = true,
-		--   },
+		  colorscheme = {
+		    enable_preview = true,
+		  },
 		},
 		extensions = {
 			fzf = {
@@ -212,6 +223,8 @@ M.setup = function()
 			"%.met",
 			"smalljre_*/*",
 			".vale/",
+      "_js_libs",
+      "statics/assets/"
 		},
 	})
 
