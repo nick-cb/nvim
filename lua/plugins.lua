@@ -37,6 +37,19 @@ lazy.setup({
 		event = "User DirOpened",
 		commit = "78a9ca5ed6557f29cd0ce203df44213e54bfabb9",
 	},
+  -- {
+  --   "nvim-neo-tree/neo-tree.nvim",
+  --   branch = "v3.x",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+  --     "MunifTanjim/nui.nvim",
+  --     -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+  --   },
+  --   config = function ()
+  --     require("user.neo-tree").setup()
+  --   end
+  -- },
 	{
 		"antosha417/nvim-lsp-file-operations",
 		dependencies = {
@@ -479,14 +492,14 @@ lazy.setup({
 			},
 		},
 	},
-	{
-		"lukas-reineke/headlines.nvim",
-		after = { "nvim-treesitter" },
-		ft = { "markdown" },
-		config = function()
-			require("headlines").setup()
-		end,
-	},
+	-- {
+	-- 	"lukas-reineke/headlines.nvim",
+	-- 	after = { "nvim-treesitter" },
+	-- 	ft = { "markdown" },
+	-- 	config = function()
+	-- 		require("headlines").setup()
+	-- 	end,
+	-- },
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		config = function()
@@ -557,9 +570,9 @@ lazy.setup({
 	-- },
 	{
 		"vhyrro/luarocks.nvim",
-    config = function ()
-      require("luarocks-nvim").setup()
-    end,
+		config = function()
+			require("luarocks-nvim").setup()
+		end,
 		opts = {
 			rocks = { "lua-curl", "nvim-nio", "mimetypes", "xml2lua" },
 		},
@@ -570,6 +583,15 @@ lazy.setup({
 		dependencies = { "luarocks.nvim" },
 		config = function()
 			require("rest-nvim").setup({})
+		end,
+	},
+	{
+		"MeanderingProgrammer/markdown.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
+		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+		config = function()
+			require("render-markdown").setup({})
 		end,
 	},
 })

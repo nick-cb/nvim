@@ -69,11 +69,11 @@ local format_filters = function(client)
 end
 
 local format_file = function(bufnr)
-	local ok, comfort = pcall(require, "conform")
+	local ok, conform = pcall(require, "conform")
 	if not ok then
 		return
 	end
-	comfort.format({ bufnr })
+	conform.format()
 	-- vim.lsp.buf.format({
 	--   filter = format_filters,
 	--   bufnr = bufnr,

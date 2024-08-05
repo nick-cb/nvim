@@ -85,6 +85,14 @@ local on_attach = function(client, bufnr)
 		client.server_capabilities.document_range_formatting = false
 		-- require("nvim-navic").attach(client, bufnr)
 	end
+  -- if client.supports_method("textDocument/didOpen") then
+  --   vim.print({supports = client.supports_method("textDocument/didOpen")})
+  --   vim.lsp.handlers["textDocument/didOpen"] = function ()
+  --     vim.print("didOpen")
+  --   end
+  -- else
+  --   vim.print({supports = client.supports_method("textDocument/didOpen")})
+  -- end
 end
 
 local servers = {
@@ -118,6 +126,7 @@ M.setup = function()
 		vim.lsp.handlers.hover(error, result, ctx, config)
 	end, float_config)
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float_config)
+
 	-- vim.lsp.handlers["textDocument/documentSymbol"] = vim.lsp.with(function(error, result, ctx, config)
  --    vim.print({result = result})
 	-- 	vim.lsp.handlers.document_symbol(error, result, ctx, config)

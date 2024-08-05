@@ -173,7 +173,7 @@ end
 local ts = require('nvim-treesitter')
 local lsp = vim.lsp
 
-function get_call_expressions()
+local function get_call_expressions()
   local file = io.open("/Users/nick/workspaces/be-gateway/app.js", "r");
   if file == nil then
     return
@@ -281,3 +281,37 @@ end
 vim.cmd([[
   set rtp+=/opt/homebrew/opt/fzf
 ]])
+-- vim.api.nvim_create_autocmd('LspNotify', {
+--   callback = function(args)
+--     local bufnr = args.buf
+--     local data = args.data
+--     vim.print({bufnr, data})
+--     -- local client_id = args.data.client_id
+--     -- local method = args.data.method
+--     -- local params = args.data.params
+
+--     -- vim.print({bufnr, client_id, method, params})
+--     -- local workspaceFolder = params.workspaceFolder
+--     -- local uri = workspaceFolder.uri
+--   end,
+-- })
+
+
+-- vim.api.nvim_create_autocmd('LspRequest', {
+--   callback = function (args)
+--     local bufnr = args.bufnr
+--     local data = args.data
+--     vim.print({args})
+--     -- if args.data.request.type == 'complete' then
+--     --   vim.print({bufnr = bufnr, data = data})
+--     -- end
+--   end
+-- })
+
+-- vim.api.nvim_create_autocmd("LspTokenUpdate", {
+--   callback = function (args)
+--     local bufnr = args.bufnr
+--     local data = args.data
+--     vim.print({bufnr = bufnr, data = data})
+--   end
+-- })
