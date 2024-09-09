@@ -39,6 +39,17 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 		local saved_tab = vim.fn.tabpagenr()
 		vim.cmd("tabdo wincmd=")
 		vim.cmd("tabnext " .. saved_tab)
+
+		local dapui = require("dapui")
+
+		local buf_id = dapui.elements.repl.buffer()
+		for _, win in ipairs(vim.api.nvim_list_wins()) do
+			-- Check if the buffer in the window matches the target buffer
+			if vim.api.nvim_win_get_buf(win) == buf_id then
+        dapui.open({reset = true})
+				break
+			end
+		end
 	end,
 })
 
@@ -80,6 +91,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		"tsplayground",
 		"DressingSelect",
 		"Jaq",
+    "dap-float"
 	},
 	callback = function()
 		vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = true })
@@ -105,8 +117,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 })
 
 -- Add filetype detection based on file extension
-vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
-    pattern = "*.http",
-    command = "set filetype=http"
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+	pattern = "*.http",
+	command = "set filetype=http",
 })
-

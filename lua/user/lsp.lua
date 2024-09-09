@@ -16,7 +16,12 @@ local float_config = {
 	end,
 }
 
-local on_attach = function(client, bufnr)
+local lsp_keymap = function(event)
+	local client = vim.lsp.get_client_by_id(event.data.client_id)
+	local bufnr = event.buf
+	if not client then
+		return
+	end
 	local nmap = function(keys, func, desc)
 		if desc then
 			desc = "LSP: " .. desc
@@ -25,18 +30,16 @@ local on_attach = function(client, bufnr)
 		vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
 	end
 
-	local function preview_location_callback(_, result)
-		if result == nil or vim.tbl_isempty(result) then
-			return nil
-		end
-		vim.lsp.util.preview_location(result[1], float_config)
-	end
-
 	nmap("gd", "<cmd>Trouble lsp_definitions<cr>", "[G]oto [D]efinition")
 	nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
 	nmap("gp", function()
 		local params = vim.lsp.util.make_position_params()
-		return vim.lsp.buf_request(0, "textDocument/definition", params, preview_location_callback)
+		return vim.lsp.buf_request(0, "textDocument/definition", params, function(_, result)
+			if result == nil or vim.tbl_isempty(result) then
+				return nil
+			end
+			vim.lsp.util.preview_location(result[1], float_config)
+		end)
 	end, "[P]eek [D]efinition")
 	nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
 	nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
@@ -44,6 +47,7 @@ local on_attach = function(client, bufnr)
 	nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
 	nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+
 	nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
 	nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
@@ -56,9 +60,39 @@ local on_attach = function(client, bufnr)
 		float_config.scope = "line"
 		vim.diagnostic.open_float(0, float_config)
 	end, "Show line diagnostics")
+end
+
+local deno_on_attach = function(event)
+	local client = vim.lsp.get_client_by_id(event.data.client_id)
+	if not client then
+		return
+	end
+	if require("lspconfig").util.root_pattern("deno.json", "deno.jsonc")(vim.fn.getcwd()) then
+		if client.name == "tsserver" then
+			client.stop()
+			return
+		end
+	end
+end
+
+local tsserver_on_attach = function(event)
+	local client = vim.lsp.get_client_by_id(event.data.client_id)
+	if not client then
+		return
+	end
+	-- if client.name == "tsserver" then
+	-- 	client.server_capabilities.document_formatting = false
+	-- 	client.server_capabilities.document_range_formatting = false
+	-- end
+end
+
+local misc_on_attach = function(event)
+	local bufnr = event.buf
+
 	vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
 		vim.lsp.buf.format()
 	end, { desc = "Format current buffer with LSP" })
+
 	vim.diagnostic.config({
 		virtual_text = false,
 		signs = {
@@ -75,77 +109,114 @@ local on_attach = function(client, bufnr)
 		float = float_config,
 	})
 
-	-- if client.server_capabilities.inlayHintProvider then
-	-- 	vim.lsp.inlay_hint.enable(bufnr, true)
-	-- end
-
-	if client.name == "tsserver" then
-    -- vim.print({server_capabilities = client.server_capabilities or 'uh' })
-		client.server_capabilities.document_formatting = false
-		client.server_capabilities.document_range_formatting = false
-		-- require("nvim-navic").attach(client, bufnr)
-	end
-  -- if client.supports_method("textDocument/didOpen") then
-  --   vim.print({supports = client.supports_method("textDocument/didOpen")})
-  --   vim.lsp.handlers["textDocument/didOpen"] = function ()
-  --     vim.print("didOpen")
-  --   end
-  -- else
-  --   vim.print({supports = client.supports_method("textDocument/didOpen")})
-  -- end
+	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(function(error, result, ctx, config)
+		vim.lsp.handlers.hover(error, result, ctx, config)
+	end, float_config)
 end
 
+local on_attach = function(event)
+	lsp_keymap(event)
+	deno_on_attach(event)
+	tsserver_on_attach(event)
+	misc_on_attach(event)
+end
+
+local root_pattern = require("lspconfig").util.root_pattern
 local servers = {
-	-- clangd = {},
-	-- gopls = {},
-	-- pyright = {},
-	rust_analyzer = {},
-	tailwindcss = {},
 	tsserver = {},
-	lua_ls = {
-		Lua = {
-			workspace = { checkThirdParty = false },
-			telemetry = { enable = false },
+	rust_analyzer = {},
+	tailwindcss = {
+		root_dir = root_pattern(
+			"tailwind.config.js",
+			"tailwind.config.cjs",
+			"tailwind.config.mjs",
+			"tailwind.config.ts"
+		),
+		settings = {
+			tailwindCSS = {
+				experimental = {
+					classRegex = {
+						{ "[a-zA-Z]*ClassName='([^']+)'" },
+						{ '[a-zA-Z]*ClassName="([^"]+)"' },
+						{ "[a-zA-Z]*ClassName=`([^`]+)`" },
+						{ "[a-zA-Z]*ClassName={*([^]+)}", "'([^']*)'" },
+						{ "[a-zA-Z]*ClassName={*([^]+)}", "`([^`]*)`" },
+						{ "[a-zA-Z]*ClassName={*([^]+)}", '"([^"]*)"' },
+					},
+				},
+			},
 		},
+	},
+	lua_ls = {
+		settings = {
+			Lua = {
+				workspace = { checkThirdParty = false },
+				telemetry = { enable = false },
+			},
+		},
+	},
+	-- sourcekit = {
+	-- 	settings = {
+	-- 		cmd = "sourcekit-lsp",
+	-- 		filetypes = { "swift", "objective-c", "objective-cpp" },
+	-- 	},
+	-- },
+	clangd = {},
+	-- dartls = {},
+	-- hls = {},
+	eslint = {
+		filetypes = { "javascript", "javascriptreact", "typescriptreact" },
+	},
+	denols = {
+    root_dir = root_pattern("deno.json", "deno.jsonc")
+		-- server = {
+		--     settings = {
+		--         deno = {
+		--             enable = true,
+		--             suggest = {
+		--                 imports = {
+		--                     hosts = {
+		--                         ["https://crux.land"] = true,
+		--                         ["https://deno.land"] = true,
+		--                         ["https://x.nest.land"] = true
+		--                     }
+		--                 }
+		--             },
+		--         },
+		--     }
+		-- },
 	},
 }
 
 M.setup = function()
-	require("neodev").setup()
-
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
-	require("mason").setup()
-	local mason_lspconfig = require("mason-lspconfig")
-	mason_lspconfig.setup({
-		ensure_installed = vim.tbl_keys(servers),
+	vim.api.nvim_create_autocmd("LspAttach", {
+		group = vim.api.nvim_create_augroup("nick-personal-lsp-attach", { clear = true }),
+		callback = on_attach,
 	})
 
-	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(function(error, result, ctx, config)
-		vim.lsp.handlers.hover(error, result, ctx, config)
-	end, float_config)
-	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float_config)
+	local ensure_installed = vim.tbl_keys(servers or {})
+	vim.list_extend(ensure_installed, {
+		"stylua",
+	})
 
-	-- vim.lsp.handlers["textDocument/documentSymbol"] = vim.lsp.with(function(error, result, ctx, config)
- --    vim.print({result = result})
-	-- 	vim.lsp.handlers.document_symbol(error, result, ctx, config)
-	-- end, float_config)
-	-- vim.lsp.handlers["textDocument/inlayHint"] = vim.lsp.with(function (error, result, ctx, config)
-	--   vim.print({result = result})
-	--   local hint = vim.lsp.inlay_hint.get({ bufnr = 0 })
-	--   vim.print({hint = {}})
-	--   return hint
-	-- end, {})
-	-- vim.lsp.handlers["textDocument/definition"] = vim.lsp.with(function (error, result, ctx, config)
-	--   vim.print(result)
-	--   vim.lsp.handlers.definition(error, result, ctx, config)
-	-- end, float_config)
+	local capabilities = vim.lsp.protocol.make_client_capabilities()
+	capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-	mason_lspconfig.setup_handlers({
-		function(server_name)
-			require("user.lspconfig").setup_server(server_name, capabilities, on_attach)
-		end,
+	require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+	require("mason-lspconfig").setup({
+		handlers = {
+			function(server_name)
+				local server = servers[server_name] or {}
+				-- This handles overriding only values explicitly passed
+				-- by the server configuration above. Useful when disabling
+				-- certain features of an LSP (for example, turning off formatting for tsserver)
+				-- server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+        -- if server_name == 'lua_ls' then
+        --   vim.print(server)
+        -- end
+				require("lspconfig")[server_name].setup(server)
+			end,
+		},
 	})
 end
 

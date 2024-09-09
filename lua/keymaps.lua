@@ -211,10 +211,17 @@ vim.keymap.set("n", "<leader>sp", function()
 end, { desc = "Project Files" })
 
 vim.keymap.set("n", "<c-f>", function()
-  local previous_winid = vim.api.nvim_get_current_win()
-  local previous_bufnr = vim.api.nvim_get_current_buf()
-  vim.g.qf_previous_winid = previous_winid
-  vim.g.qf_previous_bufnr = previous_bufnr
-  vim.g.qf_previous_pos = vim.api.nvim_win_get_cursor(previous_winid)
+	local previous_winid = vim.api.nvim_get_current_win()
+	local previous_bufnr = vim.api.nvim_get_current_buf()
+	vim.g.qf_previous_winid = previous_winid
+	vim.g.qf_previous_bufnr = previous_bufnr
+	vim.g.qf_previous_pos = vim.api.nvim_win_get_cursor(previous_winid)
 	require("rgflow").open()
 end)
+
+vim.api.nvim_create_user_command("Redir", function(ctx)
+	local lines = vim.split(vim.api.nvim_exec(ctx.args, true), "\n", { plain = true })
+	vim.cmd("new")
+	vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+	vim.opt_local.modified = false
+end, { nargs = "+", complete = "command" })

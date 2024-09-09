@@ -37,19 +37,19 @@ lazy.setup({
 		event = "User DirOpened",
 		commit = "78a9ca5ed6557f29cd0ce203df44213e54bfabb9",
 	},
-  -- {
-  --   "nvim-neo-tree/neo-tree.nvim",
-  --   branch = "v3.x",
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --     "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-  --     "MunifTanjim/nui.nvim",
-  --     -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
-  --   },
-  --   config = function ()
-  --     require("user.neo-tree").setup()
-  --   end
-  -- },
+	-- {
+	--   "nvim-neo-tree/neo-tree.nvim",
+	--   branch = "v3.x",
+	--   dependencies = {
+	--     "nvim-lua/plenary.nvim",
+	--     "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+	--     "MunifTanjim/nui.nvim",
+	--     -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+	--   },
+	--   config = function ()
+	--     require("user.neo-tree").setup()
+	--   end
+	-- },
 	{
 		"antosha417/nvim-lsp-file-operations",
 		dependencies = {
@@ -96,22 +96,17 @@ lazy.setup({
 	},
 	{
 		"neovim/nvim-lspconfig",
+		dependencies = {
+			-- Automatically install LSPs and related tools to stdpath for Neovim
+			{ "williamboman/mason.nvim", config = true },
+			"williamboman/mason-lspconfig.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			{ "j-hui/fidget.nvim", opts = {} },
+			"hrsh7th/cmp-nvim-lsp",
+		},
 		config = function()
 			require("user.lsp").setup()
 		end,
-		-- lazy = true,
-		dependencies = {
-			{
-				"williamboman/mason.nvim",
-				config = true,
-				commit = "cd7835b15f5a4204fc37e0aa739347472121a54c",
-			},
-			"williamboman/mason-lspconfig.nvim",
-			{ "j-hui/fidget.nvim", opts = {}, branch = "legacy" },
-			"folke/neodev.nvim",
-		},
-		enabled = true,
-		-- commit = "d0467b9574b48429debf83f8248d8cee79562586",
 	},
 	{
 		"nvim-telescope/telescope.nvim",
@@ -307,22 +302,22 @@ lazy.setup({
 		end,
 		commit = "f1168feada93c0154ede4d1fe9183bf69bac54ea",
 	},
-	{
-		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
-		event = "InsertEnter",
-		config = function()
-			require("user.copilot").setup()
-		end,
-		enabled = true,
-	},
-	{
-		"zbirenbaum/copilot-cmp",
-		config = function()
-			require("copilot_cmp").setup()
-		end,
-		enabled = false,
-	},
+	-- {
+	-- 	"zbirenbaum/copilot.lua",
+	-- 	cmd = "Copilot",
+	-- 	event = "InsertEnter",
+	-- 	config = function()
+	-- 		require("user.copilot").setup()
+	-- 	end,
+	-- 	enabled = true,
+	-- },
+	-- {
+	-- 	"zbirenbaum/copilot-cmp",
+	-- 	config = function()
+	-- 		require("copilot_cmp").setup()
+	-- 	end,
+	-- 	enabled = false,
+	-- },
 	-- {
 	-- 	"nvim-neorg/neorg",
 	-- 	cmd = "Neorg",
@@ -370,12 +365,12 @@ lazy.setup({
 	},
 	{
 		"iamcco/markdown-preview.nvim",
-		lazy = true,
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-		ft = { "markdown" },
-		build = function()
-			vim.fn["mkdp#util#install"]()
+		build = "cd app && yarn install",
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
 		end,
+		ft = { "markdown" },
 	},
 	{
 		"HiPhish/rainbow-delimiters.nvim",
@@ -455,7 +450,7 @@ lazy.setup({
 	-- 	end,
 	-- 	dependencies = { "kkharji/sqlite.lua" },
 	-- },
-	{ "wakatime/vim-wakatime", lazy = false },
+	-- { "wakatime/vim-wakatime", lazy = false },
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -544,16 +539,16 @@ lazy.setup({
 			})
 		end,
 	},
-	{
-		dir = "~/workspaces/personal/nvim-sardaukar",
-		name = "nvim-sardaukar",
-		config = function()
-			require("nvim-sardaukar").setup({})
-			vim.keymap.set("n", "ss", function()
-				require("lazy.core.loader").load("nvim-sardaukar", { reload = "" })
-			end, { noremap = true, silent = true })
-		end,
-	},
+	-- {
+	-- 	dir = "~/workspaces/personal/nvim-sardaukar",
+	-- 	name = "nvim-sardaukar",
+	-- 	config = function()
+	-- 		require("nvim-sardaukar").setup({})
+	-- 		vim.keymap.set("n", "ss", function()
+	-- 			require("lazy.core.loader").load("nvim-sardaukar", { reload = "" })
+	-- 		end, { noremap = true, silent = true })
+	-- 	end,
+	-- },
 	-- {
 	-- 	"echasnovski/mini.files",
 	-- 	config = function()
@@ -592,6 +587,188 @@ lazy.setup({
 		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
 		config = function()
 			require("render-markdown").setup({})
+		end,
+	},
+	{ "rktjmp/lush.nvim" },
+	{
+		"microsoft/vscode-js-debug",
+		build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+	},
+	{
+		"mxsdev/nvim-dap-vscode-js",
+	},
+	{
+		"mfussenegger/nvim-dap",
+		dependencies = {
+			-- Creates a beautiful debugger UI
+			"rcarriga/nvim-dap-ui",
+
+			-- Required dependency for nvim-dap-ui
+			"nvim-neotest/nvim-nio",
+
+			-- Installs the debug adapters for you
+			"williamboman/mason.nvim",
+			"jay-babu/mason-nvim-dap.nvim",
+
+			-- Add your own debuggers here
+			"leoluz/nvim-dap-go",
+		},
+		keys = function(_, keys)
+			local dap = require("dap")
+			local dapui = require("dapui")
+			return {
+				-- Basic debugging keymaps, feel free to change to your liking!
+				{ "<F5>", dap.continue, desc = "Debug: Start/Continue" },
+				{ "<F1>", dap.step_into, desc = "Debug: Step Into" },
+				{ "<F2>", dap.step_over, desc = "Debug: Step Over" },
+				{ "<F3>", dap.step_out, desc = "Debug: Step Out" },
+				{ "<F9>", dap.toggle_breakpoint, desc = "Debug: Toggle Breakpoint" },
+				{
+					"<leader>B",
+					function()
+						dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
+					end,
+					desc = "Debug: Set Breakpoint",
+				},
+				-- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
+				{ "<F7>", dapui.toggle, desc = "Debug: See last session result." },
+				unpack(keys),
+			}
+		end,
+		config = function()
+			local dap = require("dap")
+			local dapui = require("dapui")
+
+			require("mason-nvim-dap").setup({
+				automatic_installation = true,
+				handlers = {},
+				ensure_installed = {
+					"delve",
+				},
+			})
+
+			-- Dap UI setup
+			-- For more information, see |:help nvim-dap-ui|
+			dapui.setup({
+				-- Set icons to characters that are more likely to work in every terminal.
+				--    Feel free to remove or use ones that you like more! :)
+				--    Don't feel like these are good choices.
+				icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
+				controls = {
+					icons = {
+						pause = "⏸",
+						play = "▶",
+						step_into = "⏎",
+						step_over = "⏭",
+						step_out = "⏮",
+						step_back = "b",
+						run_last = "▶▶",
+						terminate = "⏹",
+						disconnect = "⏏",
+					},
+				},
+			})
+
+			dap.listeners.after.event_initialized["dapui_config"] = function()
+				dapui.open()
+			end
+			dap.listeners.before.event_exited["dapui_config"] = function()
+				dapui.close()
+			end
+
+			-- Install golang specific config
+			require("dap-go").setup({
+				delve = {
+					-- On Windows delve must be run attached or it crashes.
+					-- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
+					detached = vim.fn.has("win32") == 0,
+				},
+			})
+
+			require("dap-vscode-js").setup({
+				-- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+				debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug", -- Path to vscode-js-debug installation.
+				-- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+				adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" }, -- which adapters to register in nvim-dap
+				-- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
+				-- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
+				-- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
+			})
+
+			require("dap.ext.vscode").load_launchjs(nil, { javascript = "js" })
+			vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+			vim.api.nvim_create_augroup("DAP_UI_RESET", { clear = true })
+
+			local bufferNames = {}
+
+			local nvimtreeApi = require("nvim-tree.api")
+			local Event = nvimtreeApi.events.Event
+			nvimtreeApi.events.subscribe(Event.TreeClose, function()
+				if dap.session() then
+					local buf_id = dapui.elements.repl.buffer()
+					for _, win in ipairs(vim.api.nvim_list_wins()) do
+						-- Check if the buffer in the window matches the target buffer
+						if vim.api.nvim_win_get_buf(win) == buf_id then
+							dapui.open({ reset = true })
+							break
+						end
+					end
+				end
+			end)
+
+			local api = vim.api
+			local keymap_restore = {}
+			dap.listeners.after["event_initialized"]["me"] = function()
+				for _, buf in pairs(api.nvim_list_bufs()) do
+					local keymaps = api.nvim_buf_get_keymap(buf, "n")
+					for _, keymap in pairs(keymaps) do
+						if keymap.lhs == "K" or keymap.lhs == "<f24>" or keymap.lhs == "<F12>" then
+							table.insert(keymap_restore, keymap)
+							api.nvim_buf_del_keymap(buf, "n", "K")
+						end
+					end
+				end
+				api.nvim_set_keymap("n", "K", '<Cmd>lua require("dap.ui.widgets").hover()<CR>', { silent = true })
+				vim.keymap.set("n", "<F12>", function()
+					dapui.toggle()
+				end)
+				--[[
+        <f24> = <S-F12>
+        When press Shift+12, the keystroke neovim receive is ^[[24;2~, which equivilent to <f24>
+        To find the keystroke and which key associate with it:
+        - Press Control+v then Shift+12 in the terminal to get the keystroke (^[[24;2~)
+        - Using "nvim -V3log" then ":q" to get terminfo
+        - Find the key associate with the keystroke
+       ]]
+				--
+				vim.keymap.set("n", "<f24>", function()
+					local i = 0
+					while dap.session() ~= nil do
+						i = i + 1
+						if i >= 50 then
+							break
+						end
+						dap.terminate()
+						dap.close()
+						dapui.close()
+					end
+				end, { silent = true })
+			end
+
+			dap.listeners.after["event_terminated"]["me"] = function()
+				for _, keymap in pairs(keymap_restore) do
+					if api.nvim_buf_is_valid(keymap.buffer) then
+						api.nvim_buf_set_keymap(
+							keymap.buffer,
+							keymap.mode,
+							keymap.lhs,
+							keymap.lhs,
+							{ silent = keymap.silent == 1 }
+						)
+					end
+				end
+				keymap_restore = {}
+			end
 		end,
 	},
 })
