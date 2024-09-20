@@ -186,6 +186,8 @@ local servers = {
 		--     }
 		-- },
 	},
+  basedpyright = {},
+  black = {}
 }
 
 M.setup = function()
