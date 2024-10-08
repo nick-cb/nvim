@@ -50,7 +50,6 @@ vim.keymap.set("n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>")
 vim.keymap.set("n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>")
 vim.keymap.set("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>")
 vim.keymap.set("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>")
-vim.keymap.set("n", "gr", "<cmd>Trouble lsp_references<cr>", { desc = "[g]oto [r]eferences" })
 
 local format_filters = function(client)
 	local filetype = vim.bo.filetype

@@ -395,7 +395,10 @@ local create_config = function()
 end
 
 function M.setup()
-  local cmp = require "cmp"
+  local ok, cmp = pcall(require,  "cmp")
+  if not ok then
+    return
+  end
   local config = create_config()
   cmp.setup(config)
 

@@ -1,6 +1,7 @@
 local M = {}
 
 M.setup = function()
+  require'nvim-web-devicons'.setup()
 	require("nvim-web-devicons").set_icon({
 		["README.md"] = {
 			icon = "齃",
@@ -89,7 +90,8 @@ M.setup = function()
     },
     xml = {
       icon = "󰗀",
-      color = "#bd805c"
+      color = "#bd805c",
+      name = "Xml"
     }
 	})
 end

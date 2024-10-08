@@ -35,7 +35,7 @@ lazy.setup({
 		end,
 		cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
 		event = "User DirOpened",
-		commit = "78a9ca5ed6557f29cd0ce203df44213e54bfabb9",
+		-- commit = "78a9ca5ed6557f29cd0ce203df44213e54bfabb9",
 	},
 	-- {
 	--   "nvim-neo-tree/neo-tree.nvim",
@@ -95,6 +95,16 @@ lazy.setup({
 		enabled = true,
 	},
 	{
+		"saghen/blink.cmp",
+		config = function()
+			require("user.blink").setup()
+		end,
+		lazy = false, -- lazy loading handled internally
+		enabled = false,
+		dependencies = "rafamadriz/friendly-snippets",
+		version = "v0.*",
+	},
+	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			-- Automatically install LSPs and related tools to stdpath for Neovim
@@ -102,7 +112,6 @@ lazy.setup({
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 			{ "j-hui/fidget.nvim", opts = {} },
-			"hrsh7th/cmp-nvim-lsp",
 		},
 		config = function()
 			require("user.lsp").setup()
@@ -300,7 +309,7 @@ lazy.setup({
 		config = function()
 			require("user.trouble").setup()
 		end,
-		commit = "f1168feada93c0154ede4d1fe9183bf69bac54ea",
+		-- commit = "f1168feada93c0154ede4d1fe9183bf69bac54ea",
 	},
 	-- {
 	-- 	"zbirenbaum/copilot.lua",
@@ -605,10 +614,12 @@ lazy.setup({
 			"williamboman/mason.nvim",
 			"jay-babu/mason-nvim-dap.nvim",
 			"leoluz/nvim-dap-go",
-      "mfussenegger/nvim-dap-python"
+			"mfussenegger/nvim-dap-python",
 		},
 		config = function()
 			require("user.dap").setup()
 		end,
 	},
+	-- { "nvchad/minty", lazy = true },
+	-- { "nvchad/volt", lazy = true },
 })

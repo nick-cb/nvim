@@ -30,7 +30,8 @@ local lsp_keymap = function(event)
 		vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
 	end
 
-	nmap("gd", "<cmd>Trouble lsp_definitions<cr>", "[G]oto [D]efinition")
+	nmap("gd", "<cmd>Trouble lsp_definitions focus=true<cr>", "[G]oto [D]efinition")
+	nmap("gr", "<cmd>Trouble lsp_references focus=true<cr>", "[g]oto [r]eferences")
 	nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
 	nmap("gp", function()
 		local params = vim.lsp.util.make_position_params()
@@ -116,14 +117,14 @@ end
 
 local on_attach = function(event)
 	lsp_keymap(event)
-	deno_on_attach(event)
-	tsserver_on_attach(event)
+	-- deno_on_attach(event)
+	-- tsserver_on_attach(event)
 	misc_on_attach(event)
 end
 
 local root_pattern = require("lspconfig").util.root_pattern
 local servers = {
-	tsserver = {},
+	ts_ls = {},
 	rust_analyzer = {},
 	tailwindcss = {
 		root_dir = root_pattern(
@@ -167,27 +168,28 @@ local servers = {
 	eslint = {
 		filetypes = { "javascript", "javascriptreact", "typescriptreact" },
 	},
-	denols = {
-    root_dir = root_pattern("deno.json", "deno.jsonc")
-		-- server = {
-		--     settings = {
-		--         deno = {
-		--             enable = true,
-		--             suggest = {
-		--                 imports = {
-		--                     hosts = {
-		--                         ["https://crux.land"] = true,
-		--                         ["https://deno.land"] = true,
-		--                         ["https://x.nest.land"] = true
-		--                     }
-		--                 }
-		--             },
-		--         },
-		--     }
-		-- },
-	},
-  basedpyright = {},
-  black = {}
+	-- denols = {
+	--    root_dir = root_pattern("deno.json", "deno.jsonc")
+	-- 	-- server = {
+	-- 	--     settings = {
+	-- 	--         deno = {
+	-- 	--             enable = true,
+	-- 	--             suggest = {
+	-- 	--                 imports = {
+	-- 	--                     hosts = {
+	-- 	--                         ["https://crux.land"] = true,
+	-- 	--                         ["https://deno.land"] = true,
+	-- 	--                         ["https://x.nest.land"] = true
+	-- 	--                     }
+	-- 	--                 }
+	-- 	--             },
+	-- 	--         },
+	-- 	--     }
+	-- 	-- },
+	-- },
+	basedpyright = {},
+	black = {},
+	gopls = {},
 }
 
 M.setup = function()
@@ -202,7 +204,10 @@ M.setup = function()
 	})
 
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+	local ok, cmp_lsp = pcall(require, "cmp_nvim_lsp")
+	if ok then
+		capabilities = vim.tbl_deep_extend("force", capabilities, cmp_lsp.default_capabilities())
+	end
 
 	require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 	require("mason-lspconfig").setup({
@@ -213,9 +218,9 @@ M.setup = function()
 				-- by the server configuration above. Useful when disabling
 				-- certain features of an LSP (for example, turning off formatting for tsserver)
 				-- server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-        -- if server_name == 'lua_ls' then
-        --   vim.print(server)
-        -- end
+				-- if server_name == 'lua_ls' then
+				--   vim.print(server)
+				-- end
 				require("lspconfig")[server_name].setup(server)
 			end,
 		},
