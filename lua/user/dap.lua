@@ -23,8 +23,8 @@ local setup_keymap = function(dap, dapui)
 			end
 			dap.terminate()
 			dap.close()
-			dapui.close()
 		end
+		dapui.close()
 	end, { silent = true })
 	vim.keymap.set("n", "<F12>", function()
 		dapui.toggle()

@@ -28,7 +28,6 @@ local config = {
 	map_bs = true,
 	---@usage map <c-w> to delete a pair if possible
 	map_c_w = false,
-  map_cr = false,
 	---@usage disable when insert after visual block mode
 	disable_in_visualblock = false,
 	---@usage  change default fast_wrap

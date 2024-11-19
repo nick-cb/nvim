@@ -620,6 +620,10 @@ lazy.setup({
 			require("user.dap").setup()
 		end,
 	},
+	{ "preservim/vim-pencil" },
+	-- {
+	-- 	"xiyaowong/transparent.nvim",
+	-- },
 	-- { "nvchad/minty", lazy = true },
 	-- { "nvchad/volt", lazy = true },
 })

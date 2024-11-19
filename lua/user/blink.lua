@@ -13,7 +13,7 @@ M.setup = function()
 		},
 		nerd_font_variant = "normal",
 		keymap = {
-			accept = { "<CR>", "<TAB>" },
+			accept = { "<TAB>" },
 		},
 		windows = {
 			autocomplete = {
