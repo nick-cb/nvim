@@ -581,14 +581,14 @@ lazy.setup({
 			rocks = { "lua-curl", "nvim-nio", "mimetypes", "xml2lua" },
 		},
 	},
-	{
-		"rest-nvim/rest.nvim",
-		ft = "http",
-		dependencies = { "luarocks.nvim" },
-		config = function()
-			require("rest-nvim").setup({})
-		end,
-	},
+	-- {
+	-- 	"rest-nvim/rest.nvim",
+	-- 	ft = "http",
+	-- 	dependencies = { "luarocks.nvim" },
+	-- 	config = function()
+	-- 		require("rest-nvim").setup({})
+	-- 	end,
+	-- },
 	{
 		"MeanderingProgrammer/markdown.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
