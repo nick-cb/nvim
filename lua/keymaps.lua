@@ -73,11 +73,6 @@ local format_file = function(bufnr)
 		return
 	end
 	conform.format()
-	-- vim.lsp.buf.format({
-	--   filter = format_filters,
-	--   bufnr = bufnr,
-	--   timeout = 30000,
-	-- })
 end
 
 vim.keymap.set("n", "<space>lf", format_file)

@@ -91,7 +91,6 @@ lazy.setup({
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
 		},
-		commit = "538e37ba87284942c1d76ed38dd497e54e65b891",
 		enabled = true,
 	},
 	{
@@ -446,6 +445,7 @@ lazy.setup({
 					html = { { "prettierd", "prettier" } },
 					css = { { "prettierd", "prettier" } },
 					svelte = { { "prettier", "prettierd" } },
+					zig = { { "zigfmt" } },
 				},
 			})
 		end,
@@ -621,6 +621,12 @@ lazy.setup({
 		end,
 	},
 	{ "preservim/vim-pencil" },
+	{
+		"ziglang/zig.vim",
+		config = function()
+			vim.cmd([[let g:zig_fmt_autosave = 0]])
+		end,
+	},
 	-- {
 	-- 	"xiyaowong/transparent.nvim",
 	-- },

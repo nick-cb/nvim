@@ -190,6 +190,7 @@ local servers = {
 	basedpyright = {},
 	black = {},
 	gopls = {},
+	zls = {},
 }
 
 M.setup = function()

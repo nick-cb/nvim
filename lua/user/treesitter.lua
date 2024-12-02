@@ -6,7 +6,7 @@ local config = {
   ignore_install = {},
   parser_install_dir = nil,
   sync_install = false,
-  auto_install = true,
+  auto_install = false,
   matchup = {
     enable = false,
   },
