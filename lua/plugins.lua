@@ -93,16 +93,16 @@ lazy.setup({
 		},
 		enabled = true,
 	},
-	{
-		"saghen/blink.cmp",
-		config = function()
-			require("user.blink").setup()
-		end,
-		lazy = false, -- lazy loading handled internally
-		enabled = false,
-		dependencies = "rafamadriz/friendly-snippets",
-		version = "v0.*",
-	},
+	-- {
+	-- 	"saghen/blink.cmp",
+	-- 	config = function()
+	-- 		require("user.blink").setup()
+	-- 	end,
+	--    version = '*',
+	-- 	lazy = false, -- lazy loading handled internally
+	-- 	enabled = true,
+	-- 	dependencies = "rafamadriz/friendly-snippets",
+	-- },
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
