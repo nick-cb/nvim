@@ -590,15 +590,56 @@ lazy.setup({
 	-- 	end,
 	-- },
 	{
-		"MeanderingProgrammer/markdown.nvim",
+		"MeanderingProgrammer/render-markdown.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
 		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
 		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-		config = function()
-			require("render-markdown").setup({})
-		end,
+		opts = {
+			-- latex = { enabled = false },
+			-- win_options = { conceallevel = { rendered = 1 } },
+			-- on = {
+			-- 	attach = function()
+			-- 		require("nabla").enable_virt({ autogen = true })
+			-- 	end,
+			-- },
+		},
+		ft = { "markdown" },
 	},
+	-- { "jbyuki/nabla.nvim" },
+	-- {
+	-- 	"ryleelyman/latex.nvim",
+	-- 	config = function()
+	-- 		require("latex").setup()
+	-- 	end,
+	-- },
 	{ "rktjmp/lush.nvim" },
+	{
+		"3rd/image.nvim",
+		opts = {
+			backend = "kitty",
+			integrations = {
+				markdown = {
+					enabled = true,
+					clear_in_insert_mode = false,
+					download_remote_images = false,
+					only_render_image_at_cursor = false,
+					filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+				},
+				neorg = {
+					enabled = true,
+					clear_in_insert_mode = false,
+					download_remote_images = false,
+					only_render_image_at_cursor = true,
+					filetypes = { "norg" },
+				},
+			},
+			max_width = nil,
+			max_height = nil,
+			max_width_window_percentage = nil,
+			max_height_window_percentage = 50,
+			kitty_method = "normal",
+		},
+	},
 	{
 		"microsoft/vscode-js-debug",
 		build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
