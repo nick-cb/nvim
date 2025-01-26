@@ -21,6 +21,11 @@ vim.keymap.set("i", "?", "?<c-g>u")
 vim.keymap.set("i", ";", ";<c-g>u")
 vim.keymap.set("i", "<space>", "<space><c-g>u")
 
+vim.keymap.set("i", "<C-l>", "<Right>")
+vim.keymap.set("i", "<C-h>", "<Left>")
+vim.keymap.set("i", "<C-k>", "<Up>")
+vim.keymap.set("i", "<C-j>", "<Down>")
+
 vim.keymap.set("n", "<c-h>", "<c-w>h")
 vim.keymap.set("n", "<c-j>", "<c-w>j")
 vim.keymap.set("n", "<c-k>", "<c-w>k")

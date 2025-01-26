@@ -414,7 +414,7 @@ lazy.setup({
 		"LunarVim/bigfile.nvim",
 		config = function()
 			require("bigfile").setup({
-				filesize = 2, -- size of the file in MiB, the plugin round file sizes to the closest MiB
+				filesize = 0.4, -- size of the file in MiB, the plugin round file sizes to the closest MiB
 				pattern = { "*" }, -- autocmd pattern or function see <### Overriding the detection of big files>
 				features = { -- features to disable
 					"indent_blankline",
@@ -589,20 +589,32 @@ lazy.setup({
 	-- 		require("rest-nvim").setup({})
 	-- 	end,
 	-- },
+	-- {
+	-- 	"MeanderingProgrammer/render-markdown.nvim",
+	-- 	dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
+	-- 	-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+	-- 	-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+	-- 	opts = {
+	-- 		-- latex = { enabled = false },
+	-- 		-- win_options = { conceallevel = { rendered = 1 } },
+	-- 		-- on = {
+	-- 		-- 	attach = function()
+	-- 		-- 		require("nabla").enable_virt({ autogen = true })
+	-- 		-- 	end,
+	-- 		-- },
+	-- 	},
+	-- 	ft = { "markdown" },
+	-- },
 	{
-		"MeanderingProgrammer/render-markdown.nvim",
-		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
-		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-		opts = {
-			-- latex = { enabled = false },
-			-- win_options = { conceallevel = { rendered = 1 } },
-			-- on = {
-			-- 	attach = function()
-			-- 		require("nabla").enable_virt({ autogen = true })
-			-- 	end,
-			-- },
-		},
+		"OXY2DEV/markview.nvim",
+		config = function()
+      local presets = require("markview.presets");
+			require("markview").setup({
+				markdown = {
+					headings = presets.headings.glow,
+				},
+			})
+		end,
 		ft = { "markdown" },
 	},
 	-- { "jbyuki/nabla.nvim" },
@@ -622,7 +634,7 @@ lazy.setup({
 					enabled = true,
 					clear_in_insert_mode = false,
 					download_remote_images = false,
-					only_render_image_at_cursor = false,
+					only_render_image_at_cursor = true,
 					filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
 				},
 				neorg = {
