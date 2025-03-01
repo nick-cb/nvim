@@ -50,7 +50,6 @@ local setup_keymap = function(dap, dapui)
 	end
 
 	dap.listeners.after["event_terminated"]["me"] = function()
-		vim.print("terminated")
 		for _, buf in pairs(vim.api.nvim_list_bufs()) do
 			pcall(vim.keymap.del, "n", "K")
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = buf, desc = "Hover Documentation" })
@@ -117,7 +116,7 @@ local setup_dap = function(dap, dapui)
 
 	require("dap-python").setup()
 
-	require("dap.ext.vscode").load_launchjs(nil, { javascript = "js", typescriptreact = "tsx", typescript = "ts" })
+	require("dap.ext.vscode").load_launchjs(nil, { javascript = "js" })
 	vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
 	vim.api.nvim_create_augroup("DAP_UI_RESET", { clear = true })
 
