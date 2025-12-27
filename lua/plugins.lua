@@ -21,25 +21,6 @@ lazy.setup({
 	{
 		"nick-cb/darkplus.nvim",
 	},
-	-- {
-	-- 	"kyazdani42/nvim-tree.lua",
-	-- 	config = function()
-	-- 		require("user.nvim-tree").setup()
-	-- 	end,
-	-- 	cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
-	-- 	event = "User DirOpened",
-	-- 	-- commit = "78a9ca5ed6557f29cd0ce203df44213e54bfabb9",
-	-- },
-	-- {
-	-- 	"antosha417/nvim-lsp-file-operations",
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"nvim-tree/nvim-tree.lua",
-	-- 	},
-	-- 	config = function()
-	-- 		require("lsp-file-operations").setup()
-	-- 	end,
-	-- },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		config = function()
@@ -96,23 +77,6 @@ lazy.setup({
 			require("user.lsp").setup()
 		end,
 	},
-	-- {
-	-- 	"nvim-telescope/telescope.nvim",
-	-- 	config = function()
-	-- 		require("user.telescope").setup()
-	-- 	end,
-	-- 	lazy = true,
-	-- 	dependencies = { "nvim-lua/plenary.nvim" },
-	-- 	tag = "0.1.6",
-	-- },
-	-- {
-	-- 	"nvim-telescope/telescope-fzf-native.nvim",
-	-- 	build = "make",
-	-- 	lazy = true,
-	-- 	cond = function()
-	-- 		return vim.fn.executable("make") == 1
-	-- 	end,
-	-- },
 	{
 		"akinsho/toggleterm.nvim",
 		branch = "main",
@@ -283,67 +247,6 @@ lazy.setup({
 		end,
 		-- commit = "f1168feada93c0154ede4d1fe9183bf69bac54ea",
 	},
-	-- {
-	-- 	"zbirenbaum/copilot.lua",
-	-- 	cmd = "Copilot",
-	-- 	event = "InsertEnter",
-	-- 	config = function()
-	-- 		require("user.copilot").setup()
-	-- 	end,
-	-- 	enabled = true,
-	-- },
-	-- {
-	-- 	"zbirenbaum/copilot-cmp",
-	-- 	config = function()
-	-- 		require("copilot_cmp").setup()
-	-- 	end,
-	-- 	enabled = false,
-	-- },
-	-- {
-	-- 	"nvim-neorg/neorg",
-	-- 	cmd = "Neorg",
-	-- 	build = ":Neorg sync-parsers",
-	-- 	dependencies = { "nvim-lua/plenary.nvim" },
-	-- 	lazy = true,
-	-- 	config = function()
-	-- 		require("neorg").setup({
-	-- 			load = {
-	-- 				["core.defaults"] = {}, -- Loads default behaviour
-	-- 				["core.concealer"] = {}, -- Adds pretty icons to your documents
-	-- 				["core.dirman"] = { -- Manages Neorg workspaces
-	-- 					config = {
-	-- 						workspaces = {
-	-- 							notes = "~/workspaces/notes",
-	-- 							work = "~/workspaces/works",
-	-- 							tailwind = "~/workspaces/dev/tailwind",
-	-- 						},
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
-	-- {
-	-- 	"kawre/leetcode.nvim",
-	-- 	build = ":TSUpdate html",
-	-- 	dependencies = {
-	-- 		"nvim-treesitter/nvim-treesitter",
-	-- 		"nvim-telescope/telescope.nvim",
-	-- 		"nvim-lua/plenary.nvim", -- required by telescope
-	-- 		"MunifTanjim/nui.nvim",
-
-	-- 		-- optional
-	-- 		"rcarriga/nvim-notify",
-	-- 		"nvim-tree/nvim-web-devicons",
-	-- 	},
-	-- 	lazy = true,
-	-- 	opts = {
-	-- 		lang = "javascript",
-	-- 		console = {
-	-- 			open_on_runcode = true,
-	-- 		},
-	-- 	},
-	-- },
 	{
 		"iamcco/markdown-preview.nvim",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
@@ -374,15 +277,6 @@ lazy.setup({
 			})
 		end,
 	},
-	-- {
-	-- 	"stevearc/oil.nvim",
-	-- 	opts = {},
-	-- 	-- Optional dependencies
-	-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
-	-- 	config = function()
-	-- 		require("user.oil").setup()
-	-- 	end,
-	-- },
 	{
 		"LunarVim/bigfile.nvim",
 		config = function()
@@ -424,16 +318,6 @@ lazy.setup({
 			})
 		end,
 	},
-	-- {
-	-- 	"prochri/telescope-all-recent.nvim",
-	-- 	config = function()
-	-- 		require("telescope-all-recent").setup({
-	-- 			-- your config goes here
-	-- 		})
-	-- 	end,
-	-- 	dependencies = { "kkharji/sqlite.lua" },
-	-- },
-	-- { "wakatime/vim-wakatime", lazy = false },
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -471,14 +355,6 @@ lazy.setup({
 			},
 		},
 	},
-	-- {
-	-- 	"lukas-reineke/headlines.nvim",
-	-- 	after = { "nvim-treesitter" },
-	-- 	ft = { "markdown" },
-	-- 	config = function()
-	-- 		require("headlines").setup()
-	-- 	end,
-	-- },
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		config = function()
@@ -523,63 +399,6 @@ lazy.setup({
 			})
 		end,
 	},
-	-- {
-	-- 	dir = "~/workspaces/personal/nvim-sardaukar",
-	-- 	name = "nvim-sardaukar",
-	-- 	config = function()
-	-- 		require("nvim-sardaukar").setup({})
-	-- 		vim.keymap.set("n", "ss", function()
-	-- 			require("lazy.core.loader").load("nvim-sardaukar", { reload = "" })
-	-- 		end, { noremap = true, silent = true })
-	-- 	end,
-	-- },
-	-- {
-	-- 	"echasnovski/mini.files",
-	-- 	config = function()
-	-- 		require("mini.files").setup({
-	--        options = {
-	--          permanent_delete = false,
-	--        },
-	--        windows = {
-	--          preview = true,
-	--          width_preview = 50
-	--        }
-	--      })
-	-- 	end,
-	-- },
-	-- {
-	-- 	"vhyrro/luarocks.nvim",
-	-- 	config = function()
-	-- 		require("luarocks-nvim").setup()
-	-- 	end,
-	-- 	opts = {
-	-- 		rocks = { "lua-curl", "nvim-nio", "mimetypes", "xml2lua" },
-	-- 	},
-	-- },
-	-- {
-	-- 	"rest-nvim/rest.nvim",
-	-- 	ft = "http",
-	-- 	dependencies = { "luarocks.nvim" },
-	-- 	config = function()
-	-- 		require("rest-nvim").setup({})
-	-- 	end,
-	-- },
-	-- {
-	-- 	"MeanderingProgrammer/render-markdown.nvim",
-	-- 	dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
-	-- 	-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-	-- 	-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-	-- 	opts = {
-	-- 		-- latex = { enabled = false },
-	-- 		-- win_options = { conceallevel = { rendered = 1 } },
-	-- 		-- on = {
-	-- 		-- 	attach = function()
-	-- 		-- 		require("nabla").enable_virt({ autogen = true })
-	-- 		-- 	end,
-	-- 		-- },
-	-- 	},
-	-- 	ft = { "markdown" },
-	-- },
 	{
 		"OXY2DEV/markview.nvim",
 		config = function()
@@ -596,44 +415,6 @@ lazy.setup({
 		end,
 		ft = { "markdown" },
 	},
-	-- { "jbyuki/nabla.nvim" },
-	-- {
-	-- 	"ryleelyman/latex.nvim",
-	-- 	config = function()
-	-- 		require("latex").setup()
-	-- 	end,
-	-- },
-	-- {
-	-- 	"3rd/image.nvim",
-	-- 	opts = {
-	-- 		backend = "kitty",
-	-- 		integrations = {
-	-- 			markdown = {
-	-- 				enabled = true,
-	-- 				clear_in_insert_mode = false,
-	-- 				download_remote_images = false,
-	-- 				only_render_image_at_cursor = false,
-	-- 				filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
-	-- 			},
-	-- 			neorg = {
-	-- 				enabled = true,
-	-- 				clear_in_insert_mode = false,
-	-- 				download_remote_images = false,
-	-- 				only_render_image_at_cursor = true,
-	-- 				filetypes = { "norg" },
-	-- 			},
-	-- 		},
-	-- 		max_width = nil,
-	-- 		max_height = nil,
-	-- 		max_width_window_percentage = nil,
-	-- 		max_height_window_percentage = 50,
-	-- 		kitty_method = "normal",
-	-- 	},
-	-- },
-	-- {
-	-- 	"microsoft/vscode-js-debug",
-	-- 	build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
-	-- },
 	{
 		"mxsdev/nvim-dap-vscode-js",
 	},
@@ -765,24 +546,4 @@ lazy.setup({
 			},
 		},
 	},
-	-- {
-	-- 	"dmtrKovalenko/fff.nvim",
-	-- 	build = "cargo build --release",
-	-- 	-- or if you are using nixos
-	-- 	-- build = "nix run .#release",
-	-- 	opts = {
-	-- 		-- pass here all the options
-	-- 	},
-	-- 	keys = {
-	-- 		{
-	-- 			"<space>ff", -- try it if you didn't it is a banger keybinding for a picker
-	-- 			function()
-	-- 				require("fff").find_files() -- or find_in_git_root() if you only want git files
-	-- 			end,
-	-- 			desc = "Open file picker",
-	-- 		},
-	-- 	},
-	-- },
-	-- { "nvchad/minty", lazy = true },
-	-- { "nvchad/volt", lazy = true },
 })
