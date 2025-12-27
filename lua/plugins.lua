@@ -21,15 +21,15 @@ lazy.setup({
 	{
 		"nick-cb/darkplus.nvim",
 	},
-	{
-		"kyazdani42/nvim-tree.lua",
-		config = function()
-			require("user.nvim-tree").setup()
-		end,
-		cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
-		event = "User DirOpened",
-		-- commit = "78a9ca5ed6557f29cd0ce203df44213e54bfabb9",
-	},
+	-- {
+	-- 	"kyazdani42/nvim-tree.lua",
+	-- 	config = function()
+	-- 		require("user.nvim-tree").setup()
+	-- 	end,
+	-- 	cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
+	-- 	event = "User DirOpened",
+	-- 	-- commit = "78a9ca5ed6557f29cd0ce203df44213e54bfabb9",
+	-- },
 	{
 		"antosha417/nvim-lsp-file-operations",
 		dependencies = {
@@ -96,23 +96,23 @@ lazy.setup({
 			require("user.lsp").setup()
 		end,
 	},
-	{
-		"nvim-telescope/telescope.nvim",
-		config = function()
-			require("user.telescope").setup()
-		end,
-		lazy = true,
-		dependencies = { "nvim-lua/plenary.nvim" },
-		tag = "0.1.6",
-	},
-	{
-		"nvim-telescope/telescope-fzf-native.nvim",
-		build = "make",
-		lazy = true,
-		cond = function()
-			return vim.fn.executable("make") == 1
-		end,
-	},
+	-- {
+	-- 	"nvim-telescope/telescope.nvim",
+	-- 	config = function()
+	-- 		require("user.telescope").setup()
+	-- 	end,
+	-- 	lazy = true,
+	-- 	dependencies = { "nvim-lua/plenary.nvim" },
+	-- 	tag = "0.1.6",
+	-- },
+	-- {
+	-- 	"nvim-telescope/telescope-fzf-native.nvim",
+	-- 	build = "make",
+	-- 	lazy = true,
+	-- 	cond = function()
+	-- 		return vim.fn.executable("make") == 1
+	-- 	end,
+	-- },
 	{
 		"akinsho/toggleterm.nvim",
 		branch = "main",
@@ -195,13 +195,6 @@ lazy.setup({
 		end,
 	},
 	{ "tpope/vim-repeat" },
-	{
-		"nick-cb/symbols-outline.nvim",
-		config = function()
-			require("user.symbol-outline").config()
-		end,
-		cmd = "SymbolOutlineToggle",
-	},
 	{ "tpope/vim-fugitive" },
 	{ "rickhowe/diffchar.vim" },
 	{
@@ -330,27 +323,27 @@ lazy.setup({
 	-- 		})
 	-- 	end,
 	-- },
-	{
-		"kawre/leetcode.nvim",
-		build = ":TSUpdate html",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-telescope/telescope.nvim",
-			"nvim-lua/plenary.nvim", -- required by telescope
-			"MunifTanjim/nui.nvim",
+	-- {
+	-- 	"kawre/leetcode.nvim",
+	-- 	build = ":TSUpdate html",
+	-- 	dependencies = {
+	-- 		"nvim-treesitter/nvim-treesitter",
+	-- 		"nvim-telescope/telescope.nvim",
+	-- 		"nvim-lua/plenary.nvim", -- required by telescope
+	-- 		"MunifTanjim/nui.nvim",
 
-			-- optional
-			"rcarriga/nvim-notify",
-			"nvim-tree/nvim-web-devicons",
-		},
-		lazy = true,
-		opts = {
-			lang = "javascript",
-			console = {
-				open_on_runcode = true,
-			},
-		},
-	},
+	-- 		-- optional
+	-- 		"rcarriga/nvim-notify",
+	-- 		"nvim-tree/nvim-web-devicons",
+	-- 	},
+	-- 	lazy = true,
+	-- 	opts = {
+	-- 		lang = "javascript",
+	-- 		console = {
+	-- 			open_on_runcode = true,
+	-- 		},
+	-- 	},
+	-- },
 	{
 		"iamcco/markdown-preview.nvim",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
@@ -426,7 +419,7 @@ lazy.setup({
 					css = { "prettierd", "prettier" },
 					svelte = { "prettier", "prettierd" },
 					zig = { "zigfmt" },
-          rust = { "rustfmt" },
+					rust = { "rustfmt" },
 				},
 			})
 		end,
@@ -554,15 +547,15 @@ lazy.setup({
 	--      })
 	-- 	end,
 	-- },
-	{
-		"vhyrro/luarocks.nvim",
-		config = function()
-			require("luarocks-nvim").setup()
-		end,
-		opts = {
-			rocks = { "lua-curl", "nvim-nio", "mimetypes", "xml2lua" },
-		},
-	},
+	-- {
+	-- 	"vhyrro/luarocks.nvim",
+	-- 	config = function()
+	-- 		require("luarocks-nvim").setup()
+	-- 	end,
+	-- 	opts = {
+	-- 		rocks = { "lua-curl", "nvim-nio", "mimetypes", "xml2lua" },
+	-- 	},
+	-- },
 	-- {
 	-- 	"rest-nvim/rest.nvim",
 	-- 	ft = "http",
@@ -610,7 +603,6 @@ lazy.setup({
 	-- 		require("latex").setup()
 	-- 	end,
 	-- },
-	{ "rktjmp/lush.nvim" },
 	-- {
 	-- 	"3rd/image.nvim",
 	-- 	opts = {
@@ -669,25 +661,85 @@ lazy.setup({
 	{ "mustache/vim-mustache-handlebars", ft = { "mustache", "handlebars", "hbs", "html", "html.mustache" } },
 	{
 		"dmtrKovalenko/fff.nvim",
-		build = "cargo build --release",
-		-- or if you are using nixos
-		-- build = "nix run .#release",
+		build = function()
+			require("fff.download").download_or_build_binary()
+		end,
 		opts = {
-			-- pass here all the options
+			debug = {
+				enabled = true,
+				show_scores = true,
+			},
+			layout = {
+				height = 0.9,
+				width = 0.9,
+				prompt_position = "top",
+				preview_position = "right",
+				preview_size = 0.6,
+				show_scrollbar = true,
+			},
+			keymaps = {
+				close = "<c-q>",
+			},
 		},
+		lazy = false,
 		keys = {
 			{
-				"<space>ff", -- try it if you didn't it is a banger keybinding for a picker
+				"<space>sf",
 				function()
-					require("fff").find_files() -- or find_in_git_root() if you only want git files
+					require("fff").find_files()
+
+					vim.schedule(function()
+						local input_buf = require("fff.picker_ui").state.input_buf
+						if input_buf then
+							vim.keymap.set("n", "j", require("fff.picker_ui").move_down, { buffer = input_buf })
+							vim.keymap.set("n", "k", require("fff.picker_ui").move_up, { buffer = input_buf })
+							vim.keymap.set("n", "<Esc>", require("fff.picker_ui").close, { buffer = input_buf })
+							vim.keymap.set(
+								"n",
+								"<C-u>",
+								require("fff.picker_ui").scroll_preview_up,
+								{ buffer = input_buf }
+							)
+							vim.keymap.set(
+								"n",
+								"<C-u>",
+								require("fff.picker_ui").scroll_preview_up,
+								{ buffer = input_buf }
+							)
+							vim.keymap.set("n", "<C-s>", function()
+								require("fff.picker_ui").select("split")
+							end, { buffer = input_buf })
+							vim.keymap.set("n", "<C-v>", function()
+								require("fff.picker_ui").select("vsplit")
+							end, { buffer = input_buf })
+							vim.keymap.set("n", "<CR>", function()
+								require("fff.picker_ui").select()
+							end, { buffer = input_buf })
+						end
+					end)
 				end,
-				desc = "Open file picker",
+				desc = "FFFind files",
 			},
 		},
 	},
-	{
-		"xiyaowong/transparent.nvim",
-	},
+	-- {
+	-- 	"dmtrKovalenko/fff.nvim",
+	-- 	build = "cargo build --release",
+	-- 	-- or if you are using nixos
+	-- 	-- build = "nix run .#release",
+	-- 	opts = {
+	-- 		-- pass here all the options
+	-- 	},
+	-- 	keys = {
+	-- 		{
+	-- 			"<space>ff", -- try it if you didn't it is a banger keybinding for a picker
+	-- 			function()
+	-- 				require("fff").find_files() -- or find_in_git_root() if you only want git files
+	-- 			end,
+	-- 			desc = "Open file picker",
+	-- 		},
+	-- 	},
+	-- },
 	-- { "nvchad/minty", lazy = true },
 	-- { "nvchad/volt", lazy = true },
 })

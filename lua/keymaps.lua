@@ -82,17 +82,17 @@ end
 
 vim.keymap.set("n", "<space>lf", format_file)
 
-vim.keymap.set("n", "<leader>sb", "<cmd>Telescope buffers<cr>", { desc = "[s]earch [b]uffers" })
+-- vim.keymap.set("n", "<leader>sb", "<cmd>Telescope buffers<cr>", { desc = "[s]earch [b]uffers" })
 
-vim.keymap.set("n", "<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "[s]earch [f]iles" })
-vim.keymap.set("n", "<leader>sh", "<cmd>Telescope help_tags<cr>", { desc = "[s]earch [h]elp" })
-vim.keymap.set("n", "<leader>st", "<cmd>Telescope live_grep<cr>", { desc = "[s]earch by [g]rep" })
+-- vim.keymap.set("n", "<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "[s]earch [f]iles" })
+-- vim.keymap.set("n", "<leader>sh", "<cmd>Telescope help_tags<cr>", { desc = "[s]earch [h]elp" })
+-- vim.keymap.set("n", "<leader>st", "<cmd>Telescope live_grep<cr>", { desc = "[s]earch by [g]rep" })
 
-vim.keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "[s]earch [b]ranchs" })
-vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "[s]earch [c]ommit" })
-vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_bcommits<cr>", { desc = "[c]check out" })
+-- vim.keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "[s]earch [b]ranchs" })
+-- vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "[s]earch [c]ommit" })
+-- vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_bcommits<cr>", { desc = "[c]check out" })
 vim.keymap.set("n", "<leader>gg", "<cmd>lua require('user.toggleterm').lazygit_toggle()<cr>")
-vim.keymap.set("n", "<leader>gd", "<cmd>lua require('user.telescope').compare_revision()<cr>")
+-- vim.keymap.set("n", "<leader>gd", "<cmd>lua require('user.telescope').compare_revision()<cr>")
 
 vim.keymap.set("n", "<leader>bl", "<cmd>BufferLineCloseRight<cr>", { desc = "close all to the left" })
 vim.keymap.set("n", "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", { desc = "close all to the left" })
@@ -162,52 +162,52 @@ local function fileExists(filename)
 	end
 end
 
-vim.keymap.set("n", "<leader>sp", function()
-	local ok_builtin, builtin = pcall(require, "telescope.builtin")
-	local ok_actions, actions = pcall(require, "telescope.actions")
-	local ok_state, actions_state = pcall(require, "telescope.actions.state")
+-- vim.keymap.set("n", "<leader>sp", function()
+-- 	local ok_builtin, builtin = pcall(require, "telescope.builtin")
+-- 	local ok_actions, actions = pcall(require, "telescope.actions")
+-- 	local ok_state, actions_state = pcall(require, "telescope.actions.state")
 
-	if not ok_builtin or not ok_actions or not ok_state then
-		return
-	end
+-- 	if not ok_builtin or not ok_actions or not ok_state then
+-- 		return
+-- 	end
 
-	builtin.colorscheme({
-		attach_mappings = function(prompt_bufnr)
-			actions.select_default:replace(function()
-				local selection = actions_state.get_selected_entry()
-				if selection == nil then
-					return
-				end
+-- 	builtin.colorscheme({
+-- 		attach_mappings = function(prompt_bufnr)
+-- 			actions.select_default:replace(function()
+-- 				local selection = actions_state.get_selected_entry()
+-- 				if selection == nil then
+-- 					return
+-- 				end
 
-				actions.close(prompt_bufnr)
-				vim.cmd.colorscheme(selection.value)
-				local wezterm_path = "~/.config/wezterm/wezterm.lua"
-				local wezterm_theme_path = "/Users/nick/.config/wezterm/themes/"
+-- 				actions.close(prompt_bufnr)
+-- 				vim.cmd.colorscheme(selection.value)
+-- 				local wezterm_path = "~/.config/wezterm/wezterm.lua"
+-- 				local wezterm_theme_path = "/Users/nick/.config/wezterm/themes/"
 
-				local theme = selection.value
-				if theme == "melange" then
-					if vim.opt.background:get() == "dark" then
-						theme = "melange-dark"
-					else
-						theme = "melange-light"
-					end
-				end
+-- 				local theme = selection.value
+-- 				if theme == "melange" then
+-- 					if vim.opt.background:get() == "dark" then
+-- 						theme = "melange-dark"
+-- 					else
+-- 						theme = "melange-light"
+-- 					end
+-- 				end
 
-				if not fileExists(wezterm_theme_path .. theme .. ".lua") then
-					return
-				end
-				os.execute(
-					[[sed -i '' 's/\(local theme = require("themes.\)[^"]*\(\"\)/\1]]
-						.. theme
-						.. [[\2/' ]]
-						.. wezterm_path
-				)
-			end)
+-- 				if not fileExists(wezterm_theme_path .. theme .. ".lua") then
+-- 					return
+-- 				end
+-- 				os.execute(
+-- 					[[sed -i '' 's/\(local theme = require("themes.\)[^"]*\(\"\)/\1]]
+-- 						.. theme
+-- 						.. [[\2/' ]]
+-- 						.. wezterm_path
+-- 				)
+-- 			end)
 
-			return true
-		end,
-	})
-end, { desc = "Project Files" })
+-- 			return true
+-- 		end,
+-- 	})
+-- end, { desc = "Project Files" })
 
 vim.keymap.set("n", "<c-f>", function()
 	local previous_winid = vim.api.nvim_get_current_win()
