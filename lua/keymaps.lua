@@ -7,10 +7,6 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
--- vim.keymap.set("n", "<C-s>", ":SymbolsOutline<cr>")
--- vim.keymap.set("n", "<s-l>", ":BufferLineCycleNext<cr>")
--- vim.keymap.set("n", "<s-h>", ":BufferLineCyclePrev<cr>")
-
 vim.keymap.set("n", "vv", "V")
 vim.keymap.set("n", "V", "v$")
 
@@ -85,17 +81,9 @@ end
 
 vim.keymap.set("n", "<space>lf", format_file)
 
--- vim.keymap.set("n", "<leader>sb", "<cmd>Telescope buffers<cr>", { desc = "[s]earch [b]uffers" })
-
--- vim.keymap.set("n", "<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "[s]earch [f]iles" })
--- vim.keymap.set("n", "<leader>sh", "<cmd>Telescope help_tags<cr>", { desc = "[s]earch [h]elp" })
 vim.keymap.set("n", "<leader>st", "<cmd>FzfLua live_grep<cr>", { desc = "[s]earch by [g]rep" })
 
--- vim.keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "[s]earch [b]ranchs" })
--- vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "[s]earch [c]ommit" })
--- vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_bcommits<cr>", { desc = "[c]check out" })
 vim.keymap.set("n", "<leader>gg", "<cmd>lua require('user.toggleterm').lazygit_toggle()<cr>")
--- vim.keymap.set("n", "<leader>gd", "<cmd>lua require('user.telescope').compare_revision()<cr>")
 
 vim.keymap.set("n", "<leader>bl", "<cmd>BufferLineCloseRight<cr>", { desc = "close all to the left" })
 vim.keymap.set("n", "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", { desc = "close all to the left" })
@@ -122,95 +110,6 @@ vim.keymap.set("n", "<leader>gr", "<cmd>lua require 'gitsigns'.reset_hunk()<cr>"
 vim.keymap.set("n", "<leader>gR", "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", { desc = "Reset Buffer" })
 vim.keymap.set("n", "<leader>gs", "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", { desc = "Stage Hunk" })
 vim.keymap.set("n", "<leader>gu", "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", { desc = "Undo Stage Hunk" })
-
--- local harpoon = require("harpoon")
--- vim.keymap.set("n", "<leader>a", function()
---   harpoon:list():append()
--- end)
--- vim.keymap.set("n", "<leader>ll", function()
---   harpoon.ui:toggle_quick_menu(harpoon:list())
--- end)
-
--- vim.keymap.set("n", "<leader>ha", function()
---   harpoon:list():select(1)
--- end)
--- vim.keymap.set("n", "<leader>hs", function()
---   harpoon:list():select(2)
--- end)
--- vim.keymap.set("n", "<leader>hd", function()
---   harpoon:list():select(3)
--- end)
--- vim.keymap.set("n", "<leader>hf", function()
---   harpoon:list():select(4)
--- end)
-local function executeCommand(command)
-	local handle = io.popen(command)
-	local result = handle:read("*a")
-	local success, reason, status = handle:close()
-
-	return {
-		output = result,
-		success = success,
-		exit_status = status,
-		exit_reason = reason,
-	}
-end
-
-local function fileExists(filename)
-	local cmd = [[if [ -f "]] .. filename .. [[" ]; then echo 0; fi]]
-	if executeCommand(cmd).output and executeCommand(cmd).output:gsub("^%s+", ""):gsub("%s+$", "") == "0" then
-		return true
-	else
-		return false
-	end
-end
-
--- vim.keymap.set("n", "<leader>sp", function()
--- 	local ok_builtin, builtin = pcall(require, "telescope.builtin")
--- 	local ok_actions, actions = pcall(require, "telescope.actions")
--- 	local ok_state, actions_state = pcall(require, "telescope.actions.state")
-
--- 	if not ok_builtin or not ok_actions or not ok_state then
--- 		return
--- 	end
-
--- 	builtin.colorscheme({
--- 		attach_mappings = function(prompt_bufnr)
--- 			actions.select_default:replace(function()
--- 				local selection = actions_state.get_selected_entry()
--- 				if selection == nil then
--- 					return
--- 				end
-
--- 				actions.close(prompt_bufnr)
--- 				vim.cmd.colorscheme(selection.value)
--- 				local wezterm_path = "~/.config/wezterm/wezterm.lua"
--- 				local wezterm_theme_path = "/Users/nick/.config/wezterm/themes/"
-
--- 				local theme = selection.value
--- 				if theme == "melange" then
--- 					if vim.opt.background:get() == "dark" then
--- 						theme = "melange-dark"
--- 					else
--- 						theme = "melange-light"
--- 					end
--- 				end
-
--- 				if not fileExists(wezterm_theme_path .. theme .. ".lua") then
--- 					return
--- 				end
--- 				os.execute(
--- 					[[sed -i '' 's/\(local theme = require("themes.\)[^"]*\(\"\)/\1]]
--- 						.. theme
--- 						.. [[\2/' ]]
--- 						.. wezterm_path
--- 				)
--- 			end)
-
--- 			return true
--- 		end,
--- 	})
--- end, { desc = "Project Files" })
 
 vim.keymap.set("n", "<c-f>", function()
 	local previous_winid = vim.api.nvim_get_current_win()
