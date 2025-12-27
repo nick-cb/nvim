@@ -86,7 +86,7 @@ vim.keymap.set("n", "<space>lf", format_file)
 
 -- vim.keymap.set("n", "<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "[s]earch [f]iles" })
 -- vim.keymap.set("n", "<leader>sh", "<cmd>Telescope help_tags<cr>", { desc = "[s]earch [h]elp" })
--- vim.keymap.set("n", "<leader>st", "<cmd>Telescope live_grep<cr>", { desc = "[s]earch by [g]rep" })
+vim.keymap.set("n", "<leader>st", "<cmd>FzfLua live_grep<cr>", { desc = "[s]earch by [g]rep" })
 
 -- vim.keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "[s]earch [b]ranchs" })
 -- vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "[s]earch [c]ommit" })

@@ -30,16 +30,16 @@ lazy.setup({
 	-- 	event = "User DirOpened",
 	-- 	-- commit = "78a9ca5ed6557f29cd0ce203df44213e54bfabb9",
 	-- },
-	{
-		"antosha417/nvim-lsp-file-operations",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-tree.lua",
-		},
-		config = function()
-			require("lsp-file-operations").setup()
-		end,
-	},
+	-- {
+	-- 	"antosha417/nvim-lsp-file-operations",
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"nvim-tree/nvim-tree.lua",
+	-- 	},
+	-- 	config = function()
+	-- 		require("lsp-file-operations").setup()
+	-- 	end,
+	-- },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		config = function()
@@ -719,6 +719,20 @@ lazy.setup({
 					end)
 				end,
 				desc = "FFFind files",
+			},
+		},
+	},
+	{
+		"ibhagwan/fzf-lua",
+		-- optional for icon support
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+    lazy = false,
+		opts = {
+			keymap = {
+				builtin = {
+					["<C-d>"] = "preview-page-down", -- or "preview-half-page-down"
+					["<C-u>"] = "preview-page-up", -- or "preview-half-page-up"
+				},
 			},
 		},
 	},
