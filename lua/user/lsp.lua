@@ -166,7 +166,7 @@ local servers = {
 	-- dartls = {},
 	-- hls = {},
 	eslint = {
-		filetypes = { "javascript", "javascriptreact", "typescriptreact" },
+		filetypes = { "javascript", "javascriptreact", "typescriptreact", "typescript" },
 	},
 	-- denols = {
 	--    root_dir = root_pattern("deno.json", "deno.jsonc")

@@ -327,3 +327,15 @@ vim.cmd([[
 --     vim.print({bufnr = bufnr, data = data})
 --   end
 -- })
+vim.g.clipboard = {
+  name = 'macOS-bridge',
+  copy = {
+    ['+'] = {'sh','-c','launchctl asuser "$(stat -f%u /dev/console)" /usr/bin/pbcopy'},
+    ['*'] = {'sh','-c','launchctl asuser "$(stat -f%u /dev/console)" /usr/bin/pbcopy'},
+  },
+  paste = {
+    ['+'] = {'sh','-c','launchctl asuser "$(stat -f%u /dev/console)" /usr/bin/pbpaste'},
+    ['*'] = {'sh','-c','launchctl asuser "$(stat -f%u /dev/console)" /usr/bin/pbpaste'},
+  },
+}
+vim.opt.clipboard = 'unnamedplus'

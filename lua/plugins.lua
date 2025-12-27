@@ -437,15 +437,16 @@ lazy.setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
 					python = { "isort", "black" },
-					javascript = { { "prettier" } },
-					javascriptreact = { { "prettier" } },
-					typescript = { { "prettier" } },
-					typescriptreact = { { "prettier" } },
+					javascript = { "prettier" },
+					javascriptreact = { "prettier" },
+					typescript = { "prettier" },
+					typescriptreact = { "prettier" },
 					go = { "gofmt" },
-					html = { { "prettierd", "prettier" } },
-					css = { { "prettierd", "prettier" } },
-					svelte = { { "prettier", "prettierd" } },
-					zig = { { "zigfmt" } },
+					html = { "prettierd", "prettier" },
+					css = { "prettierd", "prettier" },
+					svelte = { "prettier", "prettierd" },
+					zig = { "zigfmt" },
+          rust = { "rustfmt" },
 				},
 			})
 		end,
@@ -608,10 +609,14 @@ lazy.setup({
 	{
 		"OXY2DEV/markview.nvim",
 		config = function()
-      local presets = require("markview.presets");
+			local presets = require("markview.presets")
 			require("markview").setup({
 				markdown = {
 					headings = presets.headings.glow,
+					list_items = {
+						shift_width = 1,
+						indent_size = 1,
+					},
 				},
 			})
 		end,
@@ -625,37 +630,37 @@ lazy.setup({
 	-- 	end,
 	-- },
 	{ "rktjmp/lush.nvim" },
-	{
-		"3rd/image.nvim",
-		opts = {
-			backend = "kitty",
-			integrations = {
-				markdown = {
-					enabled = true,
-					clear_in_insert_mode = false,
-					download_remote_images = false,
-					only_render_image_at_cursor = false,
-					filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
-				},
-				neorg = {
-					enabled = true,
-					clear_in_insert_mode = false,
-					download_remote_images = false,
-					only_render_image_at_cursor = true,
-					filetypes = { "norg" },
-				},
-			},
-			max_width = nil,
-			max_height = nil,
-			max_width_window_percentage = nil,
-			max_height_window_percentage = 50,
-			kitty_method = "normal",
-		},
-	},
-	{
-		"microsoft/vscode-js-debug",
-		build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
-	},
+	-- {
+	-- 	"3rd/image.nvim",
+	-- 	opts = {
+	-- 		backend = "kitty",
+	-- 		integrations = {
+	-- 			markdown = {
+	-- 				enabled = true,
+	-- 				clear_in_insert_mode = false,
+	-- 				download_remote_images = false,
+	-- 				only_render_image_at_cursor = false,
+	-- 				filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+	-- 			},
+	-- 			neorg = {
+	-- 				enabled = true,
+	-- 				clear_in_insert_mode = false,
+	-- 				download_remote_images = false,
+	-- 				only_render_image_at_cursor = true,
+	-- 				filetypes = { "norg" },
+	-- 			},
+	-- 		},
+	-- 		max_width = nil,
+	-- 		max_height = nil,
+	-- 		max_width_window_percentage = nil,
+	-- 		max_height_window_percentage = 50,
+	-- 		kitty_method = "normal",
+	-- 	},
+	-- },
+	-- {
+	-- 	"microsoft/vscode-js-debug",
+	-- 	build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+	-- },
 	{
 		"mxsdev/nvim-dap-vscode-js",
 	},
@@ -680,9 +685,28 @@ lazy.setup({
 			vim.cmd([[let g:zig_fmt_autosave = 0]])
 		end,
 	},
-	-- {
-	-- 	"xiyaowong/transparent.nvim",
-	-- },
+	{ "mustache/vim-mustache-handlebars", ft = { "mustache", "handlebars", "hbs", "html", "html.mustache" } },
+	{
+		"dmtrKovalenko/fff.nvim",
+		build = "cargo build --release",
+		-- or if you are using nixos
+		-- build = "nix run .#release",
+		opts = {
+			-- pass here all the options
+		},
+		keys = {
+			{
+				"<space>ff", -- try it if you didn't it is a banger keybinding for a picker
+				function()
+					require("fff").find_files() -- or find_in_git_root() if you only want git files
+				end,
+				desc = "Open file picker",
+			},
+		},
+	},
+	{
+		"xiyaowong/transparent.nvim",
+	},
 	-- { "nvchad/minty", lazy = true },
 	-- { "nvchad/volt", lazy = true },
 })
