@@ -63,32 +63,6 @@ local lsp_keymap = function(event)
 	end, "Show line diagnostics")
 end
 
-local deno_on_attach = function(event)
-	local client = vim.lsp.get_client_by_id(event.data.client_id)
-	if not client then
-		return
-	end
-	-- Check if deno.json exists in the project root
-	local deno_config = vim.fn.findfile("deno.json", ".;") or vim.fn.findfile("deno.jsonc", ".;")
-	if deno_config ~= "" then
-		if client.name == "ts_ls" then
-			client.stop()
-			return
-		end
-	end
-end
-
-local tsserver_on_attach = function(event)
-	local client = vim.lsp.get_client_by_id(event.data.client_id)
-	if not client then
-		return
-	end
-	-- if client.name == "tsserver" then
-	-- 	client.server_capabilities.document_formatting = false
-	-- 	client.server_capabilities.document_range_formatting = false
-	-- end
-end
-
 local misc_on_attach = function(event)
 	local bufnr = event.buf
 
@@ -119,8 +93,6 @@ end
 
 local on_attach = function(event)
 	lsp_keymap(event)
-	-- deno_on_attach(event)
-	-- tsserver_on_attach(event)
 	misc_on_attach(event)
 end
 
@@ -155,37 +127,10 @@ local servers = {
 			},
 		},
 	},
-	-- sourcekit = {
-	-- 	settings = {
-	-- 		cmd = "sourcekit-lsp",
-	-- 		filetypes = { "swift", "objective-c", "objective-cpp" },
-	-- 	},
-	-- },
 	clangd = {},
-	-- dartls = {},
-	-- hls = {},
 	eslint = {
 		filetypes = { "javascript", "javascriptreact", "typescriptreact", "typescript" },
 	},
-	-- denols = {
-	--    root_dir = vim.fs.find({ "deno.json", "deno.jsonc" }, { upward = true })[1],
-	-- 	-- server = {
-	-- 	--     settings = {
-	-- 	--         deno = {
-	-- 	--             enable = true,
-	-- 	--             suggest = {
-	-- 	--                 imports = {
-	-- 	--                     hosts = {
-	-- 	--                         ["https://crux.land"] = true,
-	-- 	--                         ["https://deno.land"] = true,
-	-- 	--                         ["https://x.nest.land"] = true
-	-- 	--                     }
-	-- 	--                 }
-	-- 	--             },
-	-- 	--         },
-	-- 	--     }
-	-- 	-- },
-	-- },
 	basedpyright = {},
 	black = {},
 	gopls = {},
@@ -214,13 +159,6 @@ M.setup = function()
 		handlers = {
 			function(server_name)
 				local server_config = servers[server_name] or {}
-				-- This handles overriding only values explicitly passed
-				-- by the server configuration above. Useful when disabling
-				-- certain features of an LSP (for example, turning off formatting for tsserver)
-				-- server_config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server_config.capabilities or {})
-				-- if server_name == 'lua_ls' then
-				--   vim.print(server_config)
-				-- end
 				server_config.capabilities = capabilities
 				vim.lsp.config(server_name, server_config)
 				vim.lsp.enable(server_name)
