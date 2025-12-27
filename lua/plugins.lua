@@ -726,12 +726,41 @@ lazy.setup({
 		"ibhagwan/fzf-lua",
 		-- optional for icon support
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-    lazy = false,
+		lazy = false,
 		opts = {
 			keymap = {
 				builtin = {
 					["<C-d>"] = "preview-page-down", -- or "preview-half-page-down"
 					["<C-u>"] = "preview-page-up", -- or "preview-half-page-up"
+				},
+			},
+		},
+	},
+	{
+		"A7Lavinraj/fyler.nvim",
+		dependencies = { "nvim-mini/mini.icons" },
+		branch = "stable", -- Use stable branch for production
+		lazy = false, -- Necessary for `default_explorer` to work properly
+		opts = {
+			views = {
+				finder = {
+					close_on_select = false,
+					mappings = {
+						["<c-l>"] = "Select",
+						["<c-h>"] = "CollapseNode",
+						["<c-v>"] = "SelectVSplit",
+						["<c-x>"] = "SelectSplit",
+					},
+					win = {
+						kinds = {
+							split_left = {
+								width = "15%",
+							},
+							split_left_most = {
+								width = "15%",
+							},
+						},
+					},
 				},
 			},
 		},

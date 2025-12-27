@@ -130,18 +130,18 @@ local setup_dap = function(dap, dapui)
 	vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
 	vim.api.nvim_create_augroup("DAP_UI_RESET", { clear = true })
 
-	local nvimtreeApi = require("nvim-tree.api")
-	local Event = nvimtreeApi.events.Event
-	nvimtreeApi.events.subscribe(Event.TreeClose, function()
-		local buf_id = dapui.elements.repl.buffer()
-		for _, win in ipairs(vim.api.nvim_list_wins()) do
-			-- Check if the buffer in the window matches the target buffer
-			if vim.api.nvim_win_get_buf(win) == buf_id then
-				dapui.open({ reset = true })
-				break
-			end
-		end
-	end)
+	-- local nvimtreeApi = require("nvim-tree.api")
+	-- local Event = nvimtreeApi.events.Event
+	-- nvimtreeApi.events.subscribe(Event.TreeClose, function()
+	-- 	local buf_id = dapui.elements.repl.buffer()
+	-- 	for _, win in ipairs(vim.api.nvim_list_wins()) do
+	-- 		-- Check if the buffer in the window matches the target buffer
+	-- 		if vim.api.nvim_win_get_buf(win) == buf_id then
+	-- 			dapui.open({ reset = true })
+	-- 			break
+	-- 		end
+	-- 	end
+	-- end)
 end
 
 M.setup = function()

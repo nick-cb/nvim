@@ -27,11 +27,11 @@ vim.keymap.set("i", "<C-k>", "<Up>")
 vim.keymap.set("i", "<C-j>", "<Down>")
 
 vim.keymap.set("n", "<c-h>", "<c-w>h")
-vim.keymap.set("n", "<c-j>", "<c-w>j")
+-- vim.keymap.set("n", "<c-j>", "<c-w>j")
 vim.keymap.set("n", "<c-k>", "<c-w>k")
 vim.keymap.set("n", "<c-l>", "<c-w>l")
 
-vim.keymap.set("n", "<c-j>", "<c-w><c-w>")
+-- vim.keymap.set("n", "<c-j>", "<c-w><c-w>")
 vim.keymap.set("n", "<c-k>", "<c-w><s-w>")
 
 vim.keymap.set("c", "<c-j>", 'pumvisible() ? "\\<c-n>" : "\\<c-j>"', { expr = true, noremap = true })
@@ -50,7 +50,10 @@ vim.keymap.set("t", "<c-k>", "<c-\\><c-n><c-w>k")
 vim.keymap.set("t", "<c-l>", "<c-\\><c-n><c-w>l")
 
 -- lsp
-vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<cr>")
+vim.keymap.set("n", "<leader>e", function()
+	local fyler = require("fyler")
+	fyler.toggle({ kind = "split_left_most" })
+end)
 vim.keymap.set("n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>")
 vim.keymap.set("n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>")
 vim.keymap.set("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>")
@@ -224,3 +227,15 @@ vim.api.nvim_create_user_command("Redir", function(ctx)
 	vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
 	vim.opt_local.modified = false
 end, { nargs = "+", complete = "command" })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = "*",
+	callback = function(args)
+		local bufname = vim.api.nvim_buf_get_name(args.buf)
+		if bufname:match("^fyler://") then
+			-- Set buffer-local keymaps here
+			vim.keymap.set("n", "<c-j>", "j", { buffer = args.buf })
+			vim.keymap.set("n", "<c-k>", "k", { buffer = args.buf })
+		end
+	end,
+})
