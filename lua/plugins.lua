@@ -22,13 +22,6 @@ lazy.setup({
 		"nick-cb/darkplus.nvim",
 	},
 	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-	},
-	{
-		"nick-cb/melange-nvim",
-	},
-	{
 		"kyazdani42/nvim-tree.lua",
 		config = function()
 			require("user.nvim-tree").setup()
@@ -37,19 +30,6 @@ lazy.setup({
 		event = "User DirOpened",
 		-- commit = "78a9ca5ed6557f29cd0ce203df44213e54bfabb9",
 	},
-	-- {
-	--   "nvim-neo-tree/neo-tree.nvim",
-	--   branch = "v3.x",
-	--   dependencies = {
-	--     "nvim-lua/plenary.nvim",
-	--     "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-	--     "MunifTanjim/nui.nvim",
-	--     -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
-	--   },
-	--   config = function ()
-	--     require("user.neo-tree").setup()
-	--   end
-	-- },
 	{
 		"antosha417/nvim-lsp-file-operations",
 		dependencies = {
@@ -485,6 +465,7 @@ lazy.setup({
 	},
 	{
 		"luckasRanarison/tailwind-tools.nvim",
+		enabled = false, -- Disabled due to deprecation warning with Neovim 0.11.5
 		opts = {
 			document_color = {
 				kind = "background",

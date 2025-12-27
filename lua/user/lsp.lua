@@ -68,8 +68,10 @@ local deno_on_attach = function(event)
 	if not client then
 		return
 	end
-	if require("lspconfig").util.root_pattern("deno.json", "deno.jsonc")(vim.fn.getcwd()) then
-		if client.name == "tsserver" then
+	-- Check if deno.json exists in the project root
+	local deno_config = vim.fn.findfile("deno.json", ".;") or vim.fn.findfile("deno.jsonc", ".;")
+	if deno_config ~= "" then
+		if client.name == "ts_ls" then
 			client.stop()
 			return
 		end
@@ -122,17 +124,14 @@ local on_attach = function(event)
 	misc_on_attach(event)
 end
 
-local root_pattern = require("lspconfig").util.root_pattern
 local servers = {
 	ts_ls = {},
 	rust_analyzer = {},
 	tailwindcss = {
-		root_dir = root_pattern(
-			"tailwind.config.js",
-			"tailwind.config.cjs",
-			"tailwind.config.mjs",
-			"tailwind.config.ts"
-		),
+		root_dir = vim.fs.find(
+			{ "tailwind.config.js", "tailwind.config.cjs", "tailwind.config.mjs", "tailwind.config.ts" },
+			{ upward = true }
+		)[1],
 		settings = {
 			tailwindCSS = {
 				experimental = {
@@ -169,7 +168,7 @@ local servers = {
 		filetypes = { "javascript", "javascriptreact", "typescriptreact", "typescript" },
 	},
 	-- denols = {
-	--    root_dir = root_pattern("deno.json", "deno.jsonc")
+	--    root_dir = vim.fs.find({ "deno.json", "deno.jsonc" }, { upward = true })[1],
 	-- 	-- server = {
 	-- 	--     settings = {
 	-- 	--         deno = {
@@ -214,15 +213,17 @@ M.setup = function()
 	require("mason-lspconfig").setup({
 		handlers = {
 			function(server_name)
-				local server = servers[server_name] or {}
+				local server_config = servers[server_name] or {}
 				-- This handles overriding only values explicitly passed
 				-- by the server configuration above. Useful when disabling
 				-- certain features of an LSP (for example, turning off formatting for tsserver)
-				-- server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+				-- server_config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server_config.capabilities or {})
 				-- if server_name == 'lua_ls' then
-				--   vim.print(server)
+				--   vim.print(server_config)
 				-- end
-				require("lspconfig")[server_name].setup(server)
+				server_config.capabilities = capabilities
+				vim.lsp.config(server_name, server_config)
+				vim.lsp.enable(server_name)
 			end,
 		},
 	})
