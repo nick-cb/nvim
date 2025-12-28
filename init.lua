@@ -18,6 +18,7 @@ require("lazy").setup({
 		{ import = "plugins" },
 		{ import = "plugins.ui" },
 		{ import = "plugins.completion.cmp" },
+    { import = "plugins.lang" },
 		{ import = "plugins.editor.find" },
 		{ import = "plugins.editor.comment" },
 		{ import = "plugins.editor.motion" },
