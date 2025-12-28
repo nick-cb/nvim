@@ -20,6 +20,10 @@ return {
 			keymaps = {
 				close = "<c-q>",
 			},
+      hl = {
+        directory_path = "Variable",
+        normal = "Type",
+      }
 		},
 		lazy = false,
 		keys = {
@@ -34,27 +38,11 @@ return {
 							vim.keymap.set("n", "j", require("fff.picker_ui").move_down, { buffer = input_buf })
 							vim.keymap.set("n", "k", require("fff.picker_ui").move_up, { buffer = input_buf })
 							vim.keymap.set("n", "<Esc>", require("fff.picker_ui").close, { buffer = input_buf })
-							vim.keymap.set(
-								"n",
-								"<C-u>",
-								require("fff.picker_ui").scroll_preview_up,
-								{ buffer = input_buf }
-							)
-							vim.keymap.set(
-								"n",
-								"<C-u>",
-								require("fff.picker_ui").scroll_preview_up,
-								{ buffer = input_buf }
-							)
-							vim.keymap.set("n", "<C-s>", function()
-								require("fff.picker_ui").select("split")
-							end, { buffer = input_buf })
-							vim.keymap.set("n", "<C-v>", function()
-								require("fff.picker_ui").select("vsplit")
-							end, { buffer = input_buf })
-							vim.keymap.set("n", "<CR>", function()
-								require("fff.picker_ui").select()
-							end, { buffer = input_buf })
+							vim.keymap.set( "n", "<C-u>", require("fff.picker_ui").scroll_preview_up, { buffer = input_buf })
+							vim.keymap.set( "n", "<C-u>", require("fff.picker_ui").scroll_preview_up, { buffer = input_buf })
+							vim.keymap.set("n", "<C-s>", function() require("fff.picker_ui").select("split") end, { buffer = input_buf })
+              vim.keymap.set("n", "<C-v>", function() require("fff.picker_ui").select("vsplit") end, { buffer = input_buf })
+							vim.keymap.set("n", "<CR>", function() require("fff.picker_ui").select() end, { buffer = input_buf })
 						end
 					end)
 				end,
@@ -69,11 +57,26 @@ return {
 		opts = {
 			keymap = {
 				builtin = {
+          true,
 					["<C-d>"] = "preview-page-down",
 					["<C-u>"] = "preview-page-up",
 				},
+        fzf = {
+          true,
+					["ctrl-d"] = "preview-page-down",
+					["ctrl-u"] = "preview-page-up",
+        }
 			},
+      winopts = {
+        height = 0.9,
+        width = 0.9,
+        backdrop = 100,
+        border = "single"
+      }
 		},
+    keys = {
+      { "<leader>gd", "<cmd>FzfLua git_bcommits<cr>" }
+    }
 	},
 	{
 		"nick-cb/rgflow.nvim",
@@ -130,7 +133,7 @@ return {
 		opts = {
 			scope = "git_branch",
 			icons = true,
-			quick_select = "12345",
+			quick_select = "123456789",
 		},
 		keys = {
 			{ "<space>;", "<cmd>Grapple toggle_tags<cr>", desc = "Toggle tags menu" },
