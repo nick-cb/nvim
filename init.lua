@@ -17,7 +17,7 @@ require("lazy").setup({
 	spec = {
 		{ import = "plugins" },
 		{ import = "plugins.ui" },
-		{ import = "plugins.completion.cmp" },
+		{ import = "plugins.completion.blink" },
     { import = "plugins.lang" },
 		{ import = "plugins.editor.find" },
 		{ import = "plugins.editor.comment" },

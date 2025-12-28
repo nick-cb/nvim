@@ -1,7 +1,6 @@
 local float_config = {
   focusable = true,
   style = "minimal",
-  border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
   source = "always",
   header = "",
   prefix = "",

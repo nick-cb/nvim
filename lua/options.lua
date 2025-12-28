@@ -52,6 +52,7 @@ local custom_options = function()
 		laststatus = 3,
 		linespace = 4,
     background = 'dark',
+    winborder = 'single',
 		-- title = false
 	}
 	for k, v in pairs(custom_options) do
