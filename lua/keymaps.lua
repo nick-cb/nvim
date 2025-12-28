@@ -46,10 +46,7 @@ vim.keymap.set("t", "<c-k>", "<c-\\><c-n><c-w>k")
 vim.keymap.set("t", "<c-l>", "<c-\\><c-n><c-w>l")
 
 -- lsp
-vim.keymap.set("n", "<leader>e", function()
-	local fyler = require("fyler")
-	fyler.toggle({ kind = "split_left_most" })
-end)
+vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<cr>")
 vim.keymap.set("n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>")
 vim.keymap.set("n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>")
 vim.keymap.set("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>")
