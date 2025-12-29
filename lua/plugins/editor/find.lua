@@ -114,7 +114,7 @@ return {
 				finder = {
 					close_on_select = false,
 					mappings = {
-						["<c-l>"] = "Select",
+						["za"] = "Select",
 						["<c-h>"] = "CollapseNode",
 						["<c-v>"] = "SelectVSplit",
 						["<c-x>"] = "SelectSplit",
@@ -132,6 +132,12 @@ return {
 				},
 			},
 		},
+    keys = {
+      "<leader>e", function ()
+        local fyler = require("fyler")
+        fyler.toggle({ kind = "split_left_most" })
+      end
+    },
     enabled = false,
 	},
 	{
@@ -175,6 +181,7 @@ return {
   },
   {
 		"kyazdani42/nvim-tree.lua",
+    enabled = true,
     opts = {
       on_attach = function (bufnr)
         local api = require('nvim-tree.api')
@@ -321,6 +328,9 @@ return {
       system_open = {
         cmd = nil,
       },
+    },
+    keys = {
+      { "<leader>e",  ":NvimTreeToggle<cr>" }
     },
 		cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
 		event = "User DirOpened",
