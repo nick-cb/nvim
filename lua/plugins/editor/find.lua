@@ -83,7 +83,8 @@ return {
       }
 		},
     keys = {
-      { "<leader>gd", "<cmd>FzfLua git_bcommits<cr>" }
+      { "<leader>gd", "<cmd>FzfLua git_bcommits<cr>" },
+      { "<leader>st",  "<cmd>FzfLua live_grep<cr>" },
     }
 	},
 	{
@@ -109,6 +110,19 @@ return {
 		dependencies = { "nvim-mini/mini.icons" },
 		branch = "stable",
 		lazy = false,
+    init = function ()
+      vim.api.nvim_create_autocmd("BufEnter", {
+        pattern = "*",
+        callback = function(args)
+          local bufname = vim.api.nvim_buf_get_name(args.buf)
+          if bufname:match("^fyler://") then
+            -- Set buffer-local keymaps here
+            vim.keymap.set("n", "<c-j>", "j", { buffer = args.buf })
+            vim.keymap.set("n", "<c-k>", "k", { buffer = args.buf })
+          end
+        end,
+      })
+    end,
 		opts = {
 			views = {
 				finder = {

@@ -52,6 +52,16 @@ return {
       },
       yadm = { enable = false },
     },
+    keys = {
+      { "<leader>gj", 	"<cmd>lua require 'gitsigns'.next_hunk({navigation_message = false})<cr>" },
+      { "<leader>gk", 	"<cmd>lua require 'gitsigns'.prev_hunk({navigation_message = false})<cr>" },
+      { "<leader>gl", "<cmd>lua require 'gitsigns'.blame_line()<cr>" },
+      { "<leader>gp", "<cmd>lua require 'gitsigns'.preview_hunk()<cr>" },
+      { "<leader>gr", "<cmd>lua require 'gitsigns'.reset_hunk()<cr>" },
+      { "<leader>gR", "<cmd>lua require 'gitsigns'.reset_buffer()<cr>" },
+      { "<leader>gs", "<cmd>lua require 'gitsigns'.stage_hunk()<cr>" },
+      { "<leader>gu", "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>" }
+    },
 		event = "User FileOpened",
 		cmd = "Gitsigns",
 	},

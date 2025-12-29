@@ -150,7 +150,11 @@ return {
       { "gd", "<cmd>Trouble lsp_references focus=true win.position=bottom pinned=true<cr>" },
       { "gd", "<cmd>Trouble lsp_implementations focus=true win.position=bottom pinned=true<cr>" },
       { "K", vim.lsp.buf.hover },
-      { "gl", function () vim.diagnostic.open_float(0, float_config) end }
+      { "gl", function () vim.diagnostic.open_float(0, float_config) end },
+      { "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>" },
+      { "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>" },
+      { "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>" },
+      { "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>" },
     }
 	},
 }

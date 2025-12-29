@@ -45,42 +45,6 @@ vim.keymap.set("t", "<c-j>", "<c-\\><c-n><c-w>j")
 vim.keymap.set("t", "<c-k>", "<c-\\><c-n><c-w>k")
 vim.keymap.set("t", "<c-l>", "<c-\\><c-n><c-w>l")
 
--- lsp
-vim.keymap.set("n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>")
-vim.keymap.set("n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>")
-vim.keymap.set("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>")
-vim.keymap.set("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>")
-
-local format_filters = function(client)
-	local filetype = vim.bo.filetype
-	local n = require("null-ls")
-	local s = require("null-ls.sources")
-	local method = n.methods.formatting
-	local available_formatters = s.get_available(filetype, method)
-
-	if #available_formatters > 0 then
-		return client.name == "null-ls"
-	elseif client.supports_method("textdocument/formatting") then
-		return true
-	else
-		return false
-	end
-end
-
-local format_file = function(bufnr)
-	local ok, conform = pcall(require, "conform")
-	if not ok then
-		return
-	end
-	conform.format()
-end
-
-vim.keymap.set("n", "<space>lf", format_file)
-
-vim.keymap.set("n", "<leader>st", "<cmd>FzfLua live_grep<cr>", { desc = "[s]earch by [g]rep" })
-
-vim.keymap.set("n", "<leader>gg", "<cmd>lua require('user.toggleterm').lazygit_toggle()<cr>")
-
 vim.keymap.set("n", "<leader>bl", "<cmd>BufferLineCloseRight<cr>", { desc = "close all to the left" })
 vim.keymap.set("n", "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", { desc = "close all to the left" })
 vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "delete current buffer" })
@@ -88,49 +52,9 @@ vim.keymap.set("n", "<leader>bD", "<cmd>:BufferLinePickClose<CR>", { desc = "pic
 
 -- vim.keymap.set("n", "<leader><TAB>", "<cmd>lua require('telescope-tabs').list_tabs()<cr>", { desc = "list tabs" })
 
-vim.keymap.set(
-	"n",
-	"<leader>gj",
-	"<cmd>lua require 'gitsigns'.next_hunk({navigation_message = false})<cr>",
-	{ desc = "Next Hunk" }
-)
-vim.keymap.set(
-	"n",
-	"<leader>gk",
-	"<cmd>lua require 'gitsigns'.prev_hunk({navigation_message = false})<cr>",
-	{ desc = "Prev Hunk" }
-)
-vim.keymap.set("n", "<leader>gl", "<cmd>lua require 'gitsigns'.blame_line()<cr>", { desc = "Blame" })
-vim.keymap.set("n", "<leader>gp", "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", { desc = "Preview Hunk" })
-vim.keymap.set("n", "<leader>gr", "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", { desc = "Reset Hunk" })
-vim.keymap.set("n", "<leader>gR", "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", { desc = "Reset Buffer" })
-vim.keymap.set("n", "<leader>gs", "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", { desc = "Stage Hunk" })
-vim.keymap.set("n", "<leader>gu", "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", { desc = "Undo Stage Hunk" })
-
-vim.keymap.set("n", "<c-f>", function()
-	local previous_winid = vim.api.nvim_get_current_win()
-	local previous_bufnr = vim.api.nvim_get_current_buf()
-	vim.g.qf_previous_winid = previous_winid
-	vim.g.qf_previous_bufnr = previous_bufnr
-	vim.g.qf_previous_pos = vim.api.nvim_win_get_cursor(previous_winid)
-	require("rgflow").open()
-end)
-
-vim.api.nvim_create_user_command("Redir", function(ctx)
-	local lines = vim.split(vim.api.nvim_exec(ctx.args, true), "\n", { plain = true })
-	vim.cmd("new")
-	vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
-	vim.opt_local.modified = false
-end, { nargs = "+", complete = "command" })
-
-vim.api.nvim_create_autocmd("BufEnter", {
-	pattern = "*",
-	callback = function(args)
-		local bufname = vim.api.nvim_buf_get_name(args.buf)
-		if bufname:match("^fyler://") then
-			-- Set buffer-local keymaps here
-			vim.keymap.set("n", "<c-j>", "j", { buffer = args.buf })
-			vim.keymap.set("n", "<c-k>", "k", { buffer = args.buf })
-		end
-	end,
-})
+-- vim.api.nvim_create_user_command("Redir", function(ctx)
+-- 	local lines = vim.split(vim.api.nvim_exec(ctx.args, true), "\n", { plain = true })
+-- 	vim.cmd("new")
+-- 	vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+-- 	vim.opt_local.modified = false
+-- end, { nargs = "+", complete = "command" })

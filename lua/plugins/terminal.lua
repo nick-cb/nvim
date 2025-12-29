@@ -77,6 +77,5 @@ return {
         lazygit:toggle()
       end }
     }
-		-- keys = [[<c-t>]],
 	},
 }

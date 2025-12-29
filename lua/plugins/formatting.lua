@@ -17,10 +17,8 @@ return {
 				rust = { "rustfmt" },
 			},
 		},
-		config = function()
-			require("conform").formatters.stylua = {
-        args = { "" }
-      }
-		end,
+    keys = {
+      { "<leader>lf", function () require("conform").format() end }
+    }
 	},
 }
