@@ -11,28 +11,6 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
-	pattern = { "*.tsx", "*.ts", "*.js", "*.jsx" },
-	callback = function()
-		vim.api.nvim_create_user_command(
-			"TypescriptAddMissingImports",
-			"lua require('typescript').actions.addMissingImports()",
-			{}
-		)
-		vim.api.nvim_create_user_command(
-			"TypescriptOrganizeImports",
-			"lua require('typescript').actions.organizeImports()",
-			{}
-		)
-		vim.api.nvim_create_user_command(
-			"TypescriptRemoveUnused",
-			"lua require('typescript').actions.removeUnused()",
-			{}
-		)
-		vim.api.nvim_create_user_command("TypescriptFixAll", "lua require('typescript').actions.fixAll()", {})
-	end,
-})
-
 vim.api.nvim_create_autocmd({ "VimResized" }, {
 	pattern = "*",
 	callback = function()

@@ -65,6 +65,7 @@ local servers = {
 	clangd = {},
 	eslint = {
 		filetypes = { "javascript", "javascriptreact", "typescriptreact", "typescript" },
+    autostart = false,
 	},
 	basedpyright = {},
 	black = {},
@@ -112,14 +113,13 @@ return {
       end
 
 	    require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+      for name, config in pairs(servers) do
+        vim.lsp.config(name, config)
+      end
       require("mason-lspconfig").setup({
-        handlers = {
-          function(server_name)
-            local server_config = servers[server_name] or {}
-            server_config.capabilities = capabilities
-            vim.lsp.config(server_name, server_config)
-            vim.lsp.enable(server_name)
-          end,
+        -- ensure_installed = servers,
+        automatic_enable = {
+          exclude = { "eslint" }
         },
       })
 		end,
@@ -147,8 +147,8 @@ return {
     },
     keys = {
       { "gd", "<cmd>Trouble lsp_definitions focus=true win.position=bottom pinned=true<cr>" },
-      { "gd", "<cmd>Trouble lsp_references focus=true win.position=bottom pinned=true<cr>" },
-      { "gd", "<cmd>Trouble lsp_implementations focus=true win.position=bottom pinned=true<cr>" },
+      { "gr", "<cmd>Trouble lsp_references focus=true win.position=bottom pinned=true<cr>" },
+      { "gi", "<cmd>Trouble lsp_implementations focus=true win.position=bottom pinned=true<cr>" },
       { "K", vim.lsp.buf.hover },
       { "gl", function () vim.diagnostic.open_float(0, float_config) end },
       { "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>" },

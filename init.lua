@@ -17,7 +17,7 @@ require("lazy").setup({
 	spec = {
 		{ import = "plugins" },
 		{ import = "plugins.ui" },
-		{ import = "plugins.completion.blink" },
+		{ import = "plugins.completion" },
     { import = "plugins.lang" },
 		{ import = "plugins.editor.find" },
 		{ import = "plugins.editor.comment" },
@@ -32,6 +32,7 @@ require("lazy").setup({
 		{ import = "plugins.editor.xtras.neoscroll" },
 		{ import = "plugins.editor.xtras.pencil" },
 		{ import = "plugins.editor.xtras.rainbow-delimiters" },
+		{ import = "plugins.editor.xtras.colorful-menu" },
 	},
 })
 
