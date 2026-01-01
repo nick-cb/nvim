@@ -20,6 +20,7 @@ return {
       scroll = { enabled = false },
       statuscolumn = { enabled = false },
       words = { enabled = true },
+      git = { enabled = false },
     },
   }
 }
