@@ -102,13 +102,11 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 vim.api.nvim_create_autocmd({ "TermLeave" }, {
 	pattern = "*",
 	callback = function()
-		vim.print("BufLeave")
 		local dapui = require("dapui")
 		local buf_id = dapui.elements.repl.buffer()
 		for _, win in ipairs(vim.api.nvim_list_wins()) do
 			-- Check if the buffer in the window matches the target buffer
 			if vim.api.nvim_win_get_buf(win) == buf_id then
-				vim.print("dapui.open")
 				dapui.open({ reset = true })
 				break
 			end
