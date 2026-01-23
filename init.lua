@@ -30,6 +30,8 @@ require("lazy").setup({
 		{ import = "plugins.editor.xtras.pencil" },
 		{ import = "plugins.editor.xtras.rainbow-delimiters" },
 		{ import = "plugins.editor.xtras.colorful-menu" },
+		{ import = "plugins.editor.xtras.opencode" },
+		{ import = "plugins.editor.xtras.osc52" },
 	},
 })
 
