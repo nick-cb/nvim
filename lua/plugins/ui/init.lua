@@ -99,6 +99,7 @@ return {
 		enabled = true,
 		lazy = true,
 	},
+	"nvim-mini/mini.icons",
 	{
 		"j-hui/fidget.nvim",
 		opts = {},
