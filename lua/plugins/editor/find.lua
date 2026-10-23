@@ -4,7 +4,7 @@ return {
   {
     "ibhagwan/fzf-lua",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    lazy = false,
+    cmd = "FzfLua",
     opts = {
       keymap = {
         builtin = {
@@ -99,6 +99,7 @@ return {
   },
   {
     "nick-cb/rgflow.nvim",
+    event = "VeryLazy",
     config = function()
       require("rgflow").setup({
         cmd_flags = "--smart-case --fixed-strings --ignore --max-columns 200",

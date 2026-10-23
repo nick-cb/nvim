@@ -44,7 +44,7 @@ return {
       "williamboman/mason.nvim",
       "jay-babu/mason-nvim-dap.nvim",
       "leoluz/nvim-dap-go",
-      "mfussenegger/nvim-dap-python",
+      { "mfussenegger/nvim-dap-python", lazy = true },
     },
     config = function()
       require("dap-go").setup({

@@ -1,6 +1,7 @@
 return {
 	{
 		"unblevable/quick-scope",
+		event = "VeryLazy",
     init = function ()
       vim.g.qs_highlight_on_keys = { "f", "F", "t", "T" }
 
@@ -16,6 +17,7 @@ return {
 	{
 		"jake-stewart/multicursor.nvim",
 		branch = "1.0",
+		event = "VeryLazy",
 		config = function()
 			local mc = require("multicursor-nvim")
 			mc.setup()
@@ -47,6 +49,7 @@ return {
 	},
 	{
 		"gbprod/substitute.nvim",
+		event = "VeryLazy",
 		config = function()
       require("substitute").setup({})
       vim.keymap.set("n", "s", "<cmd>lua require('substitute').operator({register = 'a'})<cr>", { noremap = true })
@@ -61,6 +64,7 @@ return {
 	},
 	{
 		"tpope/vim-repeat",
+		event = "VeryLazy",
 	},
 	{
 		"windwp/nvim-autopairs",

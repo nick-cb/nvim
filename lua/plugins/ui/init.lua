@@ -99,9 +99,10 @@ return {
 		enabled = true,
 		lazy = true,
 	},
-	"nvim-mini/mini.icons",
+	{ "nvim-mini/mini.icons", lazy = true },
 	{
 		"j-hui/fidget.nvim",
+		event = "LspAttach",
 		opts = {},
 	},
 }
