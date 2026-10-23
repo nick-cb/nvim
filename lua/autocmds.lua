@@ -82,6 +82,7 @@ local is_directory = function(path)
 end
 
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
+	group = vim.api.nvim_create_augroup("_dir_opened", { clear = true }),
 	once = true,
 	callback = function(args)
 		local bufname = vim.api.nvim_buf_get_name(args.buf)
