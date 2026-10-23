@@ -45,6 +45,10 @@ vim.keymap.set("t", "<c-l>", "<c-\\><c-n><c-w>l")
 
 vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "delete current buffer" })
 
+-- copy to the system clipboard (Neovim falls back to OSC 52 over SSH)
+vim.keymap.set({ "n", "x" }, "<leader>c", '"+y', { desc = "Copy to clipboard" })
+vim.keymap.set("n", "<leader>cc", '"+yy', { desc = "Copy line to clipboard" })
+
 -- vim.keymap.set("n", "<leader><TAB>", "<cmd>lua require('telescope-tabs').list_tabs()<cr>", { desc = "list tabs" })
 
 -- vim.api.nvim_create_user_command("Redir", function(ctx)
