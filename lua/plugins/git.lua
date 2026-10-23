@@ -62,7 +62,7 @@ return {
       -- stage_hunk() on an already staged hunk unstages it (replaces undo_stage_hunk)
       { "<leader>gu", "<cmd>lua require 'gitsigns'.stage_hunk()<cr>" },
     },
-    event = "User FileOpened",
+    event = { "BufReadPost", "BufNewFile" },
     cmd = "Gitsigns",
   },
   -- { "tpope/vim-fugitive" },

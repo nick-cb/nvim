@@ -63,7 +63,7 @@ return {
 			post_hook = nil,
 		},
 		keys = { { "gc", mode = { "n", "v" } }, { "gb", mode = { "n", "v" } } },
-		event = "User FileOpened",
+		event = { "BufReadPost", "BufNewFile" },
 		commit = "e51f2b142d88bb666dcaa77d93a07f4b419aca70",
 	},
 	{

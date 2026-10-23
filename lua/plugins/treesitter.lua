@@ -116,7 +116,7 @@ return {
 			"TSInstallSync",
 			"TSInstallFromGrammar",
 		},
-		event = "User FileOpened",
+		event = { "BufReadPost", "BufNewFile" },
 	},
 	"nvim-treesitter/nvim-treesitter-textobjects",
 	{

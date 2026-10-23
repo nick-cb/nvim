@@ -53,7 +53,7 @@ return {
 
       hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
 		end,
-		event = "User FileOpened",
+		event = { "BufReadPost", "BufNewFile" },
 		main = "ibl",
 		opts = {},
 	},
