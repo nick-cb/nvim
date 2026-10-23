@@ -23,13 +23,6 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
-	pattern = "*",
-	callback = function()
-		vim.cmd("hi link illuminatedWord CursorLine")
-	end,
-})
-
 vim.api.nvim_create_autocmd({ "BufRead", "BufWinEnter", "BufNewFile" }, {
 	pattern = "*",
 	callback = function(args)

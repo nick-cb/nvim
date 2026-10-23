@@ -24,7 +24,6 @@ require("lazy").setup({
 		{ import = "plugins.editor.motion" },
 		{ import = "plugins.editor.xtras.auto-session" },
 		{ import = "plugins.editor.xtras.colorizer" },
-		{ import = "plugins.editor.xtras.illuminate" },
 		{ import = "plugins.editor.xtras.indent-blankline" },
 		{ import = "plugins.editor.xtras.neoscroll" },
 		{ import = "plugins.editor.xtras.pencil" },
