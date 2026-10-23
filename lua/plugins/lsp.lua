@@ -1,7 +1,9 @@
+local icons = require("icons")
+
 local float_config = {
 	focusable = true,
 	style = "minimal",
-	source = "always",
+	source = true,
 	header = "",
 	prefix = "",
 	format = function(d)
@@ -12,6 +14,13 @@ local float_config = {
 		return d.message
 	end,
 }
+
+-- replaces the deprecated vim.diagnostic.goto_next/goto_prev (which opened a float)
+local function diagnostic_jump(count)
+	if vim.diagnostic.jump({ count = count }) then
+		vim.diagnostic.open_float(float_config)
+	end
+end
 
 local servers = {
 	-- ts_ls = {},
@@ -95,26 +104,19 @@ return {
 		},
 		opts = {},
 		config = function()
-			-- require("user.lsp").setup()
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("nick-personal-lsp-attach", { clear = true }),
-				callback = function(event)
-					vim.diagnostic.config({
-						virtual_text = false,
-						signs = {
-							active = true,
-							values = {
-								{ name = "DiagnosticSignError", text = "" },
-								{ name = "DiagnosticSignWarn", text = "" },
-								{ name = "DiagnosticSignHint", text = "" },
-								{ name = "DiagnosticSignInfo", text = "" },
-							},
-						},
-						underline = true,
-						update_in_insert = false,
-						float = float_config,
-					})
-				end,
+			vim.diagnostic.config({
+				virtual_text = false,
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = "",
+						[vim.diagnostic.severity.WARN] = "",
+						[vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+						[vim.diagnostic.severity.INFO] = "",
+					},
+				},
+				underline = true,
+				update_in_insert = false,
+				float = float_config,
 			})
 
 			-- completion capabilities are registered by blink.cmp via vim.lsp.config("*")
@@ -161,11 +163,11 @@ return {
 			{
 				"gl",
 				function()
-					vim.diagnostic.open_float(0, float_config)
+					vim.diagnostic.open_float(float_config)
 				end,
 			},
-			{ "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>" },
-			{ "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>" },
+			{ "<leader>lj", function() diagnostic_jump(1) end },
+			{ "<leader>lk", function() diagnostic_jump(-1) end },
 			{ "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>" },
 			{ "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>" },
 		},
