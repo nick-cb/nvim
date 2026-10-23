@@ -1,131 +1,77 @@
+-- nvim-treesitter `main` branch (Nvim 0.12+): it only installs parsers/queries and
+-- provides indentexpr; highlighting and folding are built into Neovim.
+local parsers = {
+	"css",
+	"go",
+	"html",
+	"javascript",
+	"jsdoc",
+	"markdown",
+	"markdown_inline",
+	"python",
+	"query",
+	"scss",
+	"tsx",
+	"typescript",
+	"typst",
+	"vimdoc",
+	"zig",
+}
+
+local no_highlight = { latex = true }
+local no_indent = { yaml = true, python = true }
+
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		config = function(_, opts)
-      local ts_ok, ts = pcall(require, "nvim-treesitter.configs")
-      if not ts_ok then
-        return
-      end
-      ts.setup(opts)
+		branch = "main",
+		lazy = false, -- does not support lazy-loading
+		build = ":TSUpdate",
+		config = function()
+			require("nvim-treesitter").install(parsers)
 
-      local ts_utils = require('nvim-treesitter.ts_utils')
-      ts_utils.is_in_node_range = vim.treesitter.is_in_node_range
-      ts_utils.get_node_range = vim.treesitter.get_node_range
-
-      require("ts_context_commentstring").setup({
-        enable_autocmd = false,
-        commentary_integration = {},
-        config = {
-
-        },
-        languages = {
-          typescript = "// %s",
-          css = "/* %s */",
-          scss = "/* %s */",
-          html = "<!-- %s -->",
-          svelte = "<!-- %s -->",
-          vue = "<!-- %s -->",
-          json = "",
-        }
-      })
-      vim.g.skip_ts_context_commentstring_module = true
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("treesitter_start", { clear = true }),
+				callback = function(args)
+					-- snacks.bigfile sets filetype=bigfile, which has no parser
+					local lang = vim.treesitter.language.get_lang(args.match)
+					if not lang or no_highlight[lang] or not vim.treesitter.language.add(lang) then
+						return
+					end
+					vim.treesitter.start(args.buf, lang)
+					if not no_indent[lang] then
+						vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+					end
+				end,
+			})
 		end,
-    opts = {
-      on_config_done = nil,
-      ensure_installed = {},
-      ignore_install = {},
-      parser_install_dir = nil,
-      sync_install = false,
-      auto_install = false,
-      matchup = {
-        enable = false,
-      },
-      highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-        disable = function(lang, buf)
-          if vim.tbl_contains({ "latex" }, lang) then
-            return true
-          end
-
-          local status_ok, big_file_detected = pcall(vim.api.nvim_buf_get_var, buf, "bigfile_disable_treesitter")
-          return status_ok and big_file_detected
-        end,
-      },
-      -- context_commentstring = {
-      --   enable = true,
-      --   enable_autocmd = false,
-      --   config = {
-      --     -- Languages that have a single comment style
-      --     typescript = "// %s",
-      --     css = "/* %s */",
-      --     scss = "/* %s */",
-      --     html = "<!-- %s -->",
-      --     svelte = "<!-- %s -->",
-      --     vue = "<!-- %s -->",
-      --     json = "",
-      --   },
-      -- },
-      indent = { enable = true, disable = { "yaml", "python" } },
-      autotag = { enable = true },
-      textobjects = {
-        swap = {
-          enable = false,
-          -- swap_next = textobj_swap_keymaps,
-        },
-        -- move = textobj_move_keymaps,
-        select = {
-          enable = false,
-          -- keymaps = textobj_sel_keymaps,
-        },
-      },
-      textsubjects = {
-        enable = false,
-        keymaps = { ["."] = "textsubjects-smart", [";"] = "textsubjects-big" },
-      },
-      playground = {
-        enable = false,
-        disable = {},
-        updatetime = 25,       -- Debounced time for highlighting nodes in the playground from source code
-        persist_queries = false, -- Whether the query persists across vim sessions
-        keybindings = {
-          toggle_query_editor = "o",
-          toggle_hl_groups = "i",
-          toggle_injected_languages = "t",
-          toggle_anonymous_nodes = "a",
-          toggle_language_display = "I",
-          focus_language = "f",
-          unfocus_language = "F",
-          update = "R",
-          goto_node = "<cr>",
-          show_help = "?",
-        },
-      },
-      rainbow = {
-        enable = false,
-        extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
-        max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
-      },
-    },
-		cmd = {
-			"TSInstall",
-			"TSUninstall",
-			"TSUpdate",
-			"TSUpdateSync",
-			"TSInstallInfo",
-			"TSInstallSync",
-			"TSInstallFromGrammar",
-		},
-		event = { "BufReadPost", "BufNewFile" },
 	},
-	"nvim-treesitter/nvim-treesitter-textobjects",
 	{
 		"windwp/nvim-ts-autotag",
 		event = "InsertEnter",
-		after = "nvim-treesitter",
 		ft = { "html", "javascript", "markdown", "javascriptreact", "typescript", "typescriptreact", "svelte" },
+		opts = {},
 	},
-	{ "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
+	{
+		"JoosepAlviste/nvim-ts-context-commentstring",
+		lazy = true,
+		init = function()
+			-- no nvim-treesitter module system on the main branch
+			vim.g.skip_ts_context_commentstring_module = true
+		end,
+		opts = {
+			enable_autocmd = false,
+			languages = {
+				typescript = "// %s",
+				css = "/* %s */",
+				scss = "/* %s */",
+				html = "<!-- %s -->",
+				svelte = "<!-- %s -->",
+				vue = "<!-- %s -->",
+				json = "",
+			},
+		},
+	},
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		event = { "BufReadPost", "BufNewFile" },
