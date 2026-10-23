@@ -1,4 +1,4 @@
-function close_all()
+local function close_all()
 	local ok_dap, dap = pcall(require, "dap")
 	local ok_dapui, dapui = pcall(require, "dapui")
 	if not ok_dap or not ok_dapui then
@@ -20,6 +20,7 @@ end
 return {
   {
     "jay-babu/mason-nvim-dap.nvim",
+    lazy = true,
     opts = {
       automatic_installation = true,
       handlers = {},
@@ -30,15 +31,47 @@ return {
   },
   {
     "rcarriga/nvim-dap-ui",
+    lazy = true,
     dependencies = {
       "nvim-neotest/nvim-nio",
     },
-    config = function ()
-      local ok_dap, dap = pcall(require, "dap")
-      local ok_dapui, dapui = pcall(require, "dapui")
-      if not ok_dap or not ok_dapui then
-        return
-      end
+  },
+  {
+    "mfussenegger/nvim-dap",
+    dependencies = {
+      "nvim-neotest/nvim-nio",
+      "rcarriga/nvim-dap-ui",
+      "williamboman/mason.nvim",
+      "jay-babu/mason-nvim-dap.nvim",
+      "leoluz/nvim-dap-go",
+      "mfussenegger/nvim-dap-python",
+    },
+    config = function()
+      require("dap-go").setup({
+        delve = {
+          detached = vim.fn.has("win32") == 0,
+        },
+      })
+
+      require("dap").adapters["pwa-node"] = {
+        type = "server",
+        host = "localhost",
+        port = "${port}",
+        executable = {
+          command = "node",
+          -- 💀 Make sure to update this path to point to your installation
+          args = { vim.fn.stdpath("data") .. "/lazy/js-debug/src/dapDebugServer.js", "${port}" },
+        },
+      }
+
+      require("dap-python").setup()
+
+      vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+      vim.api.nvim_create_augroup("DAP_UI_RESET", { clear = true })
+
+      -- nvim-dap-ui (set up here so the whole DAP stack loads on first use)
+      local dap = require("dap")
+      local dapui = require("dapui")
 
       dapui.setup({
         icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
@@ -85,39 +118,6 @@ return {
           vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = buf, desc = "Hover Documentation" })
         end
       end
-    end
-  },
-  {
-    "mfussenegger/nvim-dap",
-    dependencies = {
-      "nvim-neotest/nvim-nio",
-      "williamboman/mason.nvim",
-      "jay-babu/mason-nvim-dap.nvim",
-      "leoluz/nvim-dap-go",
-      "mfussenegger/nvim-dap-python",
-    },
-    config = function()
-      require("dap-go").setup({
-        delve = {
-          detached = vim.fn.has("win32") == 0,
-        },
-      })
-
-      require("dap").adapters["pwa-node"] = {
-        type = "server",
-        host = "localhost",
-        port = "${port}",
-        executable = {
-          command = "node",
-          -- 💀 Make sure to update this path to point to your installation
-          args = { vim.fn.stdpath("data") .. "/lazy/js-debug/src/dapDebugServer.js", "${port}" },
-        },
-      }
-
-      require("dap-python").setup()
-
-      vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
-      vim.api.nvim_create_augroup("DAP_UI_RESET", { clear = true })
     end,
     keys = {
       { "<F5>", function() require("dap").step_into() end },
@@ -125,10 +125,11 @@ return {
       { "<F3>", function() require("dap").step_out() end },
       { "<F9>", function() require("dap").toggle_breakpoint() end },
       { "<f24>", close_all },
-      { "<F12>", function () require("dapui").toggle() end },
+      { "<F12>", function () require("dap") require("dapui").toggle() end },
     },
   },
   {
     "mxsdev/nvim-dap-vscode-js",
+    lazy = true,
   },
 }

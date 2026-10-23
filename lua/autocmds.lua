@@ -11,7 +11,11 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 		vim.cmd("tabdo wincmd=")
 		vim.cmd("tabnext " .. saved_tab)
 
-		local dapui = require("dapui")
+		-- only when dap-ui is already loaded; requiring it here would load the DAP stack
+		local dapui = package.loaded.dapui
+		if not dapui then
+			return
+		end
 		local buf_id = dapui.elements.repl.buffer()
 		for _, win in ipairs(vim.api.nvim_list_wins()) do
 			-- Check if the buffer in the window matches the target buffer
@@ -76,7 +80,11 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 vim.api.nvim_create_autocmd({ "TermLeave" }, {
 	pattern = "*",
 	callback = function()
-		local dapui = require("dapui")
+		-- only when dap-ui is already loaded; requiring it here would load the DAP stack
+		local dapui = package.loaded.dapui
+		if not dapui then
+			return
+		end
 		local buf_id = dapui.elements.repl.buffer()
 		for _, win in ipairs(vim.api.nvim_list_wins()) do
 			-- Check if the buffer in the window matches the target buffer

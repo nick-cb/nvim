@@ -121,7 +121,11 @@ return {
 
 			-- completion capabilities are registered by blink.cmp via vim.lsp.config("*")
 			local ensure_installed = vim.list_extend(vim.tbl_keys(servers), formatters)
-			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+			require("mason-tool-installer").setup({
+				ensure_installed = ensure_installed,
+				-- no DAP names in ensure_installed; requiring mason-nvim-dap would load the DAP stack
+				integrations = { ["mason-nvim-dap"] = false },
+			})
 			for name, config in pairs(servers) do
 				vim.lsp.config(name, config)
 			end
