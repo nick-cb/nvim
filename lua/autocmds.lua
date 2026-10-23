@@ -51,7 +51,7 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 	pattern = "*",
 	desc = "Highlight text on yank",
 	callback = function()
-		vim.highlight.on_yank({ higroup = "Search", timeout = 100 })
+		vim.hl.on_yank({ higroup = "Search", timeout = 100 })
 	end,
 })
 
@@ -77,7 +77,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 
 local is_directory = function(path)
-	local stat = vim.loop.fs_stat(path)
+	local stat = vim.uv.fs_stat(path)
 	return stat and stat.type == "directory" or false
 end
 
