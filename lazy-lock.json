@@ -15,6 +15,7 @@
   "grug-far.nvim": { "branch": "main", "commit": "91b7e58b6ffc6ddad5acb7a7c1df21257724449e" },
   "indent-blankline.nvim": { "branch": "master", "commit": "f1e186e44d3b7f9ae918008e2c28ce37c6023d2d" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
+  "lazydev.nvim": { "branch": "main", "commit": "ff2cbcba459b637ec3fd165a2be59b7bbaeedf0d" },
   "lualine.nvim": { "branch": "master", "commit": "221ce6b2d999187044529f49da6554a92f740a96" },
   "markdown-preview.nvim": { "branch": "master", "commit": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee" },
   "markview.nvim": { "branch": "main", "commit": "18fc148c83925919d94f3fc8e5c74f2d108b9b44" },

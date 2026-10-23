@@ -73,8 +73,8 @@ local servers = {
 						"after_each",
 					},
 				},
+				-- library paths are provided on demand by lazydev.nvim
 				workspace = {
-					library = vim.api.nvim_get_runtime_file("", true),
 					checkThirdParty = false,
 				},
 				telemetry = { enable = false },
@@ -138,6 +138,15 @@ return {
 				},
 			})
 		end,
+	},
+	{
+		"folke/lazydev.nvim",
+		ft = "lua",
+		opts = {
+			library = {
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
+		},
 	},
 	{
 		"folke/trouble.nvim",
