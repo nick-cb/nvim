@@ -14,8 +14,36 @@ return {
     end
 	},
 	{
-		"mg979/vim-visual-multi",
-		branch = "master",
+		"jake-stewart/multicursor.nvim",
+		branch = "1.0",
+		config = function()
+			local mc = require("multicursor-nvim")
+			mc.setup()
+
+			-- vim-visual-multi style: <C-n> adds next match, <C-Up>/<C-Down> add cursors vertically
+			vim.keymap.set({ "n", "x" }, "<C-n>", function() mc.matchAddCursor(1) end, { desc = "Add cursor at next match" })
+			vim.keymap.set({ "n", "x" }, "<C-Up>", function() mc.lineAddCursor(-1) end, { desc = "Add cursor above" })
+			vim.keymap.set({ "n", "x" }, "<C-Down>", function() mc.lineAddCursor(1) end, { desc = "Add cursor below" })
+
+			vim.keymap.set("n", "<C-LeftMouse>", mc.handleMouse)
+			vim.keymap.set("n", "<C-LeftDrag>", mc.handleMouseDrag)
+			vim.keymap.set("n", "<C-LeftRelease>", mc.handleMouseRelease)
+
+			-- only active while there are multiple cursors
+			mc.addKeymapLayer(function(layerSet)
+				layerSet({ "n", "x" }, "q", function() mc.matchSkipCursor(1) end)
+				layerSet({ "n", "x" }, "Q", mc.deleteCursor)
+				layerSet({ "n", "x" }, "<Left>", mc.prevCursor)
+				layerSet({ "n", "x" }, "<Right>", mc.nextCursor)
+				layerSet("n", "<Esc>", function()
+					if not mc.cursorsEnabled() then
+						mc.enableCursors()
+					else
+						mc.clearCursors()
+					end
+				end)
+			end)
+		end,
 	},
 	{
 		"gbprod/substitute.nvim",
