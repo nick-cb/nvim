@@ -23,10 +23,8 @@ vim.keymap.set("i", "<C-k>", "<Up>")
 vim.keymap.set("i", "<C-j>", "<Down>")
 
 vim.keymap.set("n", "<c-h>", "<c-w>h")
-vim.keymap.set("n", "<c-j>", "<c-w>j")
-vim.keymap.set("n", "<c-k>", "<c-w>k")
 vim.keymap.set("n", "<c-l>", "<c-w>l")
-
+-- <c-j>/<c-k> cycle through windows instead of moving down/up
 vim.keymap.set("n", "<c-j>", "<c-w><c-w>")
 vim.keymap.set("n", "<c-k>", "<c-w><s-w>")
 

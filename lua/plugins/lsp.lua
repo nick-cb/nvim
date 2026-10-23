@@ -157,9 +157,9 @@ return {
 		},
 		keys = {
 			{ "gd", "<cmd>Trouble lsp_definitions focus=true win.position=bottom pinned=true<cr>" },
-			{ "gr", "<cmd>Trouble lsp_references focus=true win.position=bottom pinned=true<cr>" },
+			-- nowait: don't wait 'timeoutlen' for the built-in grn/gra/grr/gri/grt mappings
+			{ "gr", "<cmd>Trouble lsp_references focus=true win.position=bottom pinned=true<cr>", nowait = true },
 			{ "gi", "<cmd>Trouble lsp_implementations focus=true win.position=bottom pinned=true<cr>" },
-			{ "K", vim.lsp.buf.hover },
 			{
 				"gl",
 				function()
