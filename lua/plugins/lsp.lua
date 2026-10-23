@@ -31,10 +31,6 @@ local servers = {
 		},
 	},
 	tailwindcss = {
-		root_dir = vim.fs.find(
-			{ "tailwind.config.js", "tailwind.config.cjs", "tailwind.config.mjs", "tailwind.config.ts" },
-			{ upward = true }
-		)[1],
 		settings = {
 			tailwindCSS = {
 				experimental = {
@@ -82,10 +78,12 @@ local servers = {
 		autostart = false,
 	},
 	basedpyright = {},
-	black = {},
 	gopls = {},
 	zls = {},
 }
+
+-- formatters used by conform.nvim (see formatting.lua)
+local formatters = { "stylua", "isort", "black", "biome", "prettier", "prettierd" }
 
 return {
 	{
@@ -119,13 +117,8 @@ return {
 				end,
 			})
 
-			local ensure_installed = vim.tbl_keys(servers or {})
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			local ok, cmp_lsp = pcall(require, "cmp_nvim_lsp")
-			if ok then
-				capabilities = vim.tbl_deep_extend("force", capabilities, cmp_lsp.default_capabilities())
-			end
-
+			-- completion capabilities are registered by blink.cmp via vim.lsp.config("*")
+			local ensure_installed = vim.list_extend(vim.tbl_keys(servers), formatters)
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 			for name, config in pairs(servers) do
 				vim.lsp.config(name, config)
