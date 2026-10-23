@@ -31,6 +31,11 @@ require("lazy").setup({
 		{ import = "plugins.editor.xtras.colorful-menu" },
 		{ import = "plugins.editor.xtras.opencode" },
 	},
+	performance = {
+		rtp = {
+			disabled_plugins = { "gzip", "tarPlugin", "tohtml", "tutor", "zipPlugin" },
+		},
+	},
 })
 
 require("autocmds")
