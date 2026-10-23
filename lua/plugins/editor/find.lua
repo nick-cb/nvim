@@ -350,9 +350,6 @@ return {
         cmd = "trash",
         require_confirm = true,
       },
-      system_open = {
-        cmd = nil,
-      },
     },
     keys = {
       { "<leader>e", ":NvimTreeToggle<cr>" },

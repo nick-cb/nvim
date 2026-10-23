@@ -15,7 +15,11 @@ local float_config = {
 
 local servers = {
 	-- ts_ls = {},
-  tsgo =  {},
+  tsgo = {
+    -- nvim-lspconfig's tsgo config wraps `tsc` and warns "tsgo is deprecated" from on_init;
+    -- we still use the mason `tsgo` binary, so silence it
+    on_init = function() end,
+  },
   ruby_lsp = {},
 	rust_analyzer = {
 		settings = {
