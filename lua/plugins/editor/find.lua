@@ -2,69 +2,6 @@ local icons = require("icons")
 
 return {
   {
-    "dmtrKovalenko/fff.nvim",
-    build = function()
-      require("fff.download").download_or_build_binary()
-    end,
-    opts = {
-      debug = {
-        enabled = false,
-        show_scores = true,
-      },
-      layout = {
-        height = 0.9,
-        width = 0.9,
-        prompt_position = "top",
-        preview_position = function()
-          -- Change preview position based on terminal width
-          return vim.o.columns >= 120 and "right" or "bottom"
-        end,
-        preview_size = 0.6,
-        show_scrollbar = true,
-      },
-      preview = {
-        line_numbers = true,
-      },
-      keymaps = {
-        close = "<c-q>",
-      },
-      hl = {
-        directory_path = "Variable",
-        normal = "Type",
-      },
-    },
-    lazy = false,
-    keys = {
-      {
-        "<space>sf",
-        function()
-          require("fff").find_files()
-
-          vim.schedule(function()
-            local input_buf = require("fff.picker_ui").state.input_buf
-            if input_buf then
-              vim.keymap.set("n", "j", require("fff.picker_ui").move_down, { buffer = input_buf })
-              vim.keymap.set("n", "k", require("fff.picker_ui").move_up, { buffer = input_buf })
-              vim.keymap.set("n", "<Esc>", require("fff.picker_ui").close, { buffer = input_buf })
-              vim.keymap.set("n", "<C-d>", require("fff.picker_ui").scroll_preview_down, { buffer = input_buf })
-              vim.keymap.set("n", "<C-u>", require("fff.picker_ui").scroll_preview_up, { buffer = input_buf })
-              vim.keymap.set("n", "<C-s>", function()
-                require("fff.picker_ui").select("split")
-              end, { buffer = input_buf })
-              vim.keymap.set("n", "<C-v>", function()
-                require("fff.picker_ui").select("vsplit")
-              end, { buffer = input_buf })
-              vim.keymap.set("n", "<CR>", function()
-                require("fff.picker_ui").select()
-              end, { buffer = input_buf })
-            end
-          end)
-        end,
-        desc = "FFFind files",
-      },
-    },
-  },
-  {
     "ibhagwan/fzf-lua",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = false,
@@ -86,6 +23,51 @@ return {
         width = 0.9,
         backdrop = 100,
         border = "single",
+        -- fff.nvim-like modal input: <Esc> goes to normal mode instead of closing,
+        -- and the cursor is a line while typing
+        on_create = function(e)
+          local buf = e.bufnr
+          vim.g.fzf_saved_guicursor = vim.o.guicursor
+          vim.opt.guicursor:append("t:ver25-blinkon0-TermCursor")
+
+          local function send(keys)
+            return function()
+              vim.api.nvim_chan_send(vim.bo[buf].channel, keys)
+            end
+          end
+          local function map(lhs, rhs, remap)
+            vim.keymap.set("n", lhs, rhs, { buffer = buf, nowait = true, remap = remap })
+          end
+
+          vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { buffer = buf, nowait = true })
+          map("j", send("\27[B"))
+          map("k", send("\27[A"))
+          map("<CR>", send("\r"))
+          map("<C-s>", send("\19"))
+          map("<C-v>", send("\22"))
+          map("<Esc>", send("\3"))
+          map("q", send("\3"))
+          -- Round-trip through terminal mode so builtin previewer keymaps apply
+          map("<C-d>", "i<C-d><C-\\><C-n>", true)
+          map("<C-u>", "i<C-u><C-\\><C-n>", true)
+        end,
+        on_close = function()
+          if vim.g.fzf_saved_guicursor then
+            vim.o.guicursor = vim.g.fzf_saved_guicursor
+            vim.g.fzf_saved_guicursor = nil
+          end
+        end,
+      },
+      files = {
+        winopts = {
+          preview = {
+            -- Preview on the right on wide terminals, at the bottom otherwise
+            layout = "flex",
+            flip_columns = 120,
+            horizontal = "right:60%",
+            vertical = "down:60%",
+          },
+        },
       },
       git = {
         bcommits = {
@@ -110,6 +92,7 @@ return {
       },
     },
     keys = {
+      { "<space>sf", "<cmd>FzfLua files<cr>", desc = "Find files" },
       { "<leader>gd", "<cmd>FzfLua git_bcommits<cr>" },
       { "<leader>st", "<cmd>FzfLua live_grep<cr>" },
     },
