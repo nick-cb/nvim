@@ -53,14 +53,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		"qf",
 		"help",
 		"man",
-		"floaterm",
 		"lspinfo",
-		"lir",
-		"lsp-installer",
-		"null-ls-info",
-		"tsplayground",
-		"DressingSelect",
-		"Jaq",
 		"dap-float",
 	},
 	callback = function()
@@ -85,12 +78,6 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 			vim.api.nvim_exec_autocmds("BufEnter", {})
 		end
 	end,
-})
-
--- Add filetype detection based on file extension
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-	pattern = "*.http",
-	command = "set filetype=http",
 })
 
 vim.api.nvim_create_autocmd({ "TermLeave" }, {

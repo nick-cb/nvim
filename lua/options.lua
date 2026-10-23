@@ -1,6 +1,5 @@
 local custom_options = function()
 	local custom_options = {
-		syntax = "enable",
 		relativenumber = true,
 		smartcase = true,
 		fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]],
@@ -22,8 +21,6 @@ local custom_options = function()
 		foldmethod = "expr",                     -- folding, set to "expr" for treesitter based folding
 		foldexpr = "v:lua.vim.treesitter.foldexpr()", -- built-in treesitter folding
 		guifont = "JetBrainsMono Nerd Font Mono", -- the font used in graphical neovim applications
-		hidden = true, -- required to keep multiple buffers and open multiple buffers
-		hlsearch = true, -- highlight all matches on previous search pattern
 		ignorecase = true, -- ignore case in search patterns
 		mouse = "a", -- allow the mouse to be used in neovim
 		pumheight = 10, -- pop up menu height
