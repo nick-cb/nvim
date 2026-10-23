@@ -112,7 +112,6 @@ return {
 				highlight_grey = "Comment",
 			},
 		},
-		commit = "0f04d78619cce9a5af4f355968040f7d675854a1",
 	},
 	{
 		"tpope/vim-surround",
