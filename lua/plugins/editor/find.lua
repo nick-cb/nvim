@@ -23,40 +23,6 @@ return {
         width = 0.9,
         backdrop = 100,
         border = "single",
-        -- fff.nvim-like modal input: <Esc> goes to normal mode instead of closing,
-        -- and the cursor is a line while typing
-        on_create = function(e)
-          local buf = e.bufnr
-          vim.g.fzf_saved_guicursor = vim.o.guicursor
-          vim.opt.guicursor:append("t:ver25-blinkon0-TermCursor")
-
-          local function send(keys)
-            return function()
-              vim.api.nvim_chan_send(vim.bo[buf].channel, keys)
-            end
-          end
-          local function map(lhs, rhs, remap)
-            vim.keymap.set("n", lhs, rhs, { buffer = buf, nowait = true, remap = remap })
-          end
-
-          vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { buffer = buf, nowait = true })
-          map("j", send("\27[B"))
-          map("k", send("\27[A"))
-          map("<CR>", send("\r"))
-          map("<C-s>", send("\19"))
-          map("<C-v>", send("\22"))
-          map("<Esc>", send("\3"))
-          map("q", send("\3"))
-          -- Round-trip through terminal mode so builtin previewer keymaps apply
-          map("<C-d>", "i<C-d><C-\\><C-n>", true)
-          map("<C-u>", "i<C-u><C-\\><C-n>", true)
-        end,
-        on_close = function()
-          if vim.g.fzf_saved_guicursor then
-            vim.o.guicursor = vim.g.fzf_saved_guicursor
-            vim.g.fzf_saved_guicursor = nil
-          end
-        end,
       },
       files = {
         winopts = {
