@@ -56,6 +56,21 @@ local custom_options = function()
 		vim.opt[k] = v
 	end
 
+	-- under `su` the GUI pasteboard belongs to the console user, so pbcopy fails;
+	-- copy through the terminal with OSC 52 and paste from the unnamed register
+	local console = vim.uv.fs_stat("/dev/console")
+	if vim.fn.has("mac") == 1 and console and console.uid ~= vim.uv.getuid() then
+		local osc52 = require("vim.ui.clipboard.osc52")
+		local paste = function()
+			return { vim.fn.split(vim.fn.getreg('"'), "\n"), vim.fn.getregtype('"') }
+		end
+		vim.g.clipboard = {
+			name = "OSC 52 (su)",
+			copy = { ["+"] = osc52.copy("+"), ["*"] = osc52.copy("*") },
+			paste = { ["+"] = paste, ["*"] = paste },
+		}
+	end
+
 	if vim.g.neovide then
 		-- vim.g.neovide_window_blurred = true
 		-- vim.g.neovide_transparency = 0.9
