@@ -8,7 +8,7 @@ return {
 				javascript = { "biome", "prettier" },
 				javascriptreact = { "biome" },
 				typescript = { "biome" },
-				typescriptreact = { "biome" },
+				typescriptreact = { "biome", "prettier" },
 				go = { "gofmt" },
 				html = { "prettierd", "prettier" },
 				css = { "prettierd", "prettier" },
